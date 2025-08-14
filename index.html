@@ -5,9 +5,8 @@
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <title>Diana Jung — Embedded Hardware & PCB</title>
   <meta name="description" content="LoRa radio, PCB design, and embedded systems by Diana (Hyeonji) Jung." />
-  <meta name="keywords" content="Diana Jung, Embedded, PCB, LoRa, STM32, FPGA" />
+  <meta name="keywords" content="Diana Jung, Embedded, PCB, LoRa, STM32, FPGA, RISC-V" />
 
-  <!-- Favicon (optional) -->
   <link rel="icon" href="assets/img/favicon.png" />
 
   <!-- Fonts -->
@@ -15,12 +14,11 @@
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <!-- Vendor CSS (from DevFolio template you copied) -->
+  <!-- Vendor CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Base template CSS -->
   <link href="assets/css/main.css" rel="stylesheet">
@@ -28,149 +26,110 @@
   <!-- Custom overrides -->
   <style>
     :root{
-      --bg-deep: #0b1220;         /* Navy night sky */
-      --bg-deeper: #070d19;       /* Slightly darker navy */
-      --accent: #7dd3fc;          /* Sky blue */
-      --accent-2: #a78bfa;        /* Soft purple */
-      --text: #e8eefc;
-      --muted: #b5c1df;
-      --card: #10192e;
-      --card-border: #1a2641;
-      --glow: 0 0 24px rgba(125,211,252,0.35);
+      /* Pastel palette */
+      --bg-deep: #0b1220;
+      --bg-deeper: #070d19;
+      --text: #f2f5ff;         /* pastel white */
+      --muted: #cfe2ff;        /* pastel blue-gray */
+      --accent: #a7f3d0;       /* mint */
+      --accent-2: #fbcfe8;     /* pink */
+      --accent-3: #fde68a;     /* pastel yellow */
+      --accent-4: #c7d2fe;     /* lavender */
+      --chip: rgba(255,255,255,0.08);
+      --chip-border: rgba(255,255,255,0.18);
+      --card: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.18);
+      --neon: 0 0 18px rgba(167,243,208,.55);
     }
     html, body { height: 100%; }
     body {
-      background: radial-gradient(1200px 800px at 50% -20%, #0f1a33 0%, var(--bg-deep) 45%, var(--bg-deeper) 100%);
+      background: radial-gradient(1400px 900px at 50% -20%, #13213d 0%, var(--bg-deep) 45%, var(--bg-deeper) 100%);
       color: var(--text);
       font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       overflow-x: hidden;
     }
-    /* Star canvas sits behind everything */
+
+    /* Star canvas behind everything */
     #stars {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background: transparent;
-      pointer-events: none;
+      position: fixed; inset: 0; z-index: 0; background: transparent; pointer-events: none;
     }
-    /* Layering */
-    header, main, footer, .scroll-top { position: relative; z-index: 1; }
 
-    /* Navbar */
-    .header {
-      background: rgba(9,14,27,0.55);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    /* Floating neon navbar */
+    .header{
+      position: sticky; top: 0;
+      background: rgba(10,16,30,0.55);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 10;
     }
-    .sitename { color: var(--text); letter-spacing: .5px; }
-    #navmenu a { color: var(--muted); }
-    #navmenu a.active, #navmenu a:hover { color: var(--accent); }
+    .sitename{ color: var(--text); letter-spacing:.5px; text-shadow: 0 2px 18px rgba(255,255,255,.08); }
+    #navmenu a{ color: var(--muted); position: relative; transition: color .15s ease; }
+    #navmenu a:hover, #navmenu a.active{ color: var(--accent); }
+    #navmenu a::after{
+      content:""; position:absolute; left:10%; right:10%; bottom:-10px; height:2px; border-radius:2px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent), var(--accent-3));
+      transform: scaleX(0); transform-origin: center; transition: transform .2s ease;
+      box-shadow: var(--neon);
+    }
+    #navmenu a:hover::after, #navmenu a.active::after{ transform: scaleX(1); }
 
-    /* Hero */
-    .hero {
-      min-height: 72vh;
-      display: grid;
-      place-items: center;
-      padding-top: 6rem;
-      padding-bottom: 3rem;
+    header, main, footer, .scroll-top{ position: relative; z-index: 1; }
+
+    /* Hero layout (headshot + info) */
+    .hero{
+      padding: 8rem 0 4rem;
       background: linear-gradient(180deg, rgba(10,15,30,0.2), rgba(10,15,30,0.0));
     }
-    .hero h2 { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 700; }
-    .hero p { color: var(--muted); font-size: 1.1rem; }
-    .badge-row img { vertical-align: middle; margin: 0 .25rem; }
-
-    /* Section titles */
-    .section-title h2{
-      color: var(--text);
-      text-shadow: 0 0 18px rgba(109, 166, 255, .15);
+    .hero .headshot{
+      border-radius: 18px; background: var(--card); border: 1px solid var(--card-border);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.35);
     }
-    .section-title p{ color: var(--muted); }
+    .hero h1{ font-weight: 700; font-size: clamp(2rem, 4vw, 3.25rem); }
+    .hero .lead { color: var(--muted); }
+    .chips .chip{
+      display:inline-block; margin:.25rem .35rem .25rem 0; padding:.4rem .75rem;
+      border-radius: 999px; background: var(--chip); border:1px solid var(--chip-border);
+      font-weight:600; font-size:.9rem; color: var(--text);
+    }
+    .cta-row .btn{
+      font-weight: 600; border-radius: 12px; padding: .6rem 1rem;
+    }
+    .btn-accent{
+      background: linear-gradient(90deg, var(--accent-2), var(--accent), var(--accent-4));
+      color: #0b0f19; border: none; box-shadow: var(--neon);
+    }
+    .btn-ghost{
+      color: var(--accent); border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.06);
+    }
 
-    /* Cards */
+    /* Feature cards */
+    .features .fcard{
+      background: var(--card); border:1px solid var(--card-border); border-radius:18px;
+      padding: 1.25rem; text-align:center; transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .features .fcard:hover{ transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.35), var(--neon); }
+    .features .big{ font-size:2rem; font-weight:700; }
+
+    /* Sections transparent over starfield */
+    .section, .section::before, .section::after,
+    .about, .resume, .portfolio, .contact { background: transparent !important; box-shadow: none !important; }
+    .section-title h2{ color: var(--text); text-shadow: 0 0 18px rgba(200,200,255,.18); }
+    .section-title p, .w-more, .text-muted{ color: var(--muted); }
+
+    /* Cards (projects/experience) */
     .soft-card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
+      background: var(--card); border:1px solid var(--card-border); border-radius:16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
-    .soft-card:hover{
-      transform: translateY(-2px);
-      border-color: rgba(125,211,252,0.35);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.35), var(--glow);
-    }
-    .soft-card .w-more{ color: var(--muted); }
-
-    /* Portfolio images */
-    .portfolio .img-fluid { border-radius: 12px; }
-
-    /* Simple button accents */
-    .btn-accent{
-      background: linear-gradient(90deg, var(--accent-2), var(--accent));
-      color: #0b0f19;
-      border: none;
-      font-weight: 600;
-      box-shadow: var(--glow);
-    }
-    .btn-ghost{
-      color: var(--accent);
-      border: 1px solid rgba(125,211,252,0.35);
-      background: rgba(125,211,252,0.08);
-    }
+    .soft-card:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,0.35); box-shadow: 0 10px 40px rgba(0,0,0,0.35), var(--neon); }
+    .portfolio .img-fluid, .exp-img{ border-radius: 12px; }
 
     /* Contact */
     .contact .info-item h3{ color: var(--text); }
     .contact .info-item p a{ color: var(--accent); text-decoration: none; }
 
-    /* Footer */
-    .footer{
-      background: rgba(9,14,27,0.55);
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-      /* === Force dark/transparent sections over the starfield === */
-  .section,
-  .section::before,
-  .section::after,
-  .about,
-  .about::before,
-  .about::after,
-  .resume,
-  .portfolio,
-  .contact {
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-  
-  /* Make all containers transparent (kills white panels/edges) */
-  .about .container,
-  .resume .container,
-  .portfolio .container,
-  .contact .container {
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-  
-  /* Remove decorative quote marks in the About copy */
-  .about .about-me p::before,
-  .about .about-me p::after {
-    content: none !important;
-    display: none !important;
-  }
-  
-  /* Ensure text uses your dark theme colors */
-  body { color: var(--text); }
-  .section-title p,
-  .about .about-info p,
-  .resume .text-muted,
-  .w-more { color: var(--muted); }
-  
-  /* Optional: soften image card look so it blends with dark theme */
-  .soft-card {
-    background: rgba(255,255,255,0.03);
-    border-color: #1a2641;
-  }
-  
+    .footer{ background: rgba(10,16,30,0.55); border-top:1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
 
@@ -178,7 +137,7 @@
   <!-- Starfield Canvas -->
   <canvas id="stars" aria-hidden="true"></canvas>
 
-  <!-- Header / Navbar -->
+  <!-- Floating Neon Header -->
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       <a href="#hero" class="logo d-flex align-items-center text-decoration-none">
@@ -188,9 +147,9 @@
         <ul>
           <li><a href="#hero" class="active">Home</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#features">Highlights</a></li>
           <li><a href="#experience">Experience</a></li>
           <li><a href="#portfolio">Projects</a></li>
-          <li><a href="#extracurriculars">Extracurriculars</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -200,56 +159,68 @@
 
   <main class="main">
 
-    <!-- HERO -->
+    <!-- HERO (headshot + info first) -->
     <section id="hero" class="hero section">
-      <div class="container text-center" data-aos="fade-up" data-aos-delay="50">
-        <h2>Diana (Hyeonji) Jung</h2>
-        <p class="mt-2">
-          <span class="typed" data-typed-items="Embedded Hardware, PCB Design, LoRa Radios, STM32 Firmware"></span>
-        </p>
-        <p class="badge-row mt-3">
-          <a href="https://github.com/hyeonjijung1" target="_blank">
-            <img alt="GitHub" src="https://img.shields.io/badge/GitHub-hyeonjijung1-black?logo=github">
-          </a>
-          <a href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank">
-            <img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Diana%20Jung-blue?logo=linkedin">
-          </a>
-        </p>
-        <div class="mt-4">
-          <a href="#portfolio" class="btn btn-lg btn-accent me-2">See Projects</a>
-          <a href="#contact" class="btn btn-lg btn-ghost">Contact</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT (with headshot) -->
-    <section id="about" class="about section">
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row gy-4 align-items-center">
-          <div class="col-md-5">
-            <!-- Replace with your square headshot -->
-            <img src="assets/img/diana.jpg" class="img-fluid rounded soft-card p-2" alt="Diana Jung headshot">
+      <div class="container" data-aos="fade-up" data-aos-delay="50">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-4">
+            <img src="assets/img/diana.jpg" alt="Diana Jung headshot" class="img-fluid headshot">
           </div>
-          <div class="col-md-7">
-            <div class="section-title mb-3">
-              <h2>About</h2>
-              <p>Embedded hardware that ships.</p>
+          <div class="col-lg-8">
+            <h1>Diana (Hyeonji) Jung</h1>
+            <p class="lead mt-2">I build embedded hardware—bridging RF, digital, and firmware. Recent work includes an STM32WL-based LoRa telemetry module for Blue Sky Solar Racing and FPGA systems with real-time I/O.</p>
+            <div class="chips mt-2">
+              <span class="chip">Verilog</span>
+              <span class="chip">FPGA</span>
+              <span class="chip">C / C++</span>
+              <span class="chip">STM32</span>
+              <span class="chip">LoRa / RF</span>
+              <span class="chip">PCB (Altium)</span>
             </div>
-            <p class="lead" style="color:var(--muted);">
-              I build embedded hardware—bridging RF, digital, and firmware. Recent work includes an STM32WL-based
-              LoRa telemetry module for Blue Sky Solar Racing and FPGA systems with real-time I/O.
-            </p>
-            <div class="row g-3 mt-2">
-              <div class="col-6"><strong>Focus:</strong> Embedded HW & PCB</div>
-              <div class="col-6"><strong>Location:</strong> Toronto, ON</div>
-              <div class="col-12"><strong>Email:</strong> <a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></div>
+            <div class="mt-3">
+              <strong>Email:</strong> <a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a>
+            </div>
+            <div class="cta-row mt-3">
+              <a class="btn btn-accent me-2" href="DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
+              <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
+              <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
+    <!-- HIGHLIGHTS (feature cards) -->
+    <section id="features" class="features section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Highlights</h2>
+        <p>Quick stats recruiters care about.</p>
+      </div>
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
+            <div class="fcard">
+              <div class="big">550+</div>
+              <div class="mt-1">Leaders Trained for Frosh Week</div>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="fcard">
+              <div class="big">5+</div>
+              <div class="mt-1">Custom PCBs Designed</div>
+            </div>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+            <div class="fcard">
+              <div class="big">Wireless</div>
+              <div class="mt-1">Embedded HW Lead — Blue Sky Solar Racing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE (with repo links + images) -->
     <section id="experience" class="resume section">
       <div class="container section-title" data-aos="fade-up">
         <h2>Experience</h2>
@@ -257,25 +228,34 @@
       </div>
       <div class="container">
         <div class="row g-4">
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="soft-card p-4 h-100">
-              <h4 class="mb-1">Embedded Hardware & Wireless Lead</h4>
-              <div class="text-muted mb-2">Blue Sky Solar Racing • Jan 2025 – Present</div>
-              <ul class="mb-0">
-                <li>Designed STM32WL LoRa module; &gt;2 km reliable range; custom packet + CRC.</li>
-                <li>Led schematic → layout → bring-up; RF validation and range testing.</li>
-                <li>Built telemetry pipeline to chase car via USB CDC.</li>
-              </ul>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
+            <div class="soft-card p-3 h-100">
+              <img class="img-fluid exp-img" alt="Blue Sky LoRa" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
+              <div class="p-2">
+                <h4 class="mb-1">Embedded Hardware & Wireless Systems Lead</h4>
+                <div class="text-muted mb-2">Blue Sky Solar Racing • Jan 2025 – Present</div>
+                <ul class="mb-2">
+                  <li>Designed STM32WL LoRa module; &gt;2 km range; custom packet + CRC; 50+ telemetry params.</li>
+                  <li>Led schematic → layout → bring-up; RF validation and range testing.</li>
+                  <li>Telemetry pipeline to chase car via USB CDC.</li>
+                </ul>
+                <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module"><i class="bi bi-github me-1"></i>Repo</a>
+              </div>
             </div>
           </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="150">
-            <div class="soft-card p-4 h-100">
-              <h4 class="mb-1">FPGA / Embedded Projects</h4>
-              <div class="text-muted mb-2">Academic & Personal • 2024 – Present</div>
-              <ul class="mb-0">
-                <li>FPGA audio system (VGA UI, PS/2 input, PWM audio) with timing closure at 100 MHz.</li>
-                <li>MCU drivers and board bring-up for sensor interfaces and debug utilities.</li>
-              </ul>
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="soft-card p-3 h-100">
+              <img class="img-fluid exp-img" alt="FPGA AV System" src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png">
+              <div class="p-2">
+                <h4 class="mb-1">FPGA Design Intern — Embedded AV Systems</h4>
+                <div class="text-muted mb-2">Korea University • May 2025 – Sep 2025</div>
+                <ul class="mb-2">
+                  <li>FPGA piano on DE1-SoC (VGA UI, PS/2, PWM audio), 100 MHz timing closure.</li>
+                  <li>Automated Quartus + ModelSim with Tcl/Bash; reproducible verification.</li>
+                </ul>
+                <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system"><i class="bi bi-github me-1"></i>Repo</a>
+              </div>
             </div>
           </div>
         </div>
@@ -290,81 +270,91 @@
       </div>
       <div class="container">
         <div class="row gy-4">
-          <!-- Project 1 -->
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <!-- LoRa -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
             <div class="soft-card p-3 h-100">
-              <img src="assets/img/lora.png" class="img-fluid" alt="BlueSky LoRa Radio">
+              <img src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/TOP-plane.png" class="img-fluid" alt="BlueSky LoRa Radio">
               <div class="p-2">
-                <h4 class="mt-2 mb-1">BlueSky LoRa Radio</h4>
-                <div class="w-more">STM32WL • &gt;2 km • custom packet/CRC</div>
-                <div class="mt-2">
-                  <a href="assets/img/lora.png" class="btn btn-sm btn-ghost me-2 glightbox" data-gallery="proj">Preview</a>
-                  <a href="https://github.com/hyeonjijung1/LoRa-Radio-Module" target="_blank" class="btn btn-sm btn-accent">Repo</a>
-                </div>
+                <h4 class="mt-2 mb-1">LoRa Telemetry Module</h4>
+                <div class="w-more">STM32WL • &gt;2 km • custom packet/CRC • USB CDC</div>
+                <p class="mt-2">Led a 4-member team designing a long-range telemetry system for Blue Sky Solar Racing — chase & car modules, RF validation, and live data to the vehicle network.</p>
+                <a href="https://github.com/hyeonjijung1/LoRa-Radio-Module" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
               </div>
             </div>
           </div>
-          <!-- Project 2 (placeholder) -->
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
-            <div class="soft-card p-3 h-100">
-              <img src="assets/img/fpga.jpg" class="img-fluid" alt="FPGA System">
-              <div class="p-2">
-                <h4 class="mt-2 mb-1">FPGA Audio System</h4>
-                <div class="w-more">VGA UI • PS/2 input • PWM audio</div>
-                <div class="mt-2">
-                  <a href="assets/img/fpga.png" class="btn btn-sm btn-ghost me-2 glightbox" data-gallery="proj">Preview</a>
-                  <a href="#" class="btn btn-sm btn-accent">Case Study</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Project 3 (placeholder) -->
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="soft-card p-3 h-100">
-              <img src="assets/img/pcb.png" class="img-fluid" alt="PCB Project">
-              <div class="p-2">
-                <h4 class="mt-2 mb-1">High-Speed PCB</h4>
-                <div class="w-more">4-layer • impedance control • bring-up</div>
-                <div class="mt-2">
-                  <a href="assets/img/pcb.png" class="btn btn-sm btn-ghost me-2 glightbox" data-gallery="proj">Preview</a>
-                  <a href="#" class="btn btn-sm btn-accent">Notes</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div><!-- /row -->
-      </div>
-    </section>
 
-    <!-- EXTRACURRICULARS -->
-    <section id="extracurriculars" class="section">
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Extracurriculars</h2>
-        <p>Teams and competitions.</p>
-      </div>
-      <div class="container">
-        <div class="row gy-4">
-          <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="soft-card p-4 h-100">
-              <h4 class="mb-1">Blue Sky Solar Racing</h4>
-              <p class="text-muted mb-2">Electrical Team — Embedded Hardware & Wireless</p>
-              <ul class="mb-0">
-                <li>LoRa telemetry architecture for chase vehicle monitoring.</li>
-                <li>RF validation and range testing protocol.</li>
-              </ul>
+          <!-- SDR Controller Hardware -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="soft-card p-3 h-100">
+              <img src="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/3D%20PCB%20render.png" class="img-fluid" alt="SDR Controller Hardware">
+              <div class="p-2">
+                <h4 class="mt-2 mb-1">SDR Controller Hardware</h4>
+                <div class="w-more">ATmega324PB • Si5351A • UART CAT • I/Q</div>
+                <p class="mt-2">2-layer Altium PCB for RX/TX switching and LO control; ±1 kHz LO stability and 90° I/Q accuracy. Firmware + Python validation automation.</p>
+                <a href="https://github.com/hyeonjijung1/controller-hardware-sdr" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/block_diagram_sdr.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+              </div>
             </div>
           </div>
-          <div class="col-md-6" data-aos="fade-up" data-aos-delay="150">
-            <div class="soft-card p-4 h-100">
-              <h4 class="mb-1">ECE Projects & Clubs</h4>
-              <p class="text-muted mb-2">Hardware build nights & competitions</p>
-              <ul class="mb-0">
-                <li>Rapid PCB prototyping and bring-up.</li>
-                <li>Mentored peers on layout & debugging.</li>
-              </ul>
+
+          <!-- RISC-V CPU -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="150">
+            <div class="soft-card p-3 h-100">
+              <img src="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/bd.png" class="img-fluid" alt="RISC-V CPU">
+              <div class="p-2">
+                <h4 class="mt-2 mb-1">RISC-V 5-Stage Pipelined CPU</h4>
+                <div class="w-more">RV32I • hazard detect/forward • branch</div>
+                <p class="mt-2">Synthesizable Verilog CPU with coverage-driven verification; Tcl-driven regressions and waveform analysis.</p>
+                <a href="https://github.com/hyeonjijung1/riscv-pipeline-cpu" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/ex_stage.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+              </div>
             </div>
           </div>
-        </div>
+
+          <!-- FPGA NiosV Hearing Simulator -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="soft-card p-3 h-100">
+              <img src="https://raw.githubusercontent.com/hyeonjijung1/fpga-niosv-hearing-simulator/main/images/UI-background.jpg" class="img-fluid" alt="FPGA Hearing Simulator">
+              <div class="p-2">
+                <h4 class="mt-2 mb-1">FPGA Nios® V Hearing Loss & Aid Simulator</h4>
+                <div class="w-more">8 ms latency • 100 MHz • 12% LUT</div>
+                <p class="mt-2">Real-time DSP on DE1-SoC with VGA UI, PS/2 controls, mic/store audio, and oscilloscope-verified performance.</p>
+                <a href="https://github.com/hyeonjijung1/fpga-niosv-hearing-simulator" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/fpga-niosv-hearing-simulator/main/images/final-bd.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- FPGA Piano Audio System -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
+            <div class="soft-card p-3 h-100">
+              <img src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png" class="img-fluid" alt="FPGA Piano">
+              <div class="p-2">
+                <h4 class="mt-2 mb-1">FPGA Piano Audio System</h4>
+                <div class="w-more">VGA • PS/2 • PWM Audio</div>
+                <p class="mt-2">Synthesizable Verilog design with UI rendering and real-time audio; automated build/sim with Tcl & Bash.</p>
+                <a href="https://github.com/hyeonjijung1/fpga-piano-audio-system" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/waveform_epwave.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Linear Regulator PCB -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="soft-card p-3 h-100">
+              <img src="https://raw.githubusercontent.com/hyeonjijung1/linear-voltage-regulator-pcb/main/images/pcb-final.jpg" class="img-fluid" alt="Linear Regulator PCB">
+              <div class="p-2">
+                <h4 class="mt-2 mb-1">Linear Voltage Regulator PCB</h4>
+                <div class="w-more">±20 mV regulation • <100 mVpp ripple</div>
+                <p class="mt-2">Discrete analog regulator: LTspice → PCB → solder → oscilloscope validation. Accurate sim-to-lab correlation.</p>
+                <a href="https://github.com/hyeonjijung1/linear-voltage-regulator-pcb" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/linear-voltage-regulator-pcb/main/images/osc-1.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /row -->
       </div>
     </section>
 
@@ -374,7 +364,7 @@
         <h2>Contact</h2>
         <p>Reach out for roles, collabs, or questions.</p>
       </div>
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="container" data-aos="fade-up" data-aos-delay="50">
         <div class="info-wrap">
           <div class="row gy-4">
             <div class="col-md-4">
@@ -407,7 +397,9 @@
           </div>
 
           <div class="text-center mt-4">
-            <a class="btn btn-lg btn-accent" href="mailto:dianajunguoftece@gmail.com">Email me</a>
+            <a class="btn btn-lg btn-accent me-2" href="DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
+            <a class="btn btn-lg btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
+            <a class="btn btn-lg btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
           </div>
         </div>
       </div>
@@ -419,10 +411,6 @@
   <footer id="footer" class="footer accent-background">
     <div class="container text-center">
       <p>© <span id="year"></span> <strong class="px-1 sitename">Diana Jung</strong></p>
-      <div class="social-links d-flex justify-content-center gap-3">
-        <a href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github"></i></a>
-        <a href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin"></i></a>
-      </div>
       <div class="credits small mt-2">
         Designed with DevFolio base • Custom starfield by Diana
       </div>
@@ -437,39 +425,27 @@
   <!-- Vendor JS -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
   <!-- Init vendor libs -->
   <script>
     AOS.init({ once: true, offset: 80, duration: 700, easing: 'ease-out' });
-    const typedEl = document.querySelector('.typed');
-    if (typedEl && window.Typed) {
-      new Typed('.typed', {
-        strings: (typedEl.getAttribute('data-typed-items') || '').split(',').map(s => s.trim()),
-        typeSpeed: 60,
-        backSpeed: 30,
-        backDelay: 1400,
-        loop: true
-      });
-    }
     const lightbox = GLightbox({ selector: '.glightbox' });
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
-  <!-- STARFIELD & CONSTELLATIONS (pure JS canvas) -->
+  <!-- STARFIELD & CONSTELLATIONS (fewer, larger, multicolor; animate constantly) -->
   <script>
     (function(){
       const canvas = document.getElementById('stars');
       const ctx = canvas.getContext('2d');
-      let w, h, dpr, stars = [], mouse = { x: -9999, y: -9999 }, rafId;
+      let w, h, dpr, stars = [], rafId;
 
       function resize(){
         dpr = Math.min(window.devicePixelRatio || 1, 2);
-        w = canvas.width = Math.floor(window.innerWidth * dpr);
+        w = canvas.width  = Math.floor(window.innerWidth  * dpr);
         h = canvas.height = Math.floor(window.innerHeight * dpr);
-        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.width  = window.innerWidth  + 'px';
         canvas.style.height = window.innerHeight + 'px';
         init();
       }
@@ -477,18 +453,18 @@
       function rand(a,b){ return a + Math.random()*(b-a); }
 
       function init(){
-        const density = 0.0002; // stars per pixel
-        const count = Math.min(400, Math.max(120, Math.floor(w*h*density)));
+        const hues = [330, 55, 140, 195, 265]; // pink, yellow, green, cyan, lavender
+        const count = Math.min(180, Math.max(80, Math.floor(w*h*0.00006))); // fewer stars
         stars = [];
         for(let i=0;i<count;i++){
           stars.push({
             x: Math.random()*w,
             y: Math.random()*h,
-            r: rand(0.6, 1.8) * dpr,
-            vx: rand(-0.03, 0.03) * dpr,
-            vy: rand(-0.03, 0.03) * dpr,
+            r: rand(1.2, 2.6) * dpr,            // bigger stars
+            vx: rand(-0.06, 0.06) * dpr,        // slow drift
+            vy: rand(-0.06, 0.06) * dpr,
             tw: Math.random()*Math.PI*2,
-            hue: rand(195, 225)  // bluish stars
+            hue: hues[Math.floor(Math.random()*hues.length)]
           });
         }
         if (rafId) cancelAnimationFrame(rafId);
@@ -496,73 +472,51 @@
       }
 
       function draw(){
-        // subtle space gradient
+        // subtle gradient wash
         const grad = ctx.createRadialGradient(w*0.5, h*-0.2, 0, w*0.5, h*0.3, Math.max(w,h)*0.9);
-        grad.addColorStop(0, 'rgba(20,30,60,0.35)');
+        grad.addColorStop(0, 'rgba(30,40,80,0.35)');
         grad.addColorStop(1, 'rgba(9,14,27,0.0)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0,0,w,h);
+        ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
 
-        // stars
+        // move + draw stars
         for (const s of stars){
           s.x += s.vx; s.y += s.vy;
           if (s.x < 0) s.x = w; if (s.x > w) s.x = 0;
           if (s.y < 0) s.y = h; if (s.y > h) s.y = 0;
 
           s.tw += 0.02;
-          const alpha = 0.7 + Math.sin(s.tw)*0.3;
+          const alpha = 0.6 + Math.sin(s.tw)*0.3;
 
           ctx.beginPath();
-          ctx.fillStyle = `hsla(${s.hue}, 90%, 85%, ${alpha})`;
+          ctx.fillStyle = `hsla(${s.hue}, 85%, 80%, ${alpha})`;
           ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
           ctx.fill();
         }
 
-        // constellation lines (connect near neighbors + to mouse)
-        const maxDist = 120 * dpr;
-        ctx.lineWidth = 0.6 * dpr;
+        // constellation lines (always active)
+        const maxDist = 150 * dpr;
+        ctx.lineWidth = 0.7 * dpr;
         for (let i=0;i<stars.length;i++){
           const a = stars[i];
-          for (let j=i+1;j<i+12 && j<stars.length;j++){
+          for (let j=i+1;j<i+10 && j<stars.length;j++){
             const b = stars[j];
             const dx = a.x - b.x, dy = a.y - b.y;
             const dist = Math.hypot(dx, dy);
             if (dist < maxDist){
-              const op = 0.12 * (1 - dist / maxDist);
-              ctx.strokeStyle = `rgba(140, 180, 255, ${op})`;
+              const op = 0.10 * (1 - dist / maxDist);
+              ctx.strokeStyle = `rgba(200, 220, 255, ${op})`;
               ctx.beginPath();
               ctx.moveTo(a.x, a.y);
               ctx.lineTo(b.x, b.y);
               ctx.stroke();
             }
           }
-          // draw to mouse
-          const dxm = a.x - mouse.x, dym = a.y - mouse.y;
-          const md = Math.hypot(dxm, dym);
-          if (md < maxDist * 0.9){
-            const mop = 0.18 * (1 - md / (maxDist*0.9));
-            ctx.strokeStyle = `rgba(173, 216, 255, ${mop})`;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
-          }
         }
       }
 
-      function loop(){
-        ctx.clearRect(0,0,w,h);
-        draw();
-        rafId = requestAnimationFrame(loop);
-      }
+      function loop(){ ctx.clearRect(0,0,w,h); draw(); rafId = requestAnimationFrame(loop); }
 
       window.addEventListener('resize', resize);
-      window.addEventListener('mousemove', e=>{
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = (e.clientX - rect.left) * (canvas.width / rect.width);
-        mouse.y = (e.clientY - rect.top) * (canvas.height / rect.height);
-      });
-      window.addEventListener('mouseleave', ()=>{ mouse.x = -9999; mouse.y = -9999; });
       resize();
     })();
   </script>
