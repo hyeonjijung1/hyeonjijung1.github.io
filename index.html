@@ -91,6 +91,7 @@
       border-radius: 999px; background: var(--chip); border:1px solid var(--chip-border);
       font-weight:600; font-size:.9rem; color: var(--text);
     }
+    .info-mini .item{ margin-right:1.25rem; }
     .cta-row .btn{
       font-weight: 600; border-radius: 12px; padding: .6rem 1rem;
     }
@@ -159,7 +160,7 @@
 
   <main class="main">
 
-    <!-- HERO (headshot + info first) -->
+    <!-- HERO (headshot + About summary + quick facts) -->
     <section id="hero" class="hero section">
       <div class="container" data-aos="fade-up" data-aos-delay="50">
         <div class="row align-items-center gy-4">
@@ -168,7 +169,10 @@
           </div>
           <div class="col-lg-8">
             <h1>Diana (Hyeonji) Jung</h1>
-            <p class="lead mt-2">I build embedded hardware—bridging RF, digital, and firmware. Recent work includes an STM32WL-based LoRa telemetry module for Blue Sky Solar Racing and FPGA systems with real-time I/O.</p>
+            <p class="lead mt-2">
+              I build embedded hardware—bridging RF, digital, and firmware. Recent work includes an STM32WL-based LoRa telemetry module for Blue Sky Solar Racing and FPGA systems with real-time I/O.
+            </p>
+
             <div class="chips mt-2">
               <span class="chip">Verilog</span>
               <span class="chip">FPGA</span>
@@ -177,11 +181,16 @@
               <span class="chip">LoRa / RF</span>
               <span class="chip">PCB (Altium)</span>
             </div>
-            <div class="mt-3">
-              <strong>Email:</strong> <a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a>
+
+            <div class="info-mini d-flex flex-wrap mt-3">
+              <div class="item"><strong>Focus:</strong> Embedded HW & PCB</div>
+              <div class="item"><strong>Location:</strong> Toronto, ON</div>
+              <div class="w-100 d-block d-lg-none my-1"></div>
+              <div class="item"><strong>Email:</strong> <a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></div>
             </div>
+
             <div class="cta-row mt-3">
-              <a class="btn btn-accent me-2" href="DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
+              <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
               <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
               <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
             </div>
@@ -190,41 +199,57 @@
       </div>
     </section>
 
-    <!-- HIGHLIGHTS (feature cards) -->
+    <!-- ABOUT (deeper blurb) -->
+    <section id="about" class="about section">
+      <div class="container" data-aos="fade-up" data-aos-delay="50">
+        <div class="section-title mb-2">
+          <h2>About</h2>
+        </div>
+        <div class="row">
+          <div class="col-lg-10">
+            <p class="lead" style="color:var(--muted);">
+              I design and validate hardware end-to-end: schematic capture, PCB layout, firmware bring-up, and lab verification.
+              I love tight feedback loops—oscilloscope traces that match simulation, packets decoded over the air, and systems that
+              ship. My current focus is low-power wireless, STM32 firmware, and high-signal-integrity PCB design.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIGHLIGHTS (tight copy, no “recruiter” line) -->
     <section id="features" class="features section">
       <div class="container section-title" data-aos="fade-up">
         <h2>Highlights</h2>
-        <p>Quick stats recruiters care about.</p>
       </div>
       <div class="container">
         <div class="row g-4">
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
             <div class="fcard">
               <div class="big">550+</div>
-              <div class="mt-1">Leaders Trained for Frosh Week</div>
+              <div class="mt-1">Leaders Trained (Frosh Week)</div>
             </div>
           </div>
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
             <div class="fcard">
               <div class="big">5+</div>
-              <div class="mt-1">Custom PCBs Designed</div>
+              <div class="mt-1">Custom PCBs Shipped</div>
             </div>
           </div>
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
             <div class="fcard">
               <div class="big">Wireless</div>
-              <div class="mt-1">Embedded HW Lead — Blue Sky Solar Racing</div>
+              <div class="mt-1">Systems Lead — Blue Sky Solar</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- EXPERIENCE (with repo links + images) -->
+    <!-- EXPERIENCE -->
     <section id="experience" class="resume section">
       <div class="container section-title" data-aos="fade-up">
         <h2>Experience</h2>
-        <p>Selected roles and impact.</p>
       </div>
       <div class="container">
         <div class="row g-4">
@@ -235,9 +260,9 @@
                 <h4 class="mb-1">Embedded Hardware & Wireless Systems Lead</h4>
                 <div class="text-muted mb-2">Blue Sky Solar Racing • Jan 2025 – Present</div>
                 <ul class="mb-2">
-                  <li>Designed STM32WL LoRa module; &gt;2 km range; custom packet + CRC; 50+ telemetry params.</li>
-                  <li>Led schematic → layout → bring-up; RF validation and range testing.</li>
-                  <li>Telemetry pipeline to chase car via USB CDC.</li>
+                  <li>STM32WL LoRa module; &gt;2 km reliable range; custom packet + CRC; 50+ telemetry params.</li>
+                  <li>Schematic → layout → bring-up; RF validation and range testing.</li>
+                  <li>USB-CDC link to chase vehicle server for live dashboards.</li>
                 </ul>
                 <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module"><i class="bi bi-github me-1"></i>Repo</a>
               </div>
@@ -248,10 +273,10 @@
             <div class="soft-card p-3 h-100">
               <img class="img-fluid exp-img" alt="FPGA AV System" src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png">
               <div class="p-2">
-                <h4 class="mb-1">FPGA Design Intern — Embedded AV Systems</h4>
+                <h4 class="mb-1">FPGA Design — Embedded AV Systems</h4>
                 <div class="text-muted mb-2">Korea University • May 2025 – Sep 2025</div>
                 <ul class="mb-2">
-                  <li>FPGA piano on DE1-SoC (VGA UI, PS/2, PWM audio), 100 MHz timing closure.</li>
+                  <li>DE1-SoC FPGA piano (VGA UI, PS/2, PWM audio), 100 MHz timing closure.</li>
                   <li>Automated Quartus + ModelSim with Tcl/Bash; reproducible verification.</li>
                 </ul>
                 <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system"><i class="bi bi-github me-1"></i>Repo</a>
@@ -266,7 +291,6 @@
     <section id="portfolio" class="portfolio section">
       <div class="container section-title" data-aos="fade-up">
         <h2>Projects</h2>
-        <p>Hardware & firmware highlights.</p>
       </div>
       <div class="container">
         <div class="row gy-4">
@@ -277,7 +301,7 @@
               <div class="p-2">
                 <h4 class="mt-2 mb-1">LoRa Telemetry Module</h4>
                 <div class="w-more">STM32WL • &gt;2 km • custom packet/CRC • USB CDC</div>
-                <p class="mt-2">Led a 4-member team designing a long-range telemetry system for Blue Sky Solar Racing — chase & car modules, RF validation, and live data to the vehicle network.</p>
+                <p class="mt-2">Chase & car modules, RF validation, and live data to the vehicle network.</p>
                 <a href="https://github.com/hyeonjijung1/LoRa-Radio-Module" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
               </div>
@@ -291,7 +315,7 @@
               <div class="p-2">
                 <h4 class="mt-2 mb-1">SDR Controller Hardware</h4>
                 <div class="w-more">ATmega324PB • Si5351A • UART CAT • I/Q</div>
-                <p class="mt-2">2-layer Altium PCB for RX/TX switching and LO control; ±1 kHz LO stability and 90° I/Q accuracy. Firmware + Python validation automation.</p>
+                <p class="mt-2">RX/TX switching and LO control; ±1 kHz LO stability and 90° I/Q accuracy. Firmware + Python validation automation.</p>
                 <a href="https://github.com/hyeonjijung1/controller-hardware-sdr" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/block_diagram_sdr.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
               </div>
@@ -304,7 +328,7 @@
               <img src="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/bd.png" class="img-fluid" alt="RISC-V CPU">
               <div class="p-2">
                 <h4 class="mt-2 mb-1">RISC-V 5-Stage Pipelined CPU</h4>
-                <div class="w-more">RV32I • hazard detect/forward • branch</div>
+                <div class="w-more">RV32I • hazards & forwarding • branches</div>
                 <p class="mt-2">Synthesizable Verilog CPU with coverage-driven verification; Tcl-driven regressions and waveform analysis.</p>
                 <a href="https://github.com/hyeonjijung1/riscv-pipeline-cpu" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/ex_stage.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
@@ -346,7 +370,7 @@
               <img src="https://raw.githubusercontent.com/hyeonjijung1/linear-voltage-regulator-pcb/main/images/pcb-final.jpg" class="img-fluid" alt="Linear Regulator PCB">
               <div class="p-2">
                 <h4 class="mt-2 mb-1">Linear Voltage Regulator PCB</h4>
-                <div class="w-more">±20 mV regulation • <100 mVpp ripple</div>
+                <div class="w-more">±20 mV regulation • &lt;100 mVpp ripple</div>
                 <p class="mt-2">Discrete analog regulator: LTspice → PCB → solder → oscilloscope validation. Accurate sim-to-lab correlation.</p>
                 <a href="https://github.com/hyeonjijung1/linear-voltage-regulator-pcb" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/linear-voltage-regulator-pcb/main/images/osc-1.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
@@ -362,7 +386,6 @@
     <section id="contact" class="contact section">
       <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <p>Reach out for roles, collabs, or questions.</p>
       </div>
       <div class="container" data-aos="fade-up" data-aos-delay="50">
         <div class="info-wrap">
@@ -397,7 +420,7 @@
           </div>
 
           <div class="text-center mt-4">
-            <a class="btn btn-lg btn-accent me-2" href="DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
+            <a class="btn btn-lg btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
             <a class="btn btn-lg btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
             <a class="btn btn-lg btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
           </div>
@@ -426,11 +449,12 @@
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
 
-  <!-- Init vendor libs -->
+  <!-- Init AOS / GLightbox / year -->
   <script>
     AOS.init({ once: true, offset: 80, duration: 700, easing: 'ease-out' });
-    const lightbox = GLightbox({ selector: '.glightbox' });
+    GLightbox({ selector: '.glightbox' });
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
