@@ -127,6 +127,50 @@
       background: rgba(9,14,27,0.55);
       border-top: 1px solid rgba(255,255,255,0.06);
     }
+
+      /* === Force dark/transparent sections over the starfield === */
+  .section,
+  .section::before,
+  .section::after,
+  .about,
+  .about::before,
+  .about::after,
+  .resume,
+  .portfolio,
+  .contact {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  /* Make all containers transparent (kills white panels/edges) */
+  .about .container,
+  .resume .container,
+  .portfolio .container,
+  .contact .container {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  /* Remove decorative quote marks in the About copy */
+  .about .about-me p::before,
+  .about .about-me p::after {
+    content: none !important;
+    display: none !important;
+  }
+  
+  /* Ensure text uses your dark theme colors */
+  body { color: var(--text); }
+  .section-title p,
+  .about .about-info p,
+  .resume .text-muted,
+  .w-more { color: var(--muted); }
+  
+  /* Optional: soften image card look so it blends with dark theme */
+  .soft-card {
+    background: rgba(255,255,255,0.03);
+    border-color: #1a2641;
+  }
+  
   </style>
 </head>
 
@@ -389,9 +433,6 @@
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
     <i class="bi bi-arrow-up-short"></i>
   </a>
-
-  <!-- Preloader (optional, can remove if you want) -->
-  <div id="preloader" style="background:transparent;"></div>
 
   <!-- Vendor JS -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
