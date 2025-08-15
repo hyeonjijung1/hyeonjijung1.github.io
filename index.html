@@ -1992,6 +1992,48 @@ html {
   .sleek-nav .menu a,
   .sleek-nav .hamburger .label { animation: none !important; }
 }
+.contact .section-title h2 { margin-bottom: .25rem; }
+
+.contact-card{
+  display:flex; align-items:center; gap:14px;
+  padding:14px 16px; border-radius:16px;
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.contact-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  border-color: rgba(255,255,255,.18);
+}
+.contact-icon{
+  width:56px; height:56px; border-radius:50%;
+  display:grid; place-items:center;
+  background: rgba(255,255,255,.08);
+  border:1px solid var(--glass-border);
+  flex:0 0 56px; font-size:1.2rem; color: var(--mint);
+}
+.contact-title{ font-weight:700; color: var(--text-strong); }
+.contact-link{
+  color: var(--muted); text-decoration:none;
+}
+.contact-link:hover, .contact-link:focus{ text-decoration:underline; }
+
+.btn.btn-accent{
+  /* your existing accent */
+  padding:.8rem 1.1rem; border-radius:14px; font-weight:600;
+}
+.btn.btn-ghost{
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--glass-border);
+  padding:.8rem 1.1rem; border-radius:14px; font-weight:600;
+}
+.btn:focus-visible{ outline: 2px solid var(--mint); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce){
+  .contact-card{ transition:none; }
+}
 
   </style>
 </head>
@@ -2766,42 +2808,75 @@ html {
 </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="contact section">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title"><h2>Contact</h2></div>
-      </div>
-      <div class="container" data-aos="fade-up" data-aos-delay="60">
-        <div class="row gy-3">
-          <div class="col-md-4">
-            <div class="contact-card d-flex align-items-center">
-              <div class="contact-icon" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background: rgba(255,255,255,.08);border:1px solid var(--glass-border);margin-right:14px;"><i class="bi bi-envelope" style="color:var(--mint)"></i></div>
-              <div><p class="contact-title m-0" style="font-weight:700;color:var(--text-strong)">Email</p>
-                <a class="contact-link" href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="contact-card d-flex align-items-center">
-              <div class="contact-icon" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background: rgba(255,255,255,.08);border:1px solid var(--glass-border);margin-right:14px;"><i class="bi bi-github" style="color:var(--mint)"></i></div>
-              <div><p class="contact-title m-0" style="font-weight:700;color:var(--text-strong)">GitHub</p>
-                <a class="contact-link" target="_blank" href="https://github.com/hyeonjijung1">github.com/hyeonjijung1</a></div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="contact-card d-flex align-items-center">
-              <div class="contact-icon" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background: rgba(255,255,255,.08);border:1px solid var(--glass-border);margin-right:14px;"><i class="bi bi-linkedin" style="color:var(--mint)"></i></div>
-              <div><p class="contact-title m-0" style="font-weight:700;color:var(--text-strong)">LinkedIn</p>
-                <a class="contact-link" target="_blank" href="https://www.linkedin.com/in/dianajung-uoft/">/in/dianajung-uoft</a></div>
-            </div>
-          </div>
-        </div>
+<section id="contact" class="contact section">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title"><h2>Contact</h2></div>
 
-        <div class="text-center mt-4">
-          <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
-          <a class="btn btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1"><i class="bi bi-github me-1"></i>GitHub</a>
-          <a class="btn btn-ghost" target="_blank" href="https://www.linkedin.com/in/dianajung-uoft/"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
+    <!-- Primary CTAs -->
+    <div class="text-center mt-2 mb-3">
+      <a class="btn btn-accent btn-lg me-2"
+         href="assets/files/DianaJung_Resume.pdf"
+         target="_blank" rel="noopener"
+         aria-label="Download Diana Jung resume (PDF)">
+        <i class="bi bi-download me-1"></i>Download CV
+      </a>
+
+      <a class="btn btn-ghost btn-lg me-2"
+         href="mailto:dianajunguoftece@gmail.com?subject=Opportunity%20for%20Diana%20Jung"
+         aria-label="Email Diana Jung">
+        <i class="bi bi-envelope me-1"></i>Email me
+      </a>
+
+      <button class="btn btn-ghost btn-lg" id="copyEmailBtn"
+              type="button" aria-label="Copy email address">
+        <i class="bi bi-clipboard me-1"></i>Copy email
+      </button>
+    </div>
+
+    <!-- Contact cards -->
+    <div class="row gy-3" data-aos="fade-up" data-aos-delay="60">
+      <div class="col-md-4">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+          <div>
+            <p class="contact-title m-0">Email</p>
+            <a class="contact-link" href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a>
+          </div>
         </div>
       </div>
-    </section>
+
+      <div class="col-md-4">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="bi bi-github"></i></div>
+          <div>
+            <p class="contact-title m-0">GitHub</p>
+            <a class="contact-link" target="_blank" rel="noopener" href="https://github.com/hyeonjijung1">github.com/hyeonjijung1</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="contact-card">
+          <div class="contact-icon"><i class="bi bi-linkedin"></i></div>
+          <div>
+            <p class="contact-title m-0">LinkedIn</p>
+            <a class="contact-link" target="_blank" rel="noopener" href="https://www.linkedin.com/in/dianajung-uoft/">/in/dianajung-uoft</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiet social row -->
+    <div class="text-center mt-4">
+      <a class="btn btn-ghost me-2" target="_blank" rel="noopener" href="https://github.com/hyeonjijung1">
+        <i class="bi bi-github me-1"></i>GitHub
+      </a>
+      <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.linkedin.com/in/dianajung-uoft/">
+        <i class="bi bi-linkedin me-1"></i>LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
 
   </main>
 
@@ -3350,6 +3425,26 @@ html {
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
           });
           </script>
+          <script>
+            (function(){
+              const btn = document.getElementById('copyEmailBtn');
+              if(!btn) return;
+              const email = 'dianajunguoftece@gmail.com';
+              btn.addEventListener('click', async () => {
+                try {
+                  await navigator.clipboard.writeText(email);
+                  btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i>Copied!';
+                  setTimeout(()=>{ btn.innerHTML = '<i class="bi bi-clipboard me-1"></i>Copy email'; }, 1400);
+                } catch(e){
+                  // Fallback
+                  const input = document.createElement('input');
+                  input.value = email; document.body.appendChild(input);
+                  input.select(); document.execCommand('copy'); document.body.removeChild(input);
+                }
+              });
+            })();
+          </script>
+          
           
   </body>
   
