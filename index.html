@@ -303,6 +303,40 @@
       .gradient-title{ font-size: clamp(1.9rem, 8vw, 2.5rem); }
       .chips .chip-pro{ padding: 8px 12px; }
     }
+    /* FINAL — profile card + headshot (desktop + mobile) */
+.profile-card{
+  position: sticky;
+  top: 96px;
+  max-width: 240px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.headshot{
+  width: 100%;
+  max-width: 180px;     /* hard cap on desktop */
+  aspect-ratio: 1 / 1;  /* perfect square */
+  height: auto;         /* let aspect-ratio control height */
+  object-fit: cover;    /* crop nicely inside the square */
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+/* mobile: no sticky, smaller photo so it never covers hero */
+@media (max-width: 991.98px){
+  .profile-card{ position: relative; top: auto; max-width: 200px; }
+  .headshot{ max-width: 140px; }
+}
+
+/* make columns never overflow each other */
+#hero .col-12, #hero .col-md-4, #hero .col-md-8, #hero .col-xl-3, #hero .col-xl-9{
+  min-width: 0;
+}
+
   </style>
 </head>
 
