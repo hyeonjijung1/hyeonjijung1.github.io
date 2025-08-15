@@ -626,7 +626,24 @@
     font-size: 0.95rem;
   }
 }
+/* Desktop: push mini-facts fully beneath the image */
+@media (min-width: 992px) {
+  .profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
+  .headshot {
+    display: block;
+    margin-bottom: 20px; /* space between image and facts */
+  }
+
+  .mini-facts {
+    margin-top: 0 !important; /* remove overlapping offset */
+    width: 100%;
+  }
+}
   </style>
 </head>
 
