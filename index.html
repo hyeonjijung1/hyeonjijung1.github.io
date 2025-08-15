@@ -2034,6 +2034,97 @@ html {
 @media (prefers-reduced-motion: reduce){
   .contact-card{ transition:none; }
 }
+/* Case-study card layout */
+#extracurriculars .ec-card{
+  display:flex; flex-direction:column; gap:.7rem;
+  padding:1rem; border-radius:18px;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.12);
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+#extracurriculars .ec-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 40px rgba(0,0,0,.28);
+  border-color:rgba(155,235,255,.35);
+}
+
+/* Title + org first */
+#extracurriculars .ec-body h4{
+  margin:0; font-size:1.15rem; line-height:1.2; letter-spacing:.2px;
+}
+#extracurriculars .ec-meta{
+  margin-top:.15rem; font-size:.95rem; font-weight:550;
+  color:#f4f7ff; letter-spacing:.25px; opacity:.95;
+}
+
+/* Image next */
+#extracurriculars .ec-media img{
+  width:100%; height:auto; display:block;
+  border-radius:14px; object-fit:cover; aspect-ratio:16/9;
+  transition: transform .35s ease;
+}
+#extracurriculars .ec-card:hover .ec-media img{ transform: scale(1.015); }
+
+/* Glowing transparent pills (base) */
+#extracurriculars .ec-badges{ display:flex; flex-wrap:wrap; gap:.45rem; }
+#extracurriculars .ec-badges .pill{
+  display:inline-block; padding:.40rem .70rem; border-radius:999px;
+  font-size:.82rem; font-weight:700; letter-spacing:.15px; color:#fff;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.2);
+  backdrop-filter: blur(6px);
+  box-shadow:0 0 6px rgba(255,255,255,.15);
+  transition:all .3s ease;
+}
+#extracurriculars .ec-badges .pill:hover{ transform: translateY(-1px) scale(1.05); }
+
+/* Themed glows */
+#extracurriculars .pill-stem{
+  border-color: rgba(0,255,200,.4); box-shadow:0 0 6px rgba(0,255,200,.35);
+}
+#extracurriculars .pill-stem:hover{
+  background: rgba(0,255,200,.15);
+  box-shadow:0 0 12px rgba(0,255,200,.8), 0 0 24px rgba(0,255,200,.5);
+}
+
+#extracurriculars .pill-leadership{
+  border-color: rgba(255,215,0,.4); box-shadow:0 0 6px rgba(255,215,0,.35);
+}
+#extracurriculars .pill-leadership:hover{
+  background: rgba(255,215,0,.15);
+  box-shadow:0 0 12px rgba(255,215,0,.9), 0 0 24px rgba(255,215,0,.5);
+}
+
+#extracurriculars .pill-sustainability{
+  border-color: rgba(0,255,100,.4); box-shadow:0 0 6px rgba(0,255,100,.35);
+}
+#extracurriculars .pill-sustainability:hover{
+  background: rgba(0,255,100,.15);
+  box-shadow:0 0 12px rgba(0,255,100,.9), 0 0 24px rgba(0,255,100,.5);
+}
+
+#extracurriculars .pill-event{
+  border-color: rgba(180,100,255,.4); box-shadow:0 0 6px rgba(180,100,255,.35);
+}
+#extracurriculars .pill-event:hover{
+  background: rgba(180,100,255,.15);
+  box-shadow:0 0 12px rgba(180,100,255,.9), 0 0 24px rgba(180,100,255,.5);
+}
+
+/* Description last */
+#extracurriculars .ec-desc{
+  margin:0; color:#cfd8ea; font-size:.96rem; line-height:1.45;
+}
+
+/* Grid spacing */
+#extracurriculars .row.g-4{ row-gap:1.25rem; }
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce){
+  #extracurriculars .ec-card:hover{ transform:none; box-shadow:none; }
+  #extracurriculars .ec-card:hover .ec-media img{ transform:none; }
+}
+#extracurriculars .ec-badges { justify-content: center; }
 
   </style>
 </head>
@@ -2523,6 +2614,14 @@ html {
           <span>Altium Designer</span><span>2–4 layer</span><span>SI basics</span>
         </div>
       </article>
+      <article class="skill-card" data-aos="zoom-in" data-aos-delay="0" style="--h: 25">
+        <div class="skill-accent"></div>
+        <h3>Leadership</h3>
+        <p>Guiding cross-functional teams to hit aggressive timelines with clarity, accountability, and momentum.</p>
+        <div class="skill-tags">
+          <span>Team Building</span><span>Cross-Functional</span><span>Stakeholder Alignment</span>
+        </div>
+      </article>
 
       <article class="skill-card" data-aos="zoom-in" data-aos-delay="80" style="--h: 260">
         <div class="skill-accent"></div>
@@ -2734,78 +2833,79 @@ html {
       <!-- Global Spark -->
       <div class="col-md-6" data-aos="fade-up" data-aos-delay="40">
         <article class="ec-card">
-          <div class="ec-media">
-            <img src="assets/img/extracurriculars/global-spark.png" alt="Global Spark">
-            <div class="ec-badges">
-              <span class="pill">~2,000 applicants</span>
-              <span class="pill">Role frameworks</span>
-            </div>
-          </div>
           <div class="ec-body">
             <h4>Strategy & Operations Lead</h4>
             <div class="ec-meta">Global Spark</div>
-            <p>Redesigned selection and role guides to scale reliably for a global hackathon.</p>
           </div>
+          <div class="ec-media">
+            <img src="assets/img/extracurriculars/global-spark.png" alt="Global Spark">
+          </div>
+          <div class="ec-badges">
+            <span class="pill pill-event">~2,000 applicants</span>
+            <span class="pill pill-leadership">Role frameworks</span>
+          </div>
+          <p class="ec-desc">Redesigned selection and role guides to scale reliably for a global hackathon.</p>
         </article>
       </div>
 
       <!-- Leadership Training -->
       <div class="col-md-6" data-aos="fade-up" data-aos-delay="80">
         <article class="ec-card">
+          <div class="ec-body">
+            <h4>Operations & Training Lead</h4>
+            <div class="ec-meta">UofT Engineering</div>
+          </div>
           <div class="ec-media">
             <img src="assets/img/extracurriculars/orientation-training.png" alt="UofT Engineering Leadership Training">
-            <div class="ec-badges">
-              <span class="pill">550+ leaders</span>
-              <span class="pill">Hybrid training</span>
-            </div>
           </div>
-          <div class="ec-body">
-            <h4>Leadership Training Coordinator</h4>
-            <div class="ec-meta">UofT Engineering</div>
-            <p>Built and delivered a cohesive program across live sessions and an online course.</p>
+          <div class="ec-badges">
+            <span class="pill pill-leadership">550+ leaders</span>
+            <span class="pill pill-event">Hybrid training</span>
           </div>
+          <p class="ec-desc">Built and delivered a cohesive program across live sessions and an online course.</p>
         </article>
       </div>
 
       <!-- SEA Competitions -->
       <div class="col-md-6" data-aos="fade-up" data-aos-delay="120">
         <article class="ec-card">
-          <div class="ec-media">
-            <img src="assets/img/extracurriculars/sea-competitions.png" alt="SEA Case Competition">
-            <div class="ec-badges">
-              <span class="pill">University-wide</span>
-              <span class="pill">Judging rubrics</span>
-            </div>
-          </div>
           <div class="ec-body">
             <h4>Co-VP Competitions</h4>
             <div class="ec-meta">Sustainable Engineers Association</div>
-            <p>Launched a realistic case competition in power, climate, and logistics.</p>
           </div>
+          <div class="ec-media">
+            <img src="assets/img/extracurriculars/sea-competitions.png" alt="SEA Case Competition">
+          </div>
+          <div class="ec-badges">
+            <span class="pill pill-event">University-wide</span>
+            <span class="pill pill-stem">Judging rubrics</span>
+          </div>
+          <p class="ec-desc">Launched a realistic case competition in power, climate, and logistics.</p>
         </article>
       </div>
 
       <!-- CAGIS Mentoring -->
       <div class="col-md-6" data-aos="fade-up" data-aos-delay="160">
         <article class="ec-card">
-          <div class="ec-media">
-            <img src="assets/img/extracurriculars/cagis-mentoring.png" alt="CAGIS Workshop Mentoring">
-            <div class="ec-badges">
-              <span class="pill">Hands-on STEM</span>
-              <span class="pill">Renewables</span>
-            </div>
-          </div>
           <div class="ec-body">
             <h4>Student Mentor</h4>
             <div class="ec-meta">CAGIS</div>
-            <p>Ran approachable workshops; partnered with Blue Sky Solar Racing on energy topics.</p>
           </div>
+          <div class="ec-media">
+            <img src="assets/img/extracurriculars/cagis-mentoring.png" alt="CAGIS Workshop Mentoring">
+          </div>
+          <div class="ec-badges">
+            <span class="pill pill-stem">Hands-on STEM</span>
+            <span class="pill pill-sustainability">Renewables</span>
+          </div>
+          <p class="ec-desc">Ran approachable workshops; partnered with Blue Sky Solar Racing on energy topics.</p>
         </article>
       </div>
 
     </div>
   </div>
 </section>
+
 
     <!-- CONTACT -->
 <section id="contact" class="contact section">
