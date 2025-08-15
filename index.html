@@ -498,6 +498,165 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
           transform: translateY(-3px); }
   100% { box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateY(0); }
 }
+.flip-note {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffffcc;
+  letter-spacing: 0.5px;
+}
+
+.glow-pulse {
+  animation: glowPulse 2s infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    text-shadow: 0 0 5px rgba(255, 200, 255, 0.7),
+                 0 0 10px rgba(255, 150, 255, 0.5),
+                 0 0 20px rgba(255, 100, 255, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 200, 255, 0.9),
+                 0 0 20px rgba(255, 150, 255, 0.7),
+                 0 0 40px rgba(255, 100, 255, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(255, 200, 255, 0.7),
+                 0 0 10px rgba(255, 150, 255, 0.5),
+                 0 0 20px rgba(255, 100, 255, 0.3);
+  }
+}
+/* Shared, synced pulse timing */
+:root{
+  --glow-dur: 2.6s;
+  --glow-ease: ease-in-out;
+}
+
+/* The note look */
+.flip-note{
+  text-align:center;
+  margin-top:10px;
+  font-size:.92rem;
+  font-weight:600;
+  color:#ffffffd9;
+  letter-spacing:.3px;
+}
+
+/* Use the SAME keyframes on both elements for sync */
+.glow-sync{ animation: glowPulseSync var(--glow-dur) var(--glow-ease) infinite; }
+
+/* Card’s soft outer glow uses ::after so it doesn’t affect layout */
+.flip-card{
+  position: relative;
+  border-radius: 18px;
+}
+.flip-card::after{
+  content:"";
+  position:absolute; inset:-2px;
+  border-radius: 20px;
+  pointer-events:none;
+  /* animation matches .glow-sync (synced by name & timing) */
+  animation: glowPulseSync var(--glow-dur) var(--glow-ease) infinite;
+}
+
+/* Keyframes: text-shadow & box-shadow use the same curve */
+@keyframes glowPulseSync{
+  0%{
+    /* card */
+    box-shadow:
+      0 0 18px rgba(167,243,208,.20),
+      0 0 36px rgba(199,210,254,.14);
+    /* note */
+    text-shadow:
+      0 0 6px rgba(199,210,254,.35),
+      0 0 14px rgba(167,243,208,.25);
+  }
+  50%{
+    box-shadow:
+      0 0 34px rgba(167,243,208,.45),
+      0 0 80px rgba(199,210,254,.28);
+    text-shadow:
+      0 0 10px rgba(199,210,254,.65),
+      0 0 24px rgba(167,243,208,.45);
+  }
+  100%{
+    box-shadow:
+      0 0 18px rgba(167,243,208,.20),
+      0 0 36px rgba(199,210,254,.14);
+    text-shadow:
+      0 0 6px rgba(199,210,254,.35),
+      0 0 14px rgba(167,243,208,.25);
+  }
+}
+
+/* (Optional) when the card is actively flipping, do a quick burst */
+.flip-card.glow-burst::after,
+#flipNote.glow-burst{
+  animation: glowBurst .55s ease-out 1;
+}
+@keyframes glowBurst{
+  0%{ box-shadow: 0 0 0 rgba(0,0,0,0); text-shadow: 0 0 0 rgba(0,0,0,0); }
+  40%{
+    box-shadow: 0 0 42px rgba(167,243,208,.7), 0 0 110px rgba(199,210,254,.35);
+    text-shadow: 0 0 10px rgba(199,210,254,.8), 0 0 26px rgba(167,243,208,.55);
+  }
+  100%{ box-shadow: 0 0 0 rgba(0,0,0,0); text-shadow: 0 0 0 rgba(0,0,0,0); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .glow-sync, .flip-card::after{ animation: none !important; }
+}
+/* Breathing room between title and tabs */
+.hero .hero-title{
+  margin-bottom: 14px;           /* space above skills bar */
+}
+.hero .hero-lab{
+  margin-top: 14px;              /* space below skills bar before tabs */
+}
+@media (min-width: 992px){
+  .hero .hero-title{ margin-bottom: 18px; }
+  .hero .hero-lab{ margin-top: 18px; }
+}
+
+/* Sleek skills bar (auto-typing + soft pulse) */
+.skills-bar{
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .55rem .9rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  font-size: .98rem;
+  font-weight: 600;
+  letter-spacing: .2px;
+  backdrop-filter: blur(6px);
+  animation: sbPulse 2.6s ease-in-out infinite;
+  box-shadow: 0 8px 30px rgba(0,0,0,.22);
+}
+@keyframes sbPulse{
+  0%,100% { box-shadow: 0 0 10px rgba(167,243,208,.20), 0 0 22px rgba(199,210,254,.12); }
+  50%     { box-shadow: 0 0 26px rgba(167,243,208,.45), 0 0 48px rgba(199,210,254,.28); }
+}
+
+/* typing caret for skills bar */
+.skills-caret{
+  width: 10px; height: 1.05em;
+  margin-left: 2px;
+  border-left: 2px solid #a7f3d0;
+  animation: caretBlink 1s steps(1) infinite;
+  filter: drop-shadow(0 0 6px rgba(167,243,208,.6));
+}
+@keyframes caretBlink{ 50%{ opacity: 0; } }
+
+/* Make sure the title gradient looks great and sits a touch higher on desktop */
+@media (min-width: 992px){
+  #hero .row{ align-items: center; }
+  #hero .col-md-8{ transform: translateY(-6px); }
+}
 
   </style>
 </head>
@@ -523,106 +682,107 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
   </header>
 
   <main class="main">
+<!-- HERO -->
+<section id="hero" class="hero section">
+  <div class="container" data-aos="fade-up" data-aos-delay="40">
+    <div class="row align-items-start gy-4 gx-4">
 
-    <!-- HERO -->
-    <section id="hero" class="hero section">
-      <div class="container" data-aos="fade-up" data-aos-delay="40">
-        <div class="row align-items-start gy-4 gx-4">
+      <!-- Left column: flip card -->
+      <div class="col-12 col-md-4 col-xl-3">
+        <div class="flip-card glow-sync" id="profileFlip" aria-live="polite">
+          <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
 
-          <!-- Left column: flip card -->
-          <div class="col-12 col-md-4 col-xl-3">
-            <div class="flip-card" id="profileFlip" aria-live="polite">
-              <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
+          <div class="flip-inner">
+            <!-- Front -->
+            <div class="flip-face flip-front" aria-hidden="false">
+              <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
+            </div>
+            <!-- Back -->
+            <div class="flip-face flip-back" aria-hidden="true">
+              <div class="mini-facts">
+                <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
+                <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
+                <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
+                <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
+                <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
+                <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-              <div class="flip-inner">
-                <!-- Front -->
-                <div class="flip-face flip-front" aria-hidden="false">
-                  <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
-                </div>
-                <!-- Back -->
-                <div class="flip-face flip-back" aria-hidden="true">
-                  <div class="mini-facts">
-                    <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
-                    <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
-                    <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
-                    <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
-                    <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
-                    <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
-                  </div>
-                </div>
+        <!-- Note directly under the card -->
+        <div id="flipNote" class="flip-note glow-sync">Tap photo to see more info</div>
+      </div>
+
+      <!-- Right column -->
+      <div class="col-12 col-md-8 col-xl-9">
+        <h1 class="gradient-title hero-title">Hi there!<br><span>I’m Diana</span></h1>
+
+        <!-- Sleek, auto-typing skills bar -->
+        <div class="skills-bar" aria-label="Key skills">
+          <span id="skillsType"></span><span class="skills-caret" aria-hidden="true"></span>
+        </div>
+
+        <!-- RTL LAB -->
+        <div class="rtl-lab mb-3 hero-lab">
+          <div class="rtl-tabs">
+            <div class="rtl-tab active" data-tab="verilog">Verilog</div>
+            <div class="rtl-tab" data-tab="wave">Waveform</div>
+            <div class="rtl-tab" data-tab="pcb">PCB</div>
+          </div>
+
+          <div class="rtl-body">
+            <!-- Verilog panel -->
+            <div class="panel active" id="panel-verilog" aria-label="Verilog code sample">
+              <div class="codebox" id="vbox"></div>
+            </div>
+
+            <!-- Waveform panel -->
+            <div class="panel" id="panel-wave" aria-label="Waveform preview">
+              <div class="wavewrap">
+                <svg viewBox="0 0 700 240" preserveAspectRatio="none" role="img">
+                  <text x="8" y="24" class="sig-label">clk</text>
+                  <polyline class="trace-clk" points="80,20 100,20 100,40 140,40 140,20 180,20 180,40 220,40 220,20 260,20 260,40 300,40 300,20 340,20 340,40 380,40 380,20 420,20 420,40 460,40 460,20 500,20 500,40 540,40 540,20 680,20" fill="none"/>
+                  <text x="8" y="74" class="sig-label">valid</text>
+                  <polyline class="trace-valid" points="80,70 140,70 140,90 300,90 300,70 680,70" fill="none"/>
+                  <text x="8" y="124" class="sig-label">data[7:0]</text>
+                  <polyline class="trace-data" points="80,120 170,120 170,140 220,140 220,120 320,120 320,140 360,140 360,120 680,120" fill="none"/>
+                  <text x="8" y="174" class="sig-label">leds</text>
+                  <polyline class="trace-crc" points="80,170 200,170 200,190 280,190 280,170 480,170 480,190 560,190 560,170 680,170" fill="none"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- PCB panel -->
+            <div class="panel" id="panel-pcb" aria-label="PCB render">
+              <div class="pcbwrap">
+                <img id="pcbSlide" alt="PCB preview" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
               </div>
             </div>
           </div>
 
-          <!-- Right column -->
-          <div class="col-12 col-md-8 col-xl-9">
-            <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
-
-            <!-- RTL LAB -->
-            <div class="rtl-lab mb-3">
-              <div class="rtl-tabs">
-                <div class="rtl-tab active" data-tab="verilog">Verilog</div>
-                <div class="rtl-tab" data-tab="wave">Waveform</div>
-                <div class="rtl-tab" data-tab="pcb">PCB</div>
-              </div>
-
-              <div class="rtl-body">
-                <!-- Verilog panel -->
-                <div class="panel active" id="panel-verilog" aria-label="Verilog code sample">
-                  <div class="codebox" id="vbox"></div>
-                </div>
-
-                <!-- Waveform panel -->
-                <div class="panel" id="panel-wave" aria-label="Waveform preview">
-                  <div class="wavewrap">
-                    <svg viewBox="0 0 700 240" preserveAspectRatio="none" role="img">
-                      <text x="8" y="24" class="sig-label">clk</text>
-                      <polyline class="trace-clk" points="80,20 100,20 100,40 140,40 140,20 180,20 180,40 220,40 220,20 260,20 260,40 300,40 300,20 340,20 340,40 380,40 380,20 420,20 420,40 460,40 460,20 500,20 500,40 540,40 540,20 680,20" fill="none"/>
-                      <text x="8" y="74" class="sig-label">valid</text>
-                      <polyline class="trace-valid" points="80,70 140,70 140,90 300,90 300,70 680,70" fill="none"/>
-                      <text x="8" y="124" class="sig-label">data[7:0]</text>
-                      <polyline class="trace-data" points="80,120 170,120 170,140 220,140 220,120 320,120 320,140 360,140 360,120 680,120" fill="none"/>
-                      <text x="8" y="174" class="sig-label">leds</text>
-                      <polyline class="trace-crc" points="80,170 200,170 200,190 280,190 280,170 480,170 480,190 560,190 560,170 680,170" fill="none"/>
-                    </svg>
-                  </div>
-                </div>
-
-                <!-- PCB panel -->
-                <div class="panel" id="panel-pcb" aria-label="PCB render">
-                  <div class="pcbwrap">
-                    <img id="pcbSlide" alt="PCB preview" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
-                  </div>
-                </div>
-              </div>
-
-              <div class="typefooter" aria-live="polite">
-                <span id="typed-line">
-                  <span class="kw">println</span>(<span class="str">"Reaching for the stars…"</span>);
-                </span>
-                <span class="caret" aria-hidden="true"></span>
-              </div>
-              
-
-            <!-- Five key chips -->
-            <div class="chips mt-2">
-              <span class="chip-pro">FPGA / Verilog</span>
-              <span class="chip-pro">ASIC Verification</span>
-              <span class="chip-pro">STM32 / ARM</span>
-              <span class="chip-pro">LoRa / RF</span>
-              <span class="chip-pro">Altium PCB</span>
-            </div>
-
-            <div class="cta-row mt-3">
-              <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
-              <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
-              <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
-            </div>
+          <!-- typing footer -->
+          <div class="typefooter" aria-live="polite">
+            <span id="typed-line">
+              <span class="kw">println</span>(<span class="str">"Reaching for the stars…"</span>);
+            </span>
+            <span class="caret" aria-hidden="true"></span>
           </div>
+        </div>
 
+        <!-- CTA -->
+        <div class="cta-row mt-3">
+          <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
+          <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
         </div>
       </div>
-    </section>
+
+    </div>
+  </div>
+</section>
+
 
     <!-- ABOUT -->
     <section id="about" class="about section">
@@ -1193,6 +1353,40 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
       });
     })();
   </script>
-  
+  <script>
+    /* Auto-typing skills bar — cycles through a short list smoothly */
+    (function(){
+      const el = document.getElementById('skillsType');
+      if (!el) return;
+    
+      const phrases = [
+        "PCB Design · FPGA/RTL · Embedded Systems · Mixed-Signal & Analog · ASIC Design & Verification",
+        "LoRa / RF · STM32 · Timing Closure · Verification · Altium",
+        "Hardware Bring-Up · CRC/Packets · Python Tooling · VGA/PS2 · USB-CDC"
+      ];
+    
+      let p = 0, i = 0, dir = 1; // dir: 1 typing, -1 deleting
+    
+      function tick(){
+        const text = phrases[p];
+        i += dir;
+        el.textContent = text.slice(0, i);
+    
+        // typing completed — pause then delete
+        if (i === text.length){
+          setTimeout(()=>{ dir = -1; }, 1200);
+        }
+        // deletion completed — next phrase
+        else if (i === 0 && dir === -1){
+          p = (p + 1) % phrases.length;
+          dir = 1;
+        }
+        const speed = (dir === 1 ? 22 : 14); // typing / deleting speed
+        setTimeout(tick, speed);
+      }
+      setTimeout(tick, 300);
+    })();
+    </script>
+    
 </body>
 </html>
