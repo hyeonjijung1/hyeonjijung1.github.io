@@ -2125,6 +2125,497 @@ html {
   #extracurriculars .ec-card:hover .ec-media img{ transform:none; }
 }
 #extracurriculars .ec-badges { justify-content: center; }
+#extracurriculars .pill {
+  display: inline-block;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #eaf2ff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 180, 216, 0.28);
+
+  /* Constant soft glow */
+  box-shadow:
+    0 0 10px rgba(0, 180, 216, 0.35),
+    0 0 20px rgba(255, 210, 230, 0.25);
+
+  /* Breathing glow animation */
+  animation: pillGlow 4s ease-in-out infinite;
+
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+#extracurriculars .pill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 180, 216, 0.55);
+  box-shadow:
+    0 0 14px rgba(0, 220, 200, 0.45),
+    0 0 28px rgba(255, 210, 230, 0.35);
+}
+
+/* Animation keyframes */
+@keyframes pillGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 10px rgba(0, 180, 216, 0.35),
+      0 0 20px rgba(255, 210, 230, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(0, 220, 200, 0.45),
+      0 0 28px rgba(255, 210, 230, 0.35);
+  }
+}
+/* Extracurricular pills & Skill tags */
+#extracurriculars .pill,
+#skills .skill-tags span {
+  display: inline-block;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #eaf2ff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 180, 216, 0.28);
+
+  /* Constant soft glow */
+  box-shadow:
+    0 0 10px rgba(0, 180, 216, 0.35),
+    0 0 20px rgba(255, 210, 230, 0.25);
+
+  /* Breathing glow animation */
+  animation: pillGlow 4s ease-in-out infinite;
+
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+/* Hover effect */
+#extracurriculars .pill:hover,
+#skills .skill-tags span:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 180, 216, 0.55);
+  box-shadow:
+    0 0 14px rgba(0, 220, 200, 0.45),
+    0 0 28px rgba(255, 210, 230, 0.35);
+}
+
+/* Animation keyframes */
+@keyframes pillGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 10px rgba(0, 180, 216, 0.35),
+      0 0 20px rgba(255, 210, 230, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(0, 220, 200, 0.45),
+      0 0 28px rgba(255, 210, 230, 0.35);
+  }
+}
+/* Always-on breathing glow for experience pills */
+#experience .xp-badges .pill {
+  display:inline-block; padding:.40rem .70rem; border-radius:999px;
+  font-size:.82rem; font-weight:700; letter-spacing:.15px; color:#fff;
+  background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    0 0 10px rgba(0, 180, 216, 0.35),
+    0 0 20px rgba(255, 210, 230, 0.25);
+  animation: xpGlow 4s ease-in-out infinite;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  margin: .25rem .35rem 0 0;
+}
+#experience .xp-badges .pill:hover {
+  transform: translateY(-2px) scale(1.05);
+  border-color: rgba(0, 180, 216, 0.55);
+  box-shadow:
+    0 0 14px rgba(0,220,200,.45),
+    0 0 28px rgba(255,210,230,.35);
+}
+
+@keyframes xpGlow {
+  0%,100% {
+    box-shadow:
+      0 0 10px rgba(0,180,216,.35),
+      0 0 20px rgba(255,210,230,.25);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(0,220,200,.5),
+      0 0 28px rgba(255,210,230,.35);
+  }
+}
+
+/* Category color themes (always-on + stronger hover) */
+#experience .pill-range{        border-color: rgba(0,255,200,.45); box-shadow: 0 0 10px rgba(0,255,200,.45); }
+#experience .pill-range:hover{  box-shadow: 0 0 16px rgba(0,255,200,.85), 0 0 30px rgba(0,255,200,.55); }
+
+#experience .pill-mcu{          border-color: rgba(80,160,255,.45); box-shadow: 0 0 10px rgba(80,160,255,.45); }
+#experience .pill-mcu:hover{    box-shadow: 0 0 16px rgba(80,160,255,.85), 0 0 30px rgba(80,160,255,.55); }
+
+#experience .pill-comms{        border-color: rgba(180,100,255,.45); box-shadow: 0 0 10px rgba(180,100,255,.45); }
+#experience .pill-comms:hover{  box-shadow: 0 0 16px rgba(180,100,255,.9), 0 0 30px rgba(180,100,255,.6); }
+
+#experience .pill-leadership{   border-color: rgba(255,215,0,.45);  box-shadow: 0 0 10px rgba(255,215,0,.45);  color:#0b1220; }
+#experience .pill-leadership:hover{
+  background: rgba(255,215,0,.15);
+  box-shadow: 0 0 16px rgba(255,215,0,.95), 0 0 30px rgba(255,215,0,.6);
+}
+
+#experience .pill-xfunc{        border-color: rgba(0,255,160,.45); box-shadow: 0 0 10px rgba(0,255,160,.45); }
+#experience .pill-xfunc:hover{  box-shadow: 0 0 16px rgba(0,255,160,.9), 0 0 30px rgba(0,255,160,.55); }
+
+#experience .pill-clock{        border-color: rgba(0,220,255,.45); box-shadow: 0 0 10px rgba(0,220,255,.45); }
+#experience .pill-clock:hover{  box-shadow: 0 0 16px rgba(0,220,255,.9), 0 0 30px rgba(0,220,255,.55); }
+
+#experience .pill-io{           border-color: rgba(255,140,200,.45); box-shadow: 0 0 10px rgba(255,140,200,.45); }
+#experience .pill-io:hover{     box-shadow: 0 0 16px rgba(255,140,200,.9), 0 0 30px rgba(255,140,200,.6); }
+
+#experience .pill-ci{           border-color: rgba(150,120,255,.45); box-shadow: 0 0 10px rgba(150,120,255,.45); }
+#experience .pill-ci:hover{     box-shadow: 0 0 16px rgba(150,120,255,.9), 0 0 30px rgba(150,120,255,.6); }
+
+#experience .pill-verif{        border-color: rgba(255,120,160,.45); box-shadow: 0 0 10px rgba(255,120,160,.45); }
+#experience .pill-verif:hover{  box-shadow: 0 0 16px rgba(255,120,160,.9), 0 0 30px rgba(255,120,160,.6); }
+
+/* Mini skillset tags (subtle, consistent with skills section) */
+#experience .xp-skilltags{
+  display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.4rem;
+}
+#experience .xp-skilltags .tag{
+  padding:.30rem .60rem; border-radius:999px; font-size:.78rem; color:#eaf2ff;
+  background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.18);
+  box-shadow: 0 0 8px rgba(0,180,216,.25);
+  animation: xpGlow 4s ease-in-out infinite;
+}
+
+/* Optional: lighten bullets for readability */
+#experience .xp-bullets li{ color:#d7e1f3; }
+#experience .xp-bullets strong{ color:#ffffff; }
+/* About Section Glow Styles */
+.pill {
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 4px;
+  display: inline-block;
+  box-shadow: 0 0 12px rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Always-on soft glow by category */
+.pill-hw {
+  background: rgba(0, 200, 255, 0.15);
+  border: 1px solid rgba(0, 200, 255, 0.4);
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.5);
+}
+
+.pill-lead {
+  background: rgba(255, 170, 0, 0.15);
+  border: 1px solid rgba(255, 170, 0, 0.4);
+  box-shadow: 0 0 8px rgba(255, 170, 0, 0.5);
+}
+
+/* Tag Glow */
+.tag {
+  padding: 4px 10px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 4px;
+  display: inline-block;
+}
+
+.tag-hw {
+  background: rgba(0, 200, 255, 0.15);
+  border: 1px solid rgba(0, 200, 255, 0.4);
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.4);
+}
+
+.tag-lead {
+  background: rgba(255, 170, 0, 0.15);
+  border: 1px solid rgba(255, 170, 0, 0.4);
+  box-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
+}
+/* --- Breathing animation for About pills & tags --- */
+
+/* Base animation (subtle brightness + radius pulse) */
+@keyframes breatheGlow {
+  0%, 100% {
+    filter: brightness(1);
+    box-shadow:
+      0 0 10px rgba(0, 200, 255, 0.35),
+      0 0 20px rgba(255, 210, 230, 0.18);
+    transform: translateZ(0) scale(1);
+  }
+  50% {
+    filter: brightness(1.08);
+    box-shadow:
+      0 0 14px rgba(0, 200, 255, 0.55),
+      0 0 28px rgba(255, 210, 230, 0.28);
+    transform: translateZ(0) scale(1.02);
+  }
+}
+
+/* Warm variant for leadership (amber) */
+@keyframes breatheGlowAmber {
+  0%, 100% {
+    filter: brightness(1);
+    box-shadow:
+      0 0 10px rgba(255, 170, 0, 0.35),
+      0 0 20px rgba(255, 210, 180, 0.18);
+    transform: translateZ(0) scale(1);
+  }
+  50% {
+    filter: brightness(1.08);
+    box-shadow:
+      0 0 14px rgba(255, 170, 0, 0.6),
+      0 0 28px rgba(255, 210, 180, 0.28);
+    transform: translateZ(0) scale(1.02);
+  }
+}
+
+/* Apply to hardware pills/tags (cool blue) */
+.pill-hw, .tag-hw {
+  animation: breatheGlow 5.5s ease-in-out infinite;
+  will-change: transform, box-shadow, filter;
+}
+
+/* Apply to leadership pills/tags (warm amber) */
+.pill-lead, .tag-lead {
+  animation: breatheGlowAmber 5.5s ease-in-out infinite;
+  will-change: transform, box-shadow, filter;
+}
+
+/* Slightly stronger on hover */
+.pill-hw:hover, .tag-hw:hover,
+.pill-lead:hover, .tag-lead:hover {
+  transform: translateY(-1px) scale(1.04);
+}
+
+/* Respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .pill-hw, .tag-hw, .pill-lead, .tag-lead {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+/* Category hues via CSS variables */
+#skills .skill-card.cat-hw    { --glow1: 0,200,255;  --glow2: 255,210,230; } /* cool blue + pink aura */
+#skills .skill-card.cat-lead  { --glow1: 255,170,0;  --glow2: 255,210,180; } /* warm amber leadership */
+#skills .skill-card.cat-verif { --glow1: 180,100,255; --glow2: 130,200,255; } /* purple/blue verification */
+
+/* Always-on breathing glow for tags inside each card, using the category colors */
+#skills .skill-card .skill-tags span{
+  position: relative;
+  padding: .35rem .6rem;
+  border-radius: 999px;
+  font-size: .85rem;
+  color: #eaf2ff;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.20);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    0 0 10px rgba(var(--glow1), .35),
+    0 0 20px rgba(var(--glow2), .22);
+  animation: skillTagGlow 5.5s ease-in-out infinite;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+#skills .skill-card .skill-tags span:hover{
+  transform: translateY(-1px) scale(1.04);
+  border-color: rgba(var(--glow1), .55);
+  box-shadow:
+    0 0 14px rgba(var(--glow1), .55),
+    0 0 28px rgba(var(--glow2), .35);
+}
+
+/* Breathing animation */
+@keyframes skillTagGlow{
+  0%,100%{
+    box-shadow:
+      0 0 10px rgba(var(--glow1), .35),
+      0 0 20px rgba(var(--glow2), .22);
+    filter: brightness(1);
+  }
+  50%{
+    box-shadow:
+      0 0 14px rgba(var(--glow1), .55),
+      0 0 28px rgba(var(--glow2), .35);
+    filter: brightness(1.06);
+  }
+}
+
+/* Optional: match the card border hover color to the category hue */
+#skills .skill-card:hover{
+  border-color: rgba(var(--glow1), .45);
+  box-shadow: 0 20px 40px rgba(var(--glow1), .15);
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  #skills .skill-card .skill-tags span{ animation: none !important; }
+}
+/* Category color variables */
+#skills .tool.tool-hw    { --glow1: 0,200,255;  --glow2: 255,210,230; } /* cool blue + pink */
+#skills .tool.tool-ops   { --glow1: 0,255,200;  --glow2: 130,230,255; } /* teal/blue ops */
+#skills .tool.tool-verif { --glow1: 180,100,255; --glow2: 130,200,255; } /* purple/blue */
+#skills .tool.tool-rf    { --glow1: 255,140,200; --glow2: 140,220,255; } /* magenta/cyan RF */
+/* Optional PM if you add Jira/Confluence/MS Project */
+#skills .tool.tool-pm    { --glow1: 255,170,0;   --glow2: 255,210,180; } /* amber PM */
+
+/* Always-on transparent glow + breathing */
+#skills .tools-grid .tool {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  gap: .45rem;
+  padding: .55rem .8rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.20);
+  color: #eaf2ff;
+  box-shadow:
+    0 0 10px rgba(var(--glow1), .30),
+    0 0 20px rgba(var(--glow2), .18);
+  animation: toolBreath 6s ease-in-out infinite;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+#skills .tools-grid .tool:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(var(--glow1), .55);
+  box-shadow:
+    0 0 14px rgba(var(--glow1), .55),
+    0 0 30px rgba(var(--glow2), .35);
+}
+
+/* Breathing glow */
+@keyframes toolBreath{
+  0%,100%{
+    box-shadow:
+      0 0 10px rgba(var(--glow1), .30),
+      0 0 20px rgba(var(--glow2), .18);
+    filter: brightness(1);
+  }
+  50%{
+    box-shadow:
+      0 0 16px rgba(var(--glow1), .55),
+      0 0 32px rgba(var(--glow2), .30);
+    filter: brightness(1.06);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){
+  #skills .tools-grid .tool { animation: none !important; }
+}
+/* ===== Base skill-card glow ===== */
+.skill-card {
+  position: relative;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ===== Always-on category glow ===== */
+.cat-hw { /* Hardware - Blue */
+  border-color: rgba(0,180,216,.45);
+  box-shadow: 0 0 14px rgba(0,180,216,.35), 0 0 24px rgba(0,180,216,.25);
+}
+
+.cat-verif { /* Verification/Digital - Green */
+  border-color: rgba(0,255,128,.45);
+  box-shadow: 0 0 14px rgba(0,255,128,.35), 0 0 24px rgba(0,255,128,.25);
+}
+
+.cat-lead { /* Leadership/PM - Gold */
+  border-color: rgba(255,215,0,.45);
+  box-shadow: 0 0 14px rgba(255,215,0,.35), 0 0 24px rgba(255,215,0,.25);
+}
+
+/* ===== Match tools to categories ===== */
+.tool-hw {
+  border-color: rgba(0,180,216,.45);
+  box-shadow: 0 0 14px rgba(0,180,216,.35), 0 0 24px rgba(0,180,216,.25);
+}
+
+.tool-verif {
+  border-color: rgba(0,255,128,.45);
+  box-shadow: 0 0 14px rgba(0,255,128,.35), 0 0 24px rgba(0,255,128,.25);
+}
+
+.tool-pm {
+  border-color: rgba(255,215,0,.45);
+  box-shadow: 0 0 14px rgba(255,215,0,.35), 0 0 24px rgba(255,215,0,.25);
+}
+
+.tool-ops {
+  border-color: rgba(165,105,255,.45);
+  box-shadow: 0 0 14px rgba(165,105,255,.35), 0 0 24px rgba(165,105,255,.25);
+}
+
+.tool-rf {
+  border-color: rgba(0,255,255,.45);
+  box-shadow: 0 0 14px rgba(0,255,255,.35), 0 0 24px rgba(0,255,255,.25);
+}
+/* === Breathing glow keyframes === */
+@keyframes breatheCool {
+  0%,100% { filter: brightness(1);   box-shadow: 0 0 14px rgba(0,180,216,.34), 0 0 26px rgba(0,180,216,.20); }
+  50%     { filter: brightness(1.06); box-shadow: 0 0 18px rgba(0,180,216,.55), 0 0 34px rgba(0,180,216,.32); }
+}
+@keyframes breatheGreen {
+  0%,100% { filter: brightness(1);   box-shadow: 0 0 14px rgba(0,255,128,.34), 0 0 26px rgba(0,255,128,.20); }
+  50%     { filter: brightness(1.06); box-shadow: 0 0 18px rgba(0,255,128,.58), 0 0 34px rgba(0,255,128,.32); }
+}
+@keyframes breatheGold {
+  0%,100% { filter: brightness(1);   box-shadow: 0 0 14px rgba(255,215,0,.32), 0 0 26px rgba(255,215,0,.18); }
+  50%     { filter: brightness(1.06); box-shadow: 0 0 18px rgba(255,215,0,.60), 0 0 34px rgba(255,215,0,.30); }
+}
+@keyframes breathePurple {
+  0%,100% { filter: brightness(1);   box-shadow: 0 0 14px rgba(165,105,255,.32), 0 0 26px rgba(165,105,255,.18); }
+  50%     { filter: brightness(1.06); box-shadow: 0 0 18px rgba(165,105,255,.58), 0 0 34px rgba(165,105,255,.30); }
+}
+@keyframes breatheCyan {
+  0%,100% { filter: brightness(1);   box-shadow: 0 0 14px rgba(0,255,255,.32), 0 0 26px rgba(0,255,255,.18); }
+  50%     { filter: brightness(1.06); box-shadow: 0 0 18px rgba(0,255,255,.60), 0 0 34px rgba(0,255,255,.30); }
+}
+
+/* === Apply to SKILL CARDS (containers) === */
+.skill-card.cat-hw    { animation: breatheCool   6.5s ease-in-out infinite; }
+.skill-card.cat-verif { animation: breatheGreen  6.5s ease-in-out infinite; }
+.skill-card.cat-lead  { animation: breatheGold   6.5s ease-in-out infinite; }
+
+/* === Apply to TOOLS (chips) to match categories === */
+.tools-grid .tool.tool-hw    { animation: breatheCool   7s ease-in-out infinite; }
+.tools-grid .tool.tool-verif { animation: breatheGreen  7s ease-in-out infinite; }
+.tools-grid .tool.tool-pm    { animation: breatheGold   7s ease-in-out infinite; }
+.tools-grid .tool.tool-ops   { animation: breathePurple 7s ease-in-out infinite; }
+.tools-grid .tool.tool-rf    { animation: breatheCyan   7s ease-in-out infinite; }
+
+/* Stagger so everything doesn’t pulse at the same time */
+.skill-card:nth-child(3n+1),
+.tools-grid .tool:nth-child(4n+1) { animation-delay: .4s; }
+.skill-card:nth-child(3n+2),
+.tools-grid .tool:nth-child(4n+2) { animation-delay: .9s; }
+.skill-card:nth-child(3n),
+.tools-grid .tool:nth-child(4n+3) { animation-delay: 1.6s; }
+
+/* Keep your hover lift feeling snappy on top of the breathing */
+.skill-card:hover,
+.tools-grid .tool:hover {
+  transform: translateY(-3px) scale(1.01);
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .skill-card,
+  .tools-grid .tool { animation: none !important; filter: none !important; }
+}
 
   </style>
 </head>
@@ -2274,36 +2765,40 @@ html {
    <!-- ABOUT -->
 <section id="about" class="about section">
   <div class="container" data-aos="fade-up" data-aos-delay="50">
-    <div class="section-title"><h2>About</h2></div>
+    <div class="section-title">
+      <h2>About</h2>
+    </div>
 
     <div class="row g-3 align-items-stretch">
+      
       <!-- Left: confident story -->
       <div class="col-lg-8">
         <article class="soft-card p-4 h-100 about-card">
           <p class="about-lead">
-            I design and build <strong>hardware that works </strong> 
+            I design and deliver <strong>hardware systems that perform</strong>. From first schematic to lab-validated product, while leading teams to execute with clarity and speed.
           </p>
 
           <div class="about-grid">
             <div>
-              <h6 class="about-sub">Core skills</h6>
-              <div class="about-skill"><span class="skill-accent"></span>PCB design for 2–4 layer boards, from placement to routing and bring-up</div>
-              <div class="about-skill"><span class="skill-accent"></span>FPGA/RTL development in Verilog and SystemVerilog with timing closure</div>
-              <div class="about-skill"><span class="skill-accent"></span>Embedded development on STM32 with UART, I²C, and SPI communication</div>
+              <h6 class="about-sub">Core Skills</h6>
+              <div class="about-skill"><span class="skill-accent"></span>PCB design (2–4 layers) from placement & routing to bring-up & validation</div>
+              <div class="about-skill"><span class="skill-accent"></span>FPGA/RTL development in Verilog &amp; SystemVerilog with timing closure</div>
+              <div class="about-skill"><span class="skill-accent"></span>Embedded STM32 development with UART, I²C, SPI, and LoRa/RF links</div>
             </div>
 
             <div>
-              <h6 class="about-sub">Approach</h6>
-              <div class="about-skill"><span class="skill-accent"></span>Maintain clean, well-documented design files</div>
-              <div class="about-skill"><span class="skill-accent"></span>Validate performance with measurable lab testing</div>
-              <div class="about-skill"><span class="skill-accent"></span>Use repeatable build and test flows for consistent results</div>
+              <h6 class="about-sub">Leadership & Approach</h6>
+              <div class="about-skill"><span class="skill-accent"></span>Led cross-functional engineering teams to deliver race-ready hardware</div>
+              <div class="about-skill"><span class="skill-accent"></span>Defined roadmaps, risk registers, and test plans to align stakeholders</div>
+              <div class="about-skill"><span class="skill-accent"></span>Presented technical results to senior leadership with clear, actionable data</div>
             </div>
           </div>
 
           <div class="about-recent">
-            <span class="pill">LoRa module &gt;2&nbsp;km</span>
-            <span class="pill">Custom packet + CRC</span>
-            <span class="pill">FPGA audio UI</span>
+            <span class="pill pill-hw">>2 km RF link</span>
+            <span class="pill pill-hw">80% TX power reduction</span>
+            <span class="pill pill-lead">Cross-functional coordination</span>
+            <span class="pill pill-lead">Technical presentations</span>
           </div>
         </article>
       </div>
@@ -2325,13 +2820,16 @@ html {
           </div>
 
           <div class="fact-tags">
-            <span class="tag">PCB Design</span>
-            <span class="tag">FPGA/RTL</span>
-            <span class="tag">Embedded Systems</span>
-            <span class="tag">LoRa/RF</span>
+            <span class="tag tag-hw">PCB Design</span>
+            <span class="tag tag-hw">FPGA/RTL</span>
+            <span class="tag tag-hw">Embedded Systems</span>
+            <span class="tag tag-hw">LoRa/RF</span>
+            <span class="tag tag-lead">Leadership</span>
+            <span class="tag tag-lead">Presentation</span>
           </div>
         </aside>
       </div>
+
     </div>
   </div>
 </section>
@@ -2365,76 +2863,87 @@ html {
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
-<section id="experience" class="resume section">
-  <div class="container" data-aos="fade-up">
-    <div class="section-title"><h2>Experience</h2></div>
-  </div>
-
-  <div class="container">
-    <div class="row g-4">
-
-      <!-- Blue Sky Solar Racing -->
-      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="40">
-        <article class="xp-card">
-          <div class="xp-media">
-            <img class="img-fluid exp-img" alt="Blue Sky LoRa" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
-            <div class="xp-badges">
-              <span class="pill">>2 km range</span>
-              <span class="pill">STM32WL</span>
-              <span class="pill">USB-CDC</span>
-            </div>
-          </div>
-          <div class="xp-body">
-            <h4 class="xp-role">Embedded Hardware & Wireless Systems Lead</h4>
-            <div class="xp-meta">Blue Sky Solar Racing • Jan 2025 – Present</div>
-            <ul class="xp-bullets">
-              <li>Designed & validated a LoRa telemetry stack (custom packet + CRC) from schematic → layout → bring-up.</li>
-              <li>Field-tested reliable >2 km link; clean packets and scoped timing/jitter across UART/I²C/SPI paths.</li>
-              <li>Built host tooling: USB-CDC forwarding to live dashboards; repeatable test harnesses & logs.</li>
-            </ul>
-            <div class="xp-actions">
-              <a class="btn btn-sm btn-ghost" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module">
-                <i class="bi bi-github me-1"></i>Repository
-              </a>
-            </div>
-          </div>
-          <div class="xp-accent" style="--h: 195"></div>
-        </article>
+ <!-- Blue Sky Solar Racing -->
+<div class="col-lg-6" data-aos="fade-up" data-aos-delay="40">
+  <article class="xp-card">
+    <div class="xp-media">
+      <img class="img-fluid exp-img" alt="Blue Sky LoRa" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
+      <div class="xp-badges">
+        <span class="pill pill-range">>2 km range</span>
+        <span class="pill pill-mcu">STM32WL</span>
+        <span class="pill pill-comms">USB-CDC</span>
+        <span class="pill pill-leadership">Program Lead</span>
+        <span class="pill pill-xfunc">Cross-Functional</span>
       </div>
-
-      <!-- Korea University -->
-      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="80">
-        <article class="xp-card">
-          <div class="xp-media">
-            <img class="img-fluid exp-img" alt="FPGA AV System" src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png">
-            <div class="xp-badges">
-              <span class="pill">100 MHz</span>
-              <span class="pill">VGA • PS/2 • PWM</span>
-              <span class="pill">Tcl/Bash CI-like</span>
-            </div>
-          </div>
-          <div class="xp-body">
-            <h4 class="xp-role">FPGA Design — Embedded AV Systems</h4>
-            <div class="xp-meta">Korea University • May 2025 – Sep 2025</div>
-            <ul class="xp-bullets">
-              <li>Implemented DE1-SoC piano: VGA UI, PS/2 input, PWM audio; timing closure at 100&nbsp;MHz.</li>
-              <li>Automated Quartus synth & ModelSim runs with Tcl/Bash; deterministic, one-command builds.</li>
-              <li>Structured verification with focused testbenches; clear pass/fail artifacts for review.</li>
-            </ul>
-            <div class="xp-actions">
-              <a class="btn btn-sm btn-ghost" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system">
-                <i class="bi bi-github me-1"></i>Repository
-              </a>
-            </div>
-          </div>
-          <div class="xp-accent" style="--h: 310"></div>
-        </article>
-      </div>
-
     </div>
-  </div>
-</section>
+    <div class="xp-body">
+      <h4 class="xp-role">Embedded Hardware & Wireless Systems Lead</h4>
+      <div class="xp-meta">Blue Sky Solar Racing • Jan 2025 – Present</div>
+      <ul class="xp-bullets">
+        <li><strong>Directed cross-functional electrical program</strong> (hardware/firmware/test) to deliver LoRa telemetry redesign on race timeline; owned roadmap, risks, and supplier coordination.</li>
+        <li>Designed & validated LoRa stack (custom packet + CRC) from schematic → layout → bring-up; standardized debug flows that reduced sequencing failures by ~30%.</li>
+        <li>Field-tested reliable >2 km link; scoped timing/jitter across UART/I²C/SPI; built USB-CDC forwarding to live dashboards with repeatable harnesses & logs.</li>
+      </ul>
+
+      <!-- mini skillset row -->
+      <div class="xp-skilltags">
+        <span class="tag">Roadmap/Milestones</span>
+        <span class="tag">Risk Register</span>
+        <span class="tag">Supplier Mgmt.</span>
+        <span class="tag">Altium</span>
+        <span class="tag">LTspice</span>
+      </div>
+
+      <div class="xp-actions">
+        <a class="btn btn-sm btn-ghost" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module">
+          <i class="bi bi-github me-1"></i>Repository
+        </a>
+      </div>
+    </div>
+    <div class="xp-accent" style="--h: 195"></div>
+  </article>
+</div>
+
+<!-- Korea University -->
+<div class="col-lg-6" data-aos="fade-up" data-aos-delay="80">
+  <article class="xp-card">
+    <div class="xp-media">
+      <img class="img-fluid exp-img" alt="FPGA AV System" src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png">
+      <div class="xp-badges">
+        <span class="pill pill-clock">100 MHz</span>
+        <span class="pill pill-io">VGA • PS/2 • PWM</span>
+        <span class="pill pill-ci">Tcl/Bash CI-like</span>
+        <span class="pill pill-verif">Verification</span>
+        <span class="pill pill-leadership">Research Lead</span>
+      </div>
+    </div>
+    <div class="xp-body">
+      <h4 class="xp-role">FPGA Design — Embedded AV Systems</h4>
+      <div class="xp-meta">Korea University • May 2025 – Sep 2025</div>
+      <ul class="xp-bullets">
+        <li><strong>Led research track & design reviews</strong>; aligned RTL, testbench, and synth owners; hit timing at 100&nbsp;MHz with &lt;10% LUT, &lt;5% BRAM.</li>
+        <li>Automated Quartus synth & ModelSim runs with Tcl/Bash (deterministic one-command builds); structured verification with focused benches and pass/fail artifacts.</li>
+      </ul>
+
+      <!-- mini skillset row -->
+      <div class="xp-skilltags">
+        <span class="tag">Quartus</span>
+        <span class="tag">ModelSim</span>
+        <span class="tag">SV Assertions</span>
+        <span class="tag">Regression Pipelines</span>
+        <span class="tag">Stakeholder Updates</span>
+      </div>
+
+      <div class="xp-actions">
+        <a class="btn btn-sm btn-ghost" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system">
+          <i class="bi bi-github me-1"></i>Repository
+        </a>
+      </div>
+    </div>
+    <div class="xp-accent" style="--h: 310"></div>
+  </article>
+</div>
+
 
    <!-- PROJECTS -->
 <section id="portfolio" class="portfolio section">
@@ -2598,227 +3107,103 @@ html {
   </div>
 </section>
 
-<section id="skills" class="section">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>Skills</h2>
-  </div>
-
-  <div class="container">
-    <!-- Category cards -->
-    <div class="skill-grid mt-2">
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="40" style="--h: 190">
-        <div class="skill-accent"></div>
-        <h3>PCB Design</h3>
-        <p>Stackup planning, impedance, pours, placement & routing, DRC, bring-up.</p>
-        <div class="skill-tags">
-          <span>Altium Designer</span><span>2–4 layer</span><span>SI basics</span>
-        </div>
-      </article>
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="0" style="--h: 25">
-        <div class="skill-accent"></div>
-        <h3>Leadership</h3>
-        <p>Guiding cross-functional teams to hit aggressive timelines with clarity, accountability, and momentum.</p>
-        <div class="skill-tags">
-          <span>Team Building</span><span>Cross-Functional</span><span>Stakeholder Alignment</span>
-        </div>
-      </article>
-
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="80" style="--h: 260">
-        <div class="skill-accent"></div>
-        <h3>FPGA / RTL</h3>
-        <p>Verilog/SystemVerilog, timing closure, verification, clean build flows.</p>
-        <div class="skill-tags">
-          <span>Quartus</span><span>ModelSim</span><span>100&nbsp;MHz+</span>
-        </div>
-      </article>
-
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="120" style="--h: 320">
-        <div class="skill-accent"></div>
-        <h3>Embedded Systems</h3>
-        <p>STM32 (HAL), drivers, packets/CRC, USB-CDC, tooling & test harnesses.</p>
-        <div class="skill-tags">
-          <span>C/C++</span><span>UART/I²C/SPI</span><span>Python</span>
-        </div>
-      </article>
-
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="160" style="--h: 20">
-        <div class="skill-accent"></div>
-        <h3>Mixed-Signal & Analog</h3>
-        <p>Filters, sampling paths, power integrity awareness, measurement.</p>
-        <div class="skill-tags">
-          <span>Scope/LA</span><span>DFM</span><span>Noise</span>
-        </div>
-      </article>
-
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="200" style="--h: 300">
-        <div class="skill-accent"></div>
-        <h3>ASIC Design & Verification</h3>
-        <p>Coverage-driven benches, hazards/forwarding, scripted regressions.</p>
-        <div class="skill-tags">
-          <span>SV</span><span>Tcl/Bash</span><span>CI-like flows</span>
-        </div>
-      </article>
+<div class="skill-grid mt-2">
+  <!-- Leadership (TPM) -->
+  <article class="skill-card cat-lead" data-aos="zoom-in" data-aos-delay="0" style="--h: 25">
+    <div class="skill-accent"></div>
+    <h3>Leadership</h3>
+    <p>Guiding cross-functional teams to hit aggressive timelines with clarity, accountability, and momentum.</p>
+    <div class="skill-tags">
+      <span>Team Building</span><span>Cross-Functional</span><span>Stakeholder Alignment</span>
     </div>
+  </article>
 
-    <!-- Tools (animated gradient pills) -->
-    <div class="tools-grid mt-4" data-aos="fade-up" data-aos-delay="80">
-      <div class="tool"><span>GitHub</span></div>
-      <div class="tool"><span>Python</span></div>
-      <div class="tool"><span>C/C++</span></div>
-      <div class="tool"><span>LoRa/RF</span></div>
-      <div class="tool"><span>Tcl/Bash</span></div>
-      <div class="tool"><span>Verification</span></div>
-      <div class="tool"><span>Linux</span></div>
-      <div class="tool"><span>CI-like</span></div>
+  <!-- PCB (Hardware) -->
+  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="40" style="--h: 190">
+    <div class="skill-accent"></div>
+    <h3>PCB Design</h3>
+    <p>Stackup planning, impedance, pours, placement & routing, DRC, bring-up.</p>
+    <div class="skill-tags">
+      <span>Altium Designer</span><span>2–4 layer</span><span>SI basics</span>
     </div>
+  </article>
+
+  <!-- FPGA / RTL (Hardware) -->
+  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="80" style="--h: 260">
+    <div class="skill-accent"></div>
+    <h3>FPGA / RTL</h3>
+    <p>Verilog/SystemVerilog, timing closure, verification, clean build flows.</p>
+    <div class="skill-tags">
+      <span>Quartus</span><span>ModelSim</span><span>100&nbsp;MHz+</span>
+    </div>
+  </article>
+
+  <!-- Embedded (Hardware) -->
+  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="120" style="--h: 320">
+    <div class="skill-accent"></div>
+    <h3>Embedded Systems</h3>
+    <p>STM32 (HAL), drivers, packets/CRC, USB-CDC, tooling & test harnesses.</p>
+    <div class="skill-tags">
+      <span>C/C++</span><span>UART/I²C/SPI</span><span>Python</span>
+    </div>
+  </article>
+
+  <!-- Mixed-Signal (Hardware) -->
+  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="160" style="--h: 20">
+    <div class="skill-accent"></div>
+    <h3>Mixed-Signal & Analog</h3>
+    <p>Filters, sampling paths, power integrity awareness, measurement.</p>
+    <div class="skill-tags">
+      <span>Scope/LA</span><span>DFM</span><span>Noise</span>
+    </div>
+  </article>
+
+  <!-- ASIC (Hardware/Verification) -->
+  <article class="skill-card cat-verif" data-aos="zoom-in" data-aos-delay="200" style="--h: 300">
+    <div class="skill-accent"></div>
+    <h3>ASIC Design & Verification</h3>
+    <p>Coverage-driven benches, hazards/forwarding, scripted regressions.</p>
+    <div class="skill-tags">
+      <span>SV</span><span>Tcl/Bash</span><span>CI-like flows</span>
+    </div>
+  </article>
+  <div class="tools-grid mt-4" data-aos="fade-up" data-aos-delay="80">
+    <!-- Hardware / PCB -->
+    <div class="tool tool-hw"><span>GitHub</span></div>
+    <div class="tool tool-hw"><span>C/C++</span></div>
+    <div class="tool tool-hw"><span>Linux</span></div>
+    <div class="tool tool-hw"><span>Altium Designer</span></div>
+    <div class="tool tool-hw"><span>LTspice</span></div>
+    <div class="tool tool-hw"><span>Oscilloscope/LA</span></div>
+  
+    <!-- Ops / Dev -->
+    <div class="tool tool-ops"><span>Python</span></div>
+    <div class="tool tool-ops"><span>Tcl/Bash</span></div>
+    <div class="tool tool-ops"><span>Git</span></div>
+    <div class="tool tool-ops"><span>Shell Scripting</span></div>
+  
+    <!-- RF / Embedded -->
+    <div class="tool tool-rf"><span>LoRa/RF</span></div>
+    <div class="tool tool-rf"><span>STM32</span></div>
+    <div class="tool tool-rf"><span>UART/I²C/SPI</span></div>
+    <div class="tool tool-rf"><span>USB-CDC</span></div>
+  
+    <!-- Verification / Digital -->
+    <div class="tool tool-verif"><span>Verification</span></div>
+    <div class="tool tool-verif"><span>SystemVerilog</span></div>
+    <div class="tool tool-verif"><span>ModelSim</span></div>
+    <div class="tool tool-verif"><span>Quartus</span></div>
+    <div class="tool tool-verif"><span>Timing Closure</span></div>
+    <div class="tool tool-verif"><span>Testbench Dev</span></div>
+  
+    <!-- Leadership / PM -->
+    <div class="tool tool-pm"><span>Team Leadership</span></div>
+    <div class="tool tool-pm"><span>Cross-Functional Coordination</span></div>
+    <div class="tool tool-pm"><span>Event Planning</span></div>
+    <div class="tool tool-pm"><span>Mentorship</span></div>
   </div>
-</section>
-
-<style>
-  /* Grid layout */
-  #skills .skill-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-  }
-
-  /* Card shell (glass + gradient border) */
-  #skills .skill-card {
-    --h: 200; /* hue fallback if inline style not set */
-    position: relative;
-    padding: 1rem;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.12);
-    overflow: hidden;
-    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  }
-  #skills .skill-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-    border-color: hsla(var(--h), 90%, 60%, 0.45);
-  }
-
-  /* Animated accent strip */
-  #skills .skill-accent {
-    position: absolute;
-    inset: -2px;
-    border-radius: 18px;
-    padding: 1px;
-    background: conic-gradient(
-      from 0deg,
-      hsla(var(--h), 95%, 60%, .0) 0%,
-      hsla(calc(var(--h) + 40), 95%, 65%, .25) 25%,
-      hsla(calc(var(--h) + 80), 95%, 70%, .35) 50%,
-      hsla(calc(var(--h) + 120), 95%, 65%, .25) 75%,
-      hsla(var(--h), 95%, 60%, .0) 100%
-    );
-    -webkit-mask: 
-      linear-gradient(#000 0 0) content-box, 
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    animation: spin 8s linear infinite;
-    pointer-events: none;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  #skills .skill-card h3 {
-    margin: 0 0 .35rem 0;
-    font-size: 1.05rem;
-  }
-  #skills .skill-card p {
-    margin: 0 0 .6rem 0;
-    color: var(--muted, #cbd5e1);
-    font-size: .95rem;
-  }
-
-  /* Pill tags with animated sheen */
-  #skills .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
-  #skills .skill-tags span {
-    position: relative;
-    padding: .35rem .6rem;
-    border-radius: 999px;
-    font-size: .85rem;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.14);
-    color: #eaf2ff;
-    overflow: hidden;
-  }
-  #skills .skill-tags span::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(120deg,
-      transparent 0%,
-      rgba(255,255,255,0.2) 30%,
-      transparent 60%);
-    transform: translateX(-100%);
-    animation: sheen 3.2s ease-in-out infinite;
-  }
-  @keyframes sheen {
-    0%, 70% { transform: translateX(-120%); }
-    100%    { transform: translateX(120%); }
-  }
-
-  /* Tools grid layout stays */
-#skills .tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: .9rem;
-  margin-top: 2rem;
-}
-
-/* Transparent chips with glow */
-#skills .tools-grid .tool {
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-  gap: .45rem;
-  padding: .55rem .8rem;
-  border-radius: 999px;
-  background: transparent;                 /* no white */
-  border: 1px solid rgba(0,180,216,.28);   /* mint outline */
-  color: #eaf2ff;
-  box-shadow:
-    0 0 14px rgba(0,180,216,.18),
-    0 0 22px rgba(255,182,193,.10);
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-}
-#skills .tools-grid .tool:hover {
-  transform: translateY(-2px);
-  border-color: rgba(0,180,216,.55);
-  box-shadow:
-    0 0 20px rgba(0,220,200,.35),
-    0 0 34px rgba(255,210,230,.24);
-}
-
-/* If you kept Tabler icons, they’ll inherit; otherwise just text looks great */
-#skills .tools-grid .tool i { font-size: 20px; color: var(--mint, #00b4d8); }
-
-/* Optional: gentle idle shimmer */
-#skills .tools-grid .tool::after {
-  content: ""; position: absolute; inset: -40% -20%;
-  background: radial-gradient(60% 50% at 30% 40%, rgba(255,255,255,.10), transparent 60%);
-  animation: toolGlow 16s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes toolGlow {
-  0%,100% { transform: translate(0,0) }
-  50%     { transform: translate(6%, -6%) }
-}
-
-  @keyframes floatBlob {
-    0%,100% { transform: translate(0,0) rotate(0deg); }
-    50% { transform: translate(6%, -6%) rotate(15deg); }
-  }
-
-  /* Reduce motion accessibility */
-  @media (prefers-reduced-motion: reduce) {
-    #skills .skill-accent,
-    #skills .skill-tags span::after,
-    #skills .tools-grid .tool::before { animation: none !important; }
-  }
-</style>
+  
+</div>
 
 
 <!-- EXTRACURRICULARS -->
