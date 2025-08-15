@@ -1658,6 +1658,86 @@ body { padding-top: 72px; }
 
 /* If you have a starfield canvas, make sure it never covers the nav */
 #stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+:root { --nav-h: 56px; --mint: #00b4d8; }
+
+/* Keep content below fixed nav */
+body { padding-top: calc(var(--nav-h) + 20px); }
+
+/* Starfield must be behind & non-interactive */
+#stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* NAVBAR */
+.sleek-nav{
+  position: fixed; top: 12px; left: 0; right: 0; z-index: 10000;
+}
+.sleek-nav .nav-inner{
+  height: var(--nav-h);
+  margin: 0 14px; padding: 0 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-radius: 14px;
+  background: rgba(8,12,20,0.45);               /* dark, transparent */
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: saturate(140%) blur(10px);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.35), 0 0 20px rgba(0,180,216,0.22);
+}
+
+/* Brand */
+.sleek-nav .brand{
+  color: #eaf2ff; text-decoration: none; font-weight: 800; letter-spacing: .2px;
+  padding: .35rem .6rem; border-radius: 10px;
+}
+
+/* Links */
+.sleek-nav .menu{ display: flex; gap: .6rem; align-items: center; }
+.sleek-nav .menu a{
+  position: relative; color: #eaf2ff; text-decoration: none; padding: .45rem .7rem; border-radius: 10px;
+}
+.sleek-nav .menu a::after{
+  content:""; position: absolute; left: .7rem; right: .7rem; bottom: .28rem;
+  height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--mint), #ffd1e5);
+  transform: scaleX(0); transform-origin: left; transition: transform .18s ease;
+}
+.sleek-nav .menu a:hover::after{ transform: scaleX(1); }
+
+/* Hamburger */
+.hamburger{
+  display: none; width: 42px; height: 42px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(8,12,20,0.45);
+  align-items: center; justify-content: center; gap: 4px; cursor: pointer;
+}
+.hamburger .line{ width: 22px; height: 2px; background: #eaf2ff; display: block; transition: transform .18s ease, opacity .18s ease; }
+.sleek-nav[data-open="true"] .l1{ transform: translateY(6px) rotate(45deg); }
+.sleek-nav[data-open="true"] .l2{ opacity: 0; }
+.sleek-nav[data-open="true"] .l3{ transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile menu (dropdown) */
+@media (max-width: 1024px){
+  .hamburger{ display: inline-flex; }
+  .sleek-nav .menu{
+    position: fixed;
+    top: calc(12px + var(--nav-h) + 8px);
+    left: 14px; right: 14px;
+    display: none; flex-direction: column; gap: .4rem; padding: .6rem;
+    border-radius: 12px; border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(8,12,20,0.60);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 22px rgba(0,180,216,.22);
+  }
+  .sleek-nav[data-open="true"] .menu{ display: flex; animation: drop .18s ease-out; }
+  @keyframes drop{ from{ transform: translateY(-6px); opacity: 0 } to{ transform:none; opacity:1 } }
+}
+
+/* Desktop: inline menu, hide hamburger */
+@media (min-width: 1025px){
+  .hamburger{ display: none; }
+  .sleek-nav .menu{ display: flex !important; background: transparent; border: 0; box-shadow: none; }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .sleek-nav .menu a::after, .hamburger .line{ transition: none !important; }
+}
 
   </style>
 </head>
@@ -1666,16 +1746,17 @@ body { padding-top: 72px; }
 <body class="index-page">
   <!-- Starfield -->
   <canvas id="stars" aria-hidden="true"></canvas>
-
-  <header class="site-nav">
-    <div class="nav-wrap">
+  <header id="nav" class="sleek-nav" role="navigation" aria-label="Primary">
+    <div class="nav-inner">
       <a href="#top" class="brand">Hyeonji</a>
   
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <button class="hamburger" aria-label="Open menu" aria-controls="navMenu" aria-expanded="false">
+        <span class="line l1"></span>
+        <span class="line l2"></span>
+        <span class="line l3"></span>
       </button>
   
-      <nav class="nav-menu" aria-label="Primary">
+      <nav id="navMenu" class="menu">
         <a href="#about">About</a>
         <a href="#highlights">Highlights</a>
         <a href="#experience">Experience</a>
@@ -1686,6 +1767,7 @@ body { padding-top: 72px; }
       </nav>
     </div>
   </header>
+  
   
   <main class="main">
 <!-- HERO -->
@@ -2855,6 +2937,32 @@ body { padding-top: 72px; }
             btn.setAttribute('aria-expanded', 'false');
           });
         });
+      });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const header = document.getElementById('nav');
+        const btn    = header?.querySelector('.hamburger');
+        const menu   = header?.querySelector('#navMenu');
+        if (!header || !btn || !menu) return;
+    
+        const close = () => {
+          header.setAttribute('data-open','false');
+          btn.setAttribute('aria-expanded','false');
+          btn.setAttribute('aria-label','Open menu');
+        };
+        const toggle = () => {
+          const open = header.getAttribute('data-open') === 'true';
+          header.setAttribute('data-open', open ? 'false' : 'true');
+          btn.setAttribute('aria-expanded', (!open).toString());
+          btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+        };
+    
+        btn.addEventListener('click', toggle);
+        // close on link click / outside click / Esc
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+        document.addEventListener('click', (e) => { if (!header.contains(e.target)) close(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
       });
     </script>
     
