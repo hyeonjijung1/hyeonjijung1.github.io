@@ -1513,6 +1513,83 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
   /* Make front tappable area on top */
   #profileFlip .flip-front { position: relative; z-index: 3; }
 }
+/* Desktop keeps your existing flip behavior (no change) */
+
+/* MOBILE: no flip at all, show full photo */
+@media (pointer: coarse) {
+  #profileFlip { position: relative; }
+  #profileFlip .flip-hint { display: none !important; }     /* hide 'Flip' button */
+  #flipNote { display: none !important; }                    /* hide note */
+
+  /* break the flip layout to simple image */
+  #profileFlip .flip-inner { transform: none !important; }
+  #profileFlip .flip-face { position: static !important; inset: auto !important; }
+  #profileFlip .flip-back { display: none !important; }      /* never show back on mobile */
+
+  /* show full photo with natural aspect */
+  #profileFlip .headshot {
+    width: 100%;
+    height: auto;              /* natural height */
+    object-fit: contain;       /* no cropping */
+    border-radius: 16px;
+    display: block;
+  }
+}
+/* Base container */
+.site-nav {
+  position: sticky; top: 0; z-index: 999;
+  background: transparent;
+  backdrop-filter: none;                   /* no blur/white */
+  padding: .6rem 0;
+}
+.site-nav .nav-wrap {
+  max-width: 1120px; margin: 0 auto; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border: 1px solid rgba(0,180,216,.28);
+  border-radius: 999px;
+  background: rgba(0,0,0,.20);            /* subtle dark glazing */
+  box-shadow: 0 0 16px rgba(0,180,216,.18), 0 0 28px rgba(255,182,193,.10);
+}
+
+/* Brand */
+.site-nav .brand {
+  font-weight: 800; letter-spacing: .2px; color: #eaf2ff; text-decoration: none;
+  padding: .4rem .8rem;
+}
+
+/* Desktop menu */
+.site-nav .nav-menu { display: flex; gap: .6rem; align-items: center; }
+.site-nav .nav-menu a {
+  color: #eaf2ff; text-decoration: none; padding: .45rem .8rem; border-radius: 999px;
+  border: 1px solid transparent; transition: transform .15s, border-color .15s, background .15s;
+}
+.site-nav .nav-menu a:hover {
+  border-color: rgba(0,180,216,.45);
+  background: rgba(0,180,216,.10);
+  transform: translateY(-1px);
+}
+
+/* Toggle (hamburger) */
+.nav-toggle { display: none; width: 42px; height: 42px; border-radius: 10px;
+  border: 1px solid rgba(0,180,216,.28); background: rgba(0,0,0,.25); cursor: pointer;
+  align-items: center; justify-content: center; gap: 4px;
+}
+.nav-toggle span { display: block; width: 22px; height: 2px; background: #eaf2ff; }
+
+/* Mobile layout */
+@media (max-width: 992px) {
+  .nav-toggle { display: inline-flex; }
+  .site-nav .nav-menu {
+    position: absolute; right: 16px; left: 16px; top: calc(100% + 10px);
+    display: none; flex-direction: column; gap: .4rem; padding: .6rem;
+    border-radius: 16px; border: 1px solid rgba(0,180,216,.28);
+    background: rgba(0,0,0,.35); box-shadow: 0 0 16px rgba(0,180,216,.18), 0 0 28px rgba(255,182,193,.10);
+  }
+  .site-nav .nav-menu.open { display: flex; }
+  .site-nav .nav-menu a { width: 100%; text-align: left; }
+}
+#extracurriculars .ec-media { width: 100%; aspect-ratio: 16 / 9; }
+#extracurriculars .ec-media img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
   </style>
 </head>
@@ -1573,7 +1650,7 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
   </div>
 
   <!-- Note directly under the card -->
-  <div id="flipNote" class="flip-note glow-sync">Tap photo to see more info</div>
+  <div id="flipNote" class="flip-note glow-sync"> Tap photo to see more info (desktop only) </div>
 </div>
 
 <!-- Right column -->
@@ -2642,6 +2719,44 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
           });
         })();
       </script>
+      <script>
+        (function () {
+          const btn = document.getElementById('navToggle');
+          const menu = document.getElementById('navMenu');
+          if (!btn || !menu) return;
+          btn.addEventListener('click', () => {
+            const open = menu.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          });
+          // Close after clicking a link (mobile)
+          menu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+              menu.classList.remove('open');
+              btn.setAttribute('aria-expanded', 'false');
+            });
+          });
+        })();
+      </script>
       
 </body>
+<header class="site-nav">
+  <div class="nav-wrap">
+    <a href="#top" class="brand">Hyeonji</a>
+
+    <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="navMenu" class="nav-menu" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#highlights">Highlights</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#extracurriculars">Extracurriculars</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
 </html>
