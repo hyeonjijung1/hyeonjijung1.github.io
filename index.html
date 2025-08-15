@@ -1414,8 +1414,7 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
 #profileFlip .headshot {
   width: 100%; height: 100%;
   display: block;
-  object-fit: contain;
-background: transparent;
+  object-fit: cover;
 
   border-radius: 16px;
 }
@@ -1443,6 +1442,76 @@ background: transparent;
 /* If clipping persists on specific devices, allow overflow */
 @media (max-width: 768px) {
   #profileFlip { overflow: visible; }
+}
+/* Cards: transparent + colored glow (no blur/white) */
+#extracurriculars .ec-card {
+  background: transparent !important;
+  border: 1px solid rgba(0,180,216,.28) !important;  /* mint edge */
+  box-shadow:
+    0 0 18px rgba(0,180,216,.20),
+    0 0 30px rgba(255,182,193,.12) !important;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+#extracurriculars .ec-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,180,216,.55);
+  box-shadow:
+    0 0 26px rgba(0,220,200,.40),
+    0 0 46px rgba(255,210,230,.28) !important;
+}
+
+/* Media box with consistent aspect and non-distorting image */
+#extracurriculars .ec-media { position: relative; width: 100%; aspect-ratio: 16/9; }
+#extracurriculars .ec-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;          /* change to 'contain' if you want full logo visible */
+  border-radius: 12px;
+  display: block;
+}
+
+/* Optional: if a specific image should never crop, add class="fit-contain" to that <img> */
+#extracurriculars .ec-media img.fit-contain { object-fit: contain; background: transparent; }
+
+/* Keep badges readable on busy images */
+#extracurriculars .ec-badges .pill { box-shadow: 0 0 8px rgba(0,0,0,.45); }
+#extracurriculars .ec-body h4, 
+#extracurriculars .ec-body .ec-meta, 
+#extracurriculars .ec-body p { text-shadow: 0 1px 2px rgba(0,0,0,.45); }
+/* Base flip geometry */
+#profileFlip { position: relative; }
+#profileFlip .flip-inner { position: relative; transform-style: preserve-3d; transition: transform .6s; }
+#profileFlip .flip-face {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  -webkit-transform: translateZ(0); transform: translateZ(0);
+  border-radius: 16px;
+}
+#profileFlip .flip-front { z-index: 2; }
+#profileFlip .flip-back  { transform: rotateY(180deg); }
+
+/* Image fill */
+#profileFlip .headshot {
+  width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 16px;
+}
+
+/* Desktop keeps your flip behavior (hover/click JS) */
+@media (pointer: fine) {
+  /* keep your existing flip rules here if any */
+}
+
+/* Mobile: fixed portrait frame + overlay toggle (no rotation) */
+@media (pointer: coarse) {
+  #profileFlip .flip-inner { width: 100%; aspect-ratio: 4 / 5; min-height: 60vw; max-height: 85vh; }
+  #profileFlip .flip-inner, #profileFlip .flip-back { transform: none !important; }
+
+  /* Fade swap using checkbox */
+  #profileFlip .flip-front, #profileFlip .flip-back { transition: opacity .25s ease; }
+  #profileFlip .flip-back  { opacity: 0; pointer-events: none; }
+  #profileFlip .flip-toggle:checked ~ .flip-inner .flip-back { opacity: 1; pointer-events: auto; }
+  #profileFlip .flip-toggle:checked ~ .flip-inner .flip-front { opacity: 0; pointer-events: none; }
+
+  /* Make front tappable area on top */
+  #profileFlip .flip-front { position: relative; z-index: 3; }
 }
 
   </style>
@@ -1474,33 +1543,39 @@ background: transparent;
   <div class="container" data-aos="fade-up" data-aos-delay="40">
     <div class="row align-items-start gy-4 gx-4">
 
-      <!-- Left column: flip card -->
-      <div class="col-12 col-md-4 col-xl-3">
-        <div class="flip-card glow-sync" id="profileFlip" aria-live="polite">
-          <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
+      <!-- Left column: hero flip with mobile overlay -->
+<div class="col-12 col-md-4 col-xl-3">
+  <div class="flip-card glow-sync" id="profileFlip" aria-live="polite">
+    <!-- Hidden toggle for mobile overlay -->
+    <input type="checkbox" id="flipToggle" class="flip-toggle" hidden>
 
-          <div class="flip-inner">
-            <!-- Front -->
-            <div class="flip-face flip-front" aria-hidden="false">
-              <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
-            </div>
-            <!-- Back -->
-            <div class="flip-face flip-back" aria-hidden="true">
-              <div class="mini-facts">
-                <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
-                <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
-                <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
-                <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
-                <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
-                <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
-              </div>
-            </div>
-          </div>
+    <!-- (Optional) desktop flip button can remain -->
+    <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
+
+    <div class="flip-inner">
+      <!-- Front (label makes it tappable on mobile) -->
+      <label for="flipToggle" class="flip-face flip-front">
+        <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
+      </label>
+
+      <!-- Back (mini facts) -->
+      <div class="flip-face flip-back">
+        <div class="mini-facts">
+          <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
+          <div class="fact"><span class="label">Program</span><span class="value">ECE @ UofT</span></div>
+          <div class="fact"><span class="label">Focus</span><span class="value">Analog/Digital • HW</span></div>
+          <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
+          <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
+          <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
         </div>
-
-        <!-- Note directly under the card -->
-        <div id="flipNote" class="flip-note glow-sync">Tap photo to see more info</div>
       </div>
+    </div>
+  </div>
+
+  <!-- Note directly under the card -->
+  <div id="flipNote" class="flip-note glow-sync">Tap photo to see more info</div>
+</div>
+
 <!-- Right column -->
 <div class="col-12 col-md-8 col-xl-9">
   <div class="hero-heading-wrap">
@@ -2055,28 +2130,52 @@ background: transparent;
     100%    { transform: translateX(120%); }
   }
 
-  /* Tools grid as animated gradient chips */
-  #skills .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: .8rem;
-  }
-  #skills .tools-grid .tool {
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 14px; padding: .55rem .8rem;
-    color: #0b1220;
-    background: linear-gradient(135deg,
-      hsla(195, 95%, 60%, .85),
-      hsla(315, 95%, 70%, .85));
-    position: relative; overflow: hidden;
-  }
-  #skills .tools-grid .tool span { position: relative; z-index: 1; font-weight: 600; }
-  #skills .tools-grid .tool::before {
-    content: ""; position: absolute; inset: -40%;
-    background: radial-gradient(60% 60% at 30% 30%,
-      hsla(0,0%,100%,.35), transparent 60%);
-    animation: floatBlob 10s ease-in-out infinite;
-  }
+  /* Tools grid layout stays */
+#skills .tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: .9rem;
+  margin-top: 2rem;
+}
+
+/* Transparent chips with glow */
+#skills .tools-grid .tool {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  gap: .45rem;
+  padding: .55rem .8rem;
+  border-radius: 999px;
+  background: transparent;                 /* no white */
+  border: 1px solid rgba(0,180,216,.28);   /* mint outline */
+  color: #eaf2ff;
+  box-shadow:
+    0 0 14px rgba(0,180,216,.18),
+    0 0 22px rgba(255,182,193,.10);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+#skills .tools-grid .tool:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0,180,216,.55);
+  box-shadow:
+    0 0 20px rgba(0,220,200,.35),
+    0 0 34px rgba(255,210,230,.24);
+}
+
+/* If you kept Tabler icons, they’ll inherit; otherwise just text looks great */
+#skills .tools-grid .tool i { font-size: 20px; color: var(--mint, #00b4d8); }
+
+/* Optional: gentle idle shimmer */
+#skills .tools-grid .tool::after {
+  content: ""; position: absolute; inset: -40% -20%;
+  background: radial-gradient(60% 50% at 30% 40%, rgba(255,255,255,.10), transparent 60%);
+  animation: toolGlow 16s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes toolGlow {
+  0%,100% { transform: translate(0,0) }
+  50%     { transform: translate(6%, -6%) }
+}
+
   @keyframes floatBlob {
     0%,100% { transform: translate(0,0) rotate(0deg); }
     50% { transform: translate(6%, -6%) rotate(15deg); }
