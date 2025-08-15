@@ -657,6 +657,121 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
   #hero .row{ align-items: center; }
   #hero .col-md-8{ transform: translateY(-6px); }
 }
+/* More breathing room around title + lab */
+.hero .hero-title{ margin-bottom: 20px; }
+.hero .hero-lab{ margin-top: 20px; }
+
+/* Typefooter: roomier + comfy line height */
+.typefooter{
+  padding: 14px 18px;           /* was tighter */
+  border-radius: 14px;
+  line-height: 1.25;
+}
+
+/* Make println line use monospace + never wrap mid-type */
+#typed-line{
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  white-space: pre;              /* keeps the typing crisp */
+}
+
+/* Skills bar: brighter text (no gray) */
+.skills-bar,
+#skillsType{
+  color: var(--text-strong);     /* bright */
+  text-shadow: 0 0 10px rgba(167,243,208,.18);
+}
+
+/* Make the flip note slightly larger & bolder */
+.flip-note{
+  font-size: .98rem;             /* was smaller */
+  padding: 8px 12px;
+  font-weight: 700;
+}
+/* ===== Sleek Skills Grid ===== */
+.skill-grid{
+  display:grid;
+  grid-template-columns: repeat( auto-fit, minmax(260px, 1fr) );
+  gap: 18px;
+}
+
+.skill-card{
+  position: relative;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 18px 48px rgba(0,0,0,.36);
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  isolation: isolate;
+}
+.skill-card::before{
+  content:"";
+  position:absolute; inset:-1px;
+  border-radius: inherit;
+  background: radial-gradient(600px 220px at -10% -10%, rgba(167,243,208,.10), transparent 40%),
+              radial-gradient(600px 220px at 110% 120%, rgba(199,210,254,.10), transparent 45%);
+  pointer-events:none;
+  z-index:0;
+}
+.skill-card:hover{
+  transform: translateY(-4px);
+  border-color: #ffffff30;
+  box-shadow: 0 28px 70px rgba(0,0,0,.44), 0 0 64px rgba(167,243,208,.12);
+}
+
+.skill-icon{
+  width: 56px; height: 56px;
+  display:grid; place-items:center;
+  border-radius: 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--glass-border);
+  margin-bottom: 10px;
+}
+.skill-icon img{ width:30px; height:30px; opacity:.95; }
+
+.skill-card h3{
+  margin: 0 0 6px;
+  font-weight: 800;
+  letter-spacing:.2px;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--text-strong);
+}
+.skill-card p{
+  margin: 0 0 10px;
+  color: var(--text);
+  opacity: .95;
+}
+
+.skill-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.skill-tags span{
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255,255,255,.08);
+  border:1px solid var(--glass-border);
+  padding:6px 10px;
+  border-radius: 999px;
+}
+
+/* Tools strip */
+.tools-grid{
+  display:grid;
+  grid-template-columns: repeat( auto-fit, minmax(160px, 1fr) );
+  gap: 12px;
+}
+.tool{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 36px rgba(0,0,0,.28);
+  transition: transform .2s ease, border-color .2s ease;
+}
+.tool:hover{ transform: translateY(-2px); border-color:#ffffff30; }
+.tool img{ width:24px; height:24px; opacity:.95; }
+.tool span{ font-weight:700; color:var(--text); }
 
   </style>
 </head>
@@ -985,35 +1100,100 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
       </div>
     </section>
 
-    <!-- SKILLS -->
     <section id="skills" class="section">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title"><h2>Skills</h2></div>
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Skills</h2>
       </div>
+    
       <div class="container">
-        <div class="row g-3">
-          <div class="col-md-4">
-            <div class="soft-card p-3">
-              <h4>RTL & Digital</h4>
-              <p>Verilog/SystemVerilog, FPGA (Intel/Altera), ModelSim, Quartus, ASIC-style verification, timing closure.</p>
+        <!-- Category cards (what you do) -->
+        <div class="skill-grid mt-2">
+          <article class="skill-card" data-aos="zoom-in" data-aos-delay="40">
+            <div class="skill-icon">
+              <img src="https://unpkg.com/@tabler/icons@latest/icons/circuit-diagram.svg" alt="" />
             </div>
+            <h3>PCB Design</h3>
+            <p>Stackup planning, impedance, pours, placement & routing, DRC, bring-up.</p>
+            <div class="skill-tags">
+              <span>Altium Designer</span><span>2–4 layer</span><span>SI basics</span>
+            </div>
+          </article>
+    
+          <article class="skill-card" data-aos="zoom-in" data-aos-delay="80">
+            <div class="skill-icon">
+              <img src="https://unpkg.com/@tabler/icons@latest/icons/cpu.svg" alt="" />
+            </div>
+            <h3>FPGA / RTL</h3>
+            <p>Verilog/SystemVerilog, timing closure, verification, clean build flows.</p>
+            <div class="skill-tags">
+              <span>Quartus</span><span>ModelSim</span><span>100&nbsp;MHz+</span>
+            </div>
+          </article>
+    
+          <article class="skill-card" data-aos="zoom-in" data-aos-delay="120">
+            <div class="skill-icon">
+              <img src="https://unpkg.com/@tabler/icons@latest/icons/device-microcontroller.svg" alt="" />
+            </div>
+            <h3>Embedded Systems</h3>
+            <p>STM32 (HAL), drivers, packets/CRC, USB-CDC, tooling & test harnesses.</p>
+            <div class="skill-tags">
+              <span>C/C++</span><span>UART/I²C/SPI</span><span>Python</span>
+            </div>
+          </article>
+    
+          <article class="skill-card" data-aos="zoom-in" data-aos-delay="160">
+            <div class="skill-icon">
+              <img src="https://unpkg.com/@tabler/icons@latest/icons/wave-sine.svg" alt="" />
+            </div>
+            <h3>Mixed-Signal & Analog</h3>
+            <p>Filters, sampling paths, power integrity awareness, measurement.</p>
+            <div class="skill-tags">
+              <span>Scope/LA</span><span>DFM</span><span>Noise</span>
+            </div>
+          </article>
+    
+          <article class="skill-card" data-aos="zoom-in" data-aos-delay="200">
+            <div class="skill-icon">
+              <img src="https://unpkg.com/@tabler/icons@latest/icons/atom.svg" alt="" />
+            </div>
+            <h3>ASIC Design & Verification</h3>
+            <p>Coverage-driven benches, hazards/forwarding, scripted regressions.</p>
+            <div class="skill-tags">
+              <span>SV</span><span>Tcl/Bash</span><span>CI-like flows</span>
+            </div>
+          </article>
+        </div>
+    
+        <!-- Tools (logos/brands via icons) -->
+        <div class="tools-grid mt-4" data-aos="fade-up" data-aos-delay="80">
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/brand-github.svg" alt="GitHub" /><span>GitHub</span>
           </div>
-          <div class="col-md-4">
-            <div class="soft-card p-3">
-              <h4>Embedded & Firmware</h4>
-              <p>STM32 (HAL), C/C++, SPI / I²C / UART, CRC/packet design, USB-CDC, Python tooling.</p>
-            </div>
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/brand-python.svg" alt="Python" /><span>Python</span>
           </div>
-          <div class="col-md-4">
-            <div class="soft-card p-3">
-              <h4>Hardware & RF</h4>
-              <p>Altium Designer, 2–4 layer layout, signal integrity, LoRa/RF basics, bench bring-up (scope/LA).</p>
-            </div>
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/brand-cpp.svg" alt="C/C++" /><span>C/C++</span>
+          </div>
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/antenna.svg" alt="LoRa/RF" /><span>LoRa/RF</span>
+          </div>
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/terminal-2.svg" alt="Tcl/Bash" /><span>Tcl/Bash</span>
+          </div>
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/bug.svg" alt="Verification" /><span>Verification</span>
+          </div>
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/brand-linux.svg" alt="Linux" /><span>Linux</span>
+          </div>
+          <div class="tool">
+            <img src="https://unpkg.com/@tabler/icons@latest/icons/brand-algolia.svg" alt="CI-like" /><span>CI-like</span>
           </div>
         </div>
       </div>
     </section>
-
+    
     <!-- EXTRACURRICULARS -->
     <section id="extracurriculars" class="section">
       <div class="container" data-aos="fade-up">
@@ -1387,6 +1567,29 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
       setTimeout(tick, 300);
     })();
     </script>
-    
+    <script>
+      // Type "println("Reaching for the stars…");" once, then swap to syntax-highlighted HTML
+      (function(){
+        const el = document.getElementById('typed-line');
+        if (!el) return;
+      
+        const plain = 'println("Reaching for the stars…");';
+        const finalHTML = '<span class="kw">println</span>(<span class="str">"Reaching for the stars…"</span>);';
+      
+        let i = 0;
+        function step(){
+          if (i <= plain.length){
+            el.textContent = plain.slice(0, i++);
+            setTimeout(step, 28); // typing speed
+          } else {
+            // swap to colored version once done
+            el.innerHTML = finalHTML;
+          }
+        }
+        // start after a short pause so the caret is visible
+        setTimeout(step, 350);
+      })();
+      </script>
+      
 </body>
 </html>
