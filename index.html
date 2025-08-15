@@ -336,6 +336,44 @@
 #hero .col-12, #hero .col-md-4, #hero .col-md-8, #hero .col-xl-3, #hero .col-xl-9{
   min-width: 0;
 }
+/* --- Fix: put the facts UNDER the image and keep them inside the card --- */
+.profile-card{
+  overflow: hidden;               /* clip any accidental spill */
+}
+
+.headshot{
+  display: block;
+  margin: 0 auto 12px;            /* space below the photo */
+}
+
+/* stack labels/values vertically (one column) */
+.mini-facts{
+  display: grid;
+  grid-template-columns: 1fr !important;   /* single column under the image */
+  gap: 8px;
+  width: 100%;
+}
+
+/* label above value for tidy stacking */
+.mini-facts .fact{
+  display: block;                 /* stop "display: contents" behavior */
+}
+
+.mini-facts .label{
+  display: block;
+  font-weight: 700;
+  margin-bottom: 2px;
+  opacity: .9;
+}
+
+.mini-facts .value{
+  display: block;
+  word-break: break-word;         /* long lines don’t push sideways */
+  overflow-wrap: anywhere;
+}
+
+/* make sure the RTL lab on the right never hides under the card */
+.rtl-lab{ position: relative; z-index: 1; }
 
   </style>
 </head>
