@@ -22,7 +22,7 @@
   <!-- Base template CSS -->
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <!-- Hard overrides (no white anywhere, bigger headings, layout fixes) -->
+  <!-- Site overrides -->
   <style>
     :root{
       --bg-deep:#0a1224;
@@ -49,7 +49,7 @@
       --ink:#081022;
     }
 
-    /* Global dark background */
+    /* Global */
     html, body { height: 100%; }
     body{
       background: radial-gradient(1400px 900px at 50% -20%, #13213d 0%, var(--bg-deep) 45%, var(--bg-deeper) 100%) !important;
@@ -62,37 +62,18 @@
       color: var(--text-strong) !important;
     }
 
-    /* Starfield behind all */
+    /* Starfield layer */
     #stars{ position: fixed; inset: 0; z-index: 0; background: transparent; pointer-events: none; }
     header, main, footer, .scroll-top{ position: relative; z-index: 1; }
 
-    /* Kill all template light surfaces globally */
+    /* Remove template surfaces */
     .section, section, .about, .resume, .portfolio, .contact, .features{
       background: transparent !important;
       box-shadow: none !important;
     }
-    .about .container,
-    .resume .container,
-    .portfolio .container,
-    .features .container,
-    .contact .container {
-      background: transparent !important;
-      box-shadow: none !important;
-      border: none !important;
-    }
 
     /* NAV — glass pill */
     .header{ background: transparent !important; border:0 !important; box-shadow: none !important; height: 0; z-index: 40; }
-    .site-brand{
-      position: fixed; left: 16px; top: 14px; z-index: 41;
-      padding: 8px 12px; border-radius: 12px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(12px);
-      text-decoration: none;
-    }
-    .sitename{ color: var(--text-strong); letter-spacing:.4px; font-weight: 800; margin:0; }
-
     .navmenu.glass-pill{
       position: fixed; left:50%; top:12px; transform: translateX(-50%);
       padding: 8px; border-radius: 999px;
@@ -110,10 +91,9 @@
     .navmenu a.active{ color:#07101e; background: var(--grad-1); box-shadow: 0 0 18px rgba(167,243,208,.45), 0 0 28px rgba(199,210,254,.24); }
     #navmenu a::after, .mobile-nav-toggle{ display:none !important; }
 
-    /* Mobile nav as bottom dock */
+    /* Mobile nav dock */
     @media(max-width:992px){
       body{ padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
-      .site-brand{ left:10px; top:8px; padding:6px 10px; border-radius:10px; }
       .navmenu.glass-pill{
         top:auto; bottom:10px; width: calc(100% - 18px); left:50%; transform: translateX(-50%);
         padding:6px; border-radius:16px; padding-bottom: calc(6px + env(safe-area-inset-bottom));
@@ -123,103 +103,113 @@
       .navmenu a{ padding:12px 14px; font-size:.96rem; }
     }
 
-    /* ============ TITLES: animated gradient, no lines ============ */
-    .section-title h2:after,
-    .section-title::after,
-    .section-title::before { display: none !important; } /* kill template bars */
-
-    .section-title h2{
+    /* Section titles: gradient text + reveal */
+    .section-title h2{ 
       font-size: clamp(2.2rem, 4vw, 3rem);
       font-weight: 800;
-      letter-spacing: .3px;
+      letter-spacing:.3px;
       background: linear-gradient(90deg, #00c6ff, #ffb347, #ff6ec4, #4facfe);
       background-size: 300% 300%;
-      -webkit-background-clip: text;
+      -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
-      opacity: 0;                 /* revealed via JS */
-      transform: translateY(16px);
+      opacity:0; transform: translateY(16px);
       transition: opacity .8s ease, transform .8s ease;
       animation: titleGradient 6s ease infinite;
-      margin-bottom: .4rem;
+      margin: 0 0 .4rem 0;
     }
-    .section-title h2.visible{ opacity: 1; transform: translateY(0); }
-    .section-title h2.pulse{
-      animation: titleGradient 6s ease infinite, titlePulse 1.15s ease-out 1;
-    }
-    @keyframes titleGradient{
-      0%{   background-position: 0% 50%; }
-      50%{  background-position: 100% 50%; }
-      100%{ background-position: 0% 50%; }
-    }
+    .section-title h2.visible{ opacity:1; transform: translateY(0); }
+    .section-title h2.pulse{ animation: titleGradient 6s ease infinite, titlePulse 1.15s ease-out 1; }
+    @keyframes titleGradient{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
     @keyframes titlePulse{
-      0%   { text-shadow: 0 0 0 rgba(255,255,255,0); }
-      45%  { text-shadow: 0 0 12px rgba(255,255,255,.85),
-                         0 0 28px rgba(111,192,255,.45),
-                         0 0 44px rgba(199,210,254,.35); }
-      100% { text-shadow: 0 0 0 rgba(255,255,255,0); }
-    }
-    @media (prefers-reduced-motion: reduce){
-      .section-title h2, .section-title h2.pulse{ animation: none; text-shadow: none; }
+      0%{ text-shadow:0 0 0 rgba(255,255,255,0); }
+      45%{ text-shadow:0 0 12px rgba(255,255,255,.85), 0 0 28px rgba(111,192,255,.45), 0 0 44px rgba(199,210,254,.35); }
+      100%{ text-shadow:0 0 0 rgba(255,255,255,0); }
     }
 
-    /* ============ HERO ============ */
-    .hero{ padding: 7.5rem 0 2.8rem; }
-    .hero::before{ background: transparent !important; } /* ensure truly transparent */
+    /* HERO */
+    .hero{ padding: 6rem 0 2.8rem; }
+    @media (min-width: 992px){
+      #hero .row{ align-items: center; }
+      #hero .col-md-8{ transform: translateY(-12px); }
+    }
+
     .gradient-title{
+      display:inline-block;
       font-weight:800; letter-spacing:.2px; line-height:1.04;
       font-size:clamp(2.2rem, 5vw, 3.6rem);
       background: linear-gradient(90deg, var(--rose), var(--lilac));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color: transparent;
       text-shadow: 0 0 18px rgba(200,200,255,.10);
-      margin-bottom: .75rem;
+      animation: titleGradient 6s ease infinite, titlePulse 1.5s ease-out infinite;
+      margin: 0 0 .75rem 0;
     }
     .gradient-title span{
       background: linear-gradient(90deg, var(--mint), var(--sun));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color: transparent;
     }
 
-    /* Left: compact photo card (never overlaps) */
-    .profile-card{
-      background: rgba(255,255,255,.04) !important;
+    /* Flip card (photo <-> facts) */
+    :root{ --profileCardH: 460px; }
+    @media (max-width: 991.98px){ :root{ --profileCardH: 260px; } }
+
+    .flip-card{
+      position: relative;
+      width: 100%; max-width: 340px; height: var(--profileCardH);
+      perspective: 1200px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 1rem;
-      max-width: 220px;             /* slim so text has room */
-      position: sticky; top: 96px;  /* nice desktop stickiness */
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      overflow: hidden;
       margin-inline: auto;
     }
-    .headshot{
-      width: 100%;
-      max-width: 140px;             /* small on desktop */
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      border-radius: 12px;
-      display:block;
-      margin:0 auto 10px;
-      border:1px solid var(--glass-border);
+    .flip-inner{
+      position: relative; width:100%; height:100%;
+      transform-style: preserve-3d;
+      transition: transform .8s cubic-bezier(.2,.8,.2,1);
+      border-radius: 18px;
     }
+    .flip-card.is-flipped .flip-inner{ transform: rotateY(180deg); }
 
-    /* mini facts as grid */
-    .mini-facts{
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px 12px;
-      text-align: left;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--glass-border);
-      border-radius: 12px;
-      padding: 8px 10px;
+    .flip-face{
+      position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+      display:grid; place-items:center; padding:12px; border-radius:18px;
     }
-    .mini-facts .fact{ display: flex; flex-direction: column; font-size: .9rem; line-height: 1.25; }
-    .mini-facts .label{ color: var(--muted); font-weight: 600; }
-    .mini-facts .value{ color: var(--text); }
-    .mini-facts .value a{ color: var(--mint); text-decoration: none; }
+    .flip-front img.headshot{ width:100%; height:100%; object-fit:cover; border-radius:12px; display:block; }
+    .flip-back{ transform: rotateY(180deg); background: rgba(12,18,36,.92); }
 
-    /* Mobile: no stickiness & even smaller photo */
-    @media (max-width: 991.98px){
-      .profile-card{ position: static; max-width: 200px; }
-      .headshot{ max-width: 120px; }
-      .mini-facts{ grid-template-columns: 1fr; }
+    .flip-back .mini-facts{
+      width:100%; height:100%;
+      display:grid; grid-template-columns: 1fr 1fr; gap:10px 12px;
+      padding:12px; background: rgba(255,255,255,.04);
+      border:1px solid var(--glass-border); border-radius:12px; overflow:auto;
+    }
+    .flip-back .fact{ display:flex; flex-direction:column; }
+    .flip-back .label{ color:var(--muted); font-weight:700; font-size:.92rem; }
+    .flip-back .value{ color:var(--text); font-size:.95rem; line-height:1.25; }
+    .flip-back .value a{ color: var(--mint); text-decoration:none; }
+
+    @media (max-width:576px){ .flip-back .mini-facts{ grid-template-columns:1fr; } }
+
+    .flip-hint{
+      position:absolute; left:8px; top:8px; z-index:3;
+      padding:6px 10px; border-radius:999px; border:1px solid var(--glass-border);
+      background: rgba(255,255,255,.07); color: var(--text);
+      font-weight:800; font-size:.85rem; cursor:pointer; backdrop-filter: blur(10px);
+      transition: transform .18s ease, opacity .18s ease; 
+    }
+    .flip-hint:hover{ background: rgba(255,255,255,.12); }
+    .flip-hint.hide{ opacity:0; pointer-events:none; }
+
+    /* Glow pulse on click */
+    .flip-card::after{
+      content:""; position:absolute; inset:0; border-radius:18px; pointer-events:none;
+      box-shadow: 0 0 0 0 rgba(167,243,208,0), 0 0 0 0 rgba(199,210,254,0);
+      transition: box-shadow .45s ease;
+    }
+    .flip-card.glow::after{
+      box-shadow: 0 0 48px 12px rgba(167,243,208,.22), 0 0 110px 26px rgba(199,210,254,.18);
     }
 
     /* RTL Lab */
@@ -227,8 +217,8 @@
     .rtl-tabs{ display:flex; gap:6px; padding:8px; background: rgba(255,255,255,.05); border-bottom:1px solid var(--glass-border); }
     .rtl-tab{ padding:8px 12px; border-radius:999px; font-weight:700; font-size:.94rem; color: var(--muted); cursor:pointer; }
     .rtl-tab.active{ background: var(--grad-1); color:#07101e; box-shadow: 0 0 14px rgba(167,243,208,.28); }
-    .rtl-body{ position:relative; padding:14px; min-height:340px; }
-    .panel{ display:none; } .panel.active{ display:block; }
+    .rtl-body{ position:relative; padding:14px; min-height:360px; }
+    .rtl-lab .panel{ display:none; } .rtl-lab .panel.active{ display:block; }
 
     /* Codebox */
     .codebox{ background:#0c1224; border:1px solid #ffffff22; border-radius:14px; padding:14px; font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace; color:#e6ecff; font-size: .95rem; line-height: 1.5; white-space: pre-wrap; }
@@ -236,7 +226,7 @@
 
     /* Waveform */
     .wavewrap{ background:#0e1424; border:1px solid #ffffff22; border-radius:14px; padding:12px; overflow:hidden; }
-    .wavewrap svg{ width:100%; height:240px; display:block; }
+    .wavewrap svg{ width:100%; min-width:320px; height:240px; display:block; }
     .sig-label{ fill:#cdd7ff; font: 12px Inter, system-ui; }
     .trace-clk{ stroke:#a7f3d0; stroke-width:2; }
     .trace-data{ stroke:#c7d2fe; stroke-width:2; }
@@ -246,11 +236,6 @@
     /* PCB slideshow */
     .pcbwrap{ background:#0e1424; border:1px solid #ffffff22; border-radius:14px; padding:12px; display:grid; place-items:center; min-height:240px; }
     .pcbwrap img{ max-width:100%; border-radius:12px; border:1px solid #ffffff22; box-shadow: 0 10px 26px rgba(0,0,0,.35); }
-
-    /* Typing footer */
-    .typefooter{ border-top:1px solid var(--glass-border); background: rgba(255,255,255,.05); padding:10px 12px; font-family: ui-monospace,Menlo,Consolas,monospace; color:#ffe082; font-size:.95rem; display:flex; gap:8px; text-shadow: 0 0 8px rgba(255,224,130,.5); }
-    .caret{ width:10px; height:18px; background:#ffe082; border-radius:2px; animation: blink 1s step-start infinite; box-shadow: 0 0 8px rgba(255,224,130,.6); }
-    @keyframes blink{ 50%{ opacity:0; } }
 
     /* Chips */
     .chips{ display:flex; flex-wrap:wrap; gap:10px; }
@@ -268,687 +253,29 @@
     .soft-card::before{ content:""; position:absolute; inset:0; pointer-events:none; background:
       radial-gradient(900px 320px at -10% -10%, rgba(167,243,208,.09), transparent 40%),
       radial-gradient(900px 320px at 110% 120%, rgba(199,210,254,.09), transparent 45%); }
-    .soft-card:hover{ border-color:#ffffff2a; }
     .soft-card h4, .soft-card h3{ color: var(--text-strong) !important; }
     .soft-card p, .soft-card li, .soft-card .w-more{ color: var(--text) !important; }
 
-    /* Highlights — big squares with numbers POP */
-    .fcard{ text-align:center; padding:32px 24px; min-height: 220px; border-radius:22px; }
-    .fcard .big{ font-size:3.2rem; font-weight:900; letter-spacing:.3px; background: var(--grad-3); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 0 18px rgba(164,196,255,.38); }
-    .fcard .desc{ margin-top:10px; font-weight:700; font-size:1.1rem; color: var(--text); }
-    .fcard:hover{ box-shadow: inset 0 0 0 1px #ffffff30, 0 0 60px rgba(167,243,208,.15); }
+    /* Project cards — make text obvious & nice */
+    .project-card img{ display:block; width:100%; border-radius:14px; margin-bottom:.35rem; }
+    .project-card h4{ font-weight:800; font-size:1.15rem; letter-spacing:.2px; margin: .4rem 0 .15rem; }
+    .project-card .w-more{ font-weight:700; letter-spacing:.2px; opacity:.95; }
+    .project-card p{ margin:.45rem 0 .65rem; font-size:1rem; line-height:1.45; color:#eaf0ff !important; }
 
-    /* Project card hover shine */
-    .project-card{ position:relative; overflow:hidden; }
-    .project-card::after{
-      content:""; position:absolute; inset:-150% -150% auto auto; width: 60%; height: 180%;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.15) 50%, transparent 100%);
-      transform: rotate(25deg); transition: transform .8s;
-    }
-    .project-card:hover::after{ transform: translateX(-140%) rotate(25deg); }
+    /* Highlights */
+    .fcard{ text-align:center; padding:32px 24px; min-height: 220px; border-radius:22px; }
+    .fcard .big{ font-size:3.2rem; font-weight:900; letter-spacing:.3px; background: var(--grad-3); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color: transparent; text-shadow: 0 0 18px rgba(164,196,255,.38); }
+    .fcard .desc{ margin-top:10px; font-weight:700; font-size:1.1rem; color: var(--text); }
 
     /* Buttons */
     .btn-accent{ background: var(--grad-2) !important; color: var(--ink) !important; border:none; border-radius:14px; font-weight:700; }
     .btn-ghost{ color: var(--mint) !important; border:1px solid var(--glass-border) !important; background: rgba(255,255,255,.10) !important; border-radius:14px; font-weight:700; }
     .btn-ghost:hover{ background: rgba(255,255,255,.16) !important; }
 
-    /* Contact */
+    /* Contact card */
     .contact-card{ background: var(--glass-dark); border: 1px solid var(--glass-border); border-radius: 18px; padding: 20px; height:100%; box-shadow: 0 10px 30px rgba(0,0,0,.28); }
 
     .footer{ background: rgba(10,16,30,0.55); border-top:1px solid rgba(255,255,255,0.08); }
-
-    /* Mobile extras */
-    @media (max-width: 576px){
-      .hero{ padding: 5.2rem 0 2rem; }
-      .gradient-title{ font-size: clamp(1.9rem, 8vw, 2.5rem); }
-      .chips .chip-pro{ padding: 8px 12px; }
-    }
-    /* FINAL — profile card + headshot (desktop + mobile) */
-.profile-card{
-  position: sticky;
-  top: 96px;
-  max-width: 240px;
-  margin: 0 auto;
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
-  border-radius: 16px;
-  padding: 1rem;
-}
-
-.headshot{
-  width: 100%;
-  max-width: 180px;     /* hard cap on desktop */
-  aspect-ratio: 1 / 1;  /* perfect square */
-  height: auto;         /* let aspect-ratio control height */
-  object-fit: cover;    /* crop nicely inside the square */
-  border-radius: 12px;
-  display: block;
-  margin: 0 auto 10px;
-}
-
-/* mobile: no sticky, smaller photo so it never covers hero */
-@media (max-width: 991.98px){
-  .profile-card{ position: relative; top: auto; max-width: 200px; }
-  .headshot{ max-width: 140px; }
-}
-
-/* make columns never overflow each other */
-#hero .col-12, #hero .col-md-4, #hero .col-md-8, #hero .col-xl-3, #hero .col-xl-9{
-  min-width: 0;
-}
-/* --- Fix: put the facts UNDER the image and keep them inside the card --- */
-.profile-card{
-  overflow: hidden;               /* clip any accidental spill */
-}
-
-.headshot{
-  display: block;
-  margin: 0 auto 12px;            /* space below the photo */
-}
-
-/* stack labels/values vertically (one column) */
-.mini-facts{
-  display: grid;
-  grid-template-columns: 1fr !important;   /* single column under the image */
-  gap: 8px;
-  width: 100%;
-}
-
-/* label above value for tidy stacking */
-.mini-facts .fact{
-  display: block;                 /* stop "display: contents" behavior */
-}
-
-.mini-facts .label{
-  display: block;
-  font-weight: 700;
-  margin-bottom: 2px;
-  opacity: .9;
-}
-
-.mini-facts .value{
-  display: block;
-  word-break: break-word;         /* long lines don’t push sideways */
-  overflow-wrap: anywhere;
-}
-
-/* make sure the RTL lab on the right never hides under the card */
-.rtl-lab{ position: relative; z-index: 1; }
-/* Let profile card adjust to content */
-.profile-card {
-  background: rgba(255, 255, 255, 0.05);  /* transparent glass */
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  height: auto !important;
-  padding: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-}
-
-/* Image adjustments */
-.profile-card .headshot {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-}
-
-/* Facts styling */
-.profile-card .mini-facts {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.profile-card .fact {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  color: #fff;
-  opacity: 0.85;
-}
-
-.profile-card .fact .label {
-  font-weight: 600;
-}
-
-.profile-card .fact .value a {
-  color: #a6e1ff;
-  text-decoration: none;
-}
-/* Profile Card: Glass + Spacing */
-.profile-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 1rem;
-  text-align: center;
-}
-
-/* Profile image */
-.profile-card .headshot {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-}
-
-/* Facts list */
-.profile-card .mini-facts {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-/* Each fact row */
-.profile-card .fact {
-  display: flex;
-  flex-direction: column; /* stack label over value for mobile */
-  font-size: 0.95rem;
-  line-height: 1.4;
-  color: #e6f1ff;
-}
-
-/* Label */
-.profile-card .fact .label {
-  font-weight: 600;
-  color: #ffffffcc; /* softer white */
-  margin-bottom: 0.2rem;
-}
-
-/* Value */
-.profile-card .fact .value {
-  color: #a6e1ff;
-  word-break: break-word;
-}
-
-.profile-card .fact .value a {
-  color: #a6e1ff;
-  text-decoration: none;
-}
-.profile-card .fact .value a:hover {
-  text-decoration: underline;
-}
-/* --- mini-facts reveal animation --- */
-@keyframes factRise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-/* container marks this list as revealable */
-.profile-card .mini-facts.reveal-list .fact {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-/* when .is-visible is added, animate each item with a stagger */
-.profile-card .mini-facts.reveal-list.is-visible .fact {
-  animation: factRise .55s ease-out forwards;
-}
-
-/* stagger timings (supports up to 8 items—extend if you add more) */
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(1){ animation-delay: .02s; }
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(2){ animation-delay: .10s; }
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(3){ animation-delay: .18s; }
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(4){ animation-delay: .26s; }
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(5){ animation-delay: .34s; }
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(6){ animation-delay: .42s; }
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(7){ animation-delay: .50s; }
-.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(8){ animation-delay: .58s; }
-/* keep facts clearly under the photo */
-.profile-card{
-  display: flex;              /* vertical stack */
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;                  /* space between image and facts */
-}
-
-.headshot{
-  display: block;
-  width: 100%;
-  max-width: 200px;           /* your fixed cap */
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border-radius: 16px;
-  margin: 0 auto;             /* center */
-}
-
-.mini-facts{
-  width: 100%;
-  margin: 0 !important;       /* kill any collapsed margins */
-  padding: 10px 12px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-}
-
-/* mobile: keep the spacing tidy */
-@media (max-width: 991.98px){
-  .headshot{ max-width: 150px; }
-  .profile-card{ gap: 12px; }
-}
-.profile-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-.headshot{
-  display: block;
-  width: 100%;
-  max-width: 200px;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 16px;
-  margin: 0 auto 40px !important; /* <-- hard bottom gap on DESKTOP */
-}
-
-.mini-facts {
-  width: 100%;
-  margin-top: 24px !important;  /* <-- strong vertical push */
-  padding: 10px 12px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-}
-
-@media (max-width: 991.98px) {
-  .headshot { max-width: 150px; }
-  .mini-facts { margin-top: 200px !important; }
-}
-/* --- Keep text clearly beneath the photo (desktop + mobile) --- */
-.profile-card{
-  display: block;                 /* avoid flex weirdness from earlier rules */
-}
-
-.headshot{
-  display: block;
-  width: 100%;
-  max-width: 200px;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 16px;
-  margin: 0 auto 28px !important; /* <-- hard bottom gap on DESKTOP */
-}
-
-.mini-facts{
-  margin-top: 0 !important;       /* don't stack with img margin */
-  padding: 10px 12px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-}
-
-/* mobile: smaller photo, extra separation if you like */
-@media (max-width: 991.98px){
-  .headshot{ max-width: 150px; margin-bottom: 200px !important; }
-}
-
-/* Mobile: mini-facts as one large square grid card */
-@media (max-width: 767.98px) {
-  .mini-facts {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side */
-    gap: 12px;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    text-align: center;
-  }
-
-  .mini-facts .fact {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .mini-facts .label {
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
-
-  .mini-facts .value {
-    font-size: 0.95rem;
-  }
-}
-/* Desktop: push mini-facts fully beneath the image */
-@media (min-width: 992px) {
-  .profile-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .headshot {
-    display: block;
-    margin-bottom: 200px; /* space between image and facts */
-  }
-
-  .mini-facts {
-    margin-top: 0 !important; /* remove overlapping offset */
-    width: 100%;
-  }
-  .gradient-title {
-  font-weight: 800;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  background: linear-gradient(90deg, #00c6ff, #ffb347, #ff6ec4, #4facfe);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  background-clip: text; /* compatibility */
-  -webkit-text-fill-color: transparent;
-  animation:
-    titleGradient 6s ease infinite,
-    titlePulse 1.5s ease-out infinite; /* keeps glowing */
-}
-
-/* Gradient drift */
-@keyframes titleGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Glow pulse */
-@keyframes titlePulse {
-  0%   { text-shadow: 0 0 0 rgba(255,255,255,0); }
-  45%  { text-shadow: 0 0 12px rgba(255,255,255,.85),
-                     0 0 28px rgba(111,192,255,.45),
-                     0 0 44px rgba(199,210,254,.35); }
-  100% { text-shadow: 0 0 0 rgba(255,255,255,0); }
-}
-
-}
-/* Make gradient title reliable on mobile (iOS/Safari) */
-.gradient-title{
-  display: inline-block;                 /* needed for -webkit-clip on multi-line */
-  -webkit-background-clip: text;         /* iOS needs the prefixed version */
-          background-clip: text;         /* standard */
-  -webkit-text-fill-color: transparent;  /* iOS: actually show the gradient */
-  will-change: background-position, filter;
-}
-
-/* iOS: text-shadow on clipped text is flaky — use drop-shadow instead */
-@supports (-webkit-touch-callout: none) {
-  .gradient-title{
-    text-shadow: none;
-    /* two soft glows to replace the pulse shadow */
-    filter: drop-shadow(0 0 10px rgba(255,255,255,.35))
-            drop-shadow(0 0 22px rgba(120,180,255,.25));
-  }
-}
-
-/* If your device is honoring reduced motion, keep gradient but stop the drift */
-@media (prefers-reduced-motion: reduce){
-  .gradient-title{ animation: none; }
-}
-/* === Flip card container (uses a fixed height so both sides match) === */
-:root{ --profileCardH: 320px; }
-@media (max-width: 991.98px){ :root{ --profileCardH: 260px; } }
-
-.profile-card { padding: 16px; } /* keep your glass card look */
-
-.flip-card{
-  width: 100%;
-  max-width: 280px;
-  height: var(--profileCardH);
-  perspective: 1000px;
-  margin-inline: auto;
-  position: relative;
-}
-
-.flip-inner{
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform .8s ease;
-  border-radius: 16px;
-}
-
-/* desktop: hover flips; mobile: we’ll toggle class via JS on tap */
-@media (hover: hover){
-  .flip-card:hover .flip-inner{ transform: rotateY(180deg); }
-}
-
-/* manual flip state (used on mobile via JS, and also when you click on desktop) */
-.flip-card.flipped .flip-inner{ transform: rotateY(180deg); }
-
-/* faces */
-.flip-front, .flip-back{
-  position: absolute; inset: 0;
-  backface-visibility: hidden;
-  overflow: hidden;
-  border-radius: 16px;
-  box-shadow: 0 10px 26px rgba(0,0,0,.35);
-  border: 1px solid var(--glass-border);
-}
-
-.flip-front .headshot{
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 16px;
-}
-
-.flip-back{
-  background: rgba(12,18,36,.92);
-  transform: rotateY(180deg);
-  display: grid; place-items: center;
-  padding: 12px;
-}
-
-/* mini-facts layout on the back side: big square grid */
-.flip-back .mini-facts{
-  width: 100%; height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 12px;
-  padding: 10px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  overflow: auto;
-}
-.flip-back .fact{ display: flex; flex-direction: column; }
-.flip-back .label{ color: var(--muted); font-weight: 700; font-size: .92rem; }
-.flip-back .value{ color: var(--text); font-size: .95rem; line-height: 1.25; }
-.flip-back .value a{ color: var(--mint); text-decoration: none; }
-
-@media (max-width: 576px){
-  .flip-back .mini-facts{ grid-template-columns: 1fr; } /* stack on small phones */
-}
-
-/* click glow pulse around the profile card */
-.profile-card.glow,
-.flip-card.glow{
-  animation: flipGlow .6s ease-out;
-}
-@keyframes flipGlow{
-  0% { box-shadow: 0 0 0 rgba(167,243,208,0); }
-  40%{ box-shadow: 0 0 26px rgba(167,243,208,.65), 0 0 60px rgba(199,210,254,.35); }
-  100%{ box-shadow: 0 0 0 rgba(167,243,208,0); }
-}
-.flip-hint{
-  position: absolute;
-  top: 8px; right: 8px;
-  z-index: 2;
-  padding: 6px 10px;
-  font-weight: 800;
-  font-size: .84rem;
-  letter-spacing: .3px;
-  border-radius: 999px;
-  border: 1px solid var(--glass-border);
-  background: rgba(255,255,255,.10);
-  color: var(--text);
-  backdrop-filter: blur(10px);
-  cursor: pointer;
-  user-select: none;
-  transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
-  animation: flipHintPulse 1.2s ease-in-out infinite alternate;
-}
-
-.flip-hint:hover{ transform: translateY(-1px); }
-.flip-hint:active{ transform: translateY(0); }
-
-/* pulse glow */
-@keyframes flipHintPulse{
-  0%   { box-shadow: 0 0 0 rgba(167,243,208,0); }
-  100% { box-shadow: 0 0 18px rgba(167,243,208,.45), 0 0 28px rgba(199,210,254,.28); }
-}
-
-/* hide state */
-.flip-hint.hide{
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .flip-hint{ animation: none; }
-}
-/* Keep the flip-card tidy and aligned */
-.flip-card{ width:100%; max-width:320px; margin:0 auto; }
-/* ===== Flip card (photo <-> mini facts) ===== */
-.flip-card{
-  position: relative;
-  width: 100%;
-  max-width: 320px;                 /* desktop width */
-  margin-inline: auto;
-  perspective: 1200px;              /* enables 3D flip */
-  border-radius: 18px;
-  /* subtle glass box so it matches the site */
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 12px 40px rgba(0,0,0,.35);
-  overflow: hidden;                 /* so glow stays tidy */
-}
-.flip-inner{
-  position: relative;
-  width: 100%; height: 100%;
-  transform-style: preserve-3d;
-  transition: transform .8s cubic-bezier(.2,.8,.2,1);
-}
-.flip-card.is-flipped .flip-inner{ transform: rotateY(180deg); }
-
-.flip-face{
-  position: absolute; inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden; /* Safari */
-  display: grid; place-items: center;
-  padding: 12px;
-}
-.flip-front{ z-index: 2; }
-.flip-back{ transform: rotateY(180deg); }
-
-.flip-card .headshot{
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  display: block;
-}
-
-/* mini-facts on the back; compact grid */
-.flip-card .mini-facts{
-  width: 100%;
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 8px 12px;
-  padding: 8px;
-}
-.flip-card .mini-facts .fact{ display: contents; }
-.flip-card .mini-facts .label{ color: var(--muted); font-weight: 700; }
-.flip-card .mini-facts .value{ color: var(--text); }
-
-/* Flip button (top-left) */
-.flip-hint{
-  position: absolute; left: 8px; top: 8px; z-index: 3;
-  padding: 6px 10px; border-radius: 999px; border: 1px solid var(--glass-border);
-  background: rgba(255,255,255,.07); color: var(--text);
-  font-weight: 800; font-size: .85rem; cursor: pointer;
-  backdrop-filter: blur(10px);
-}
-.flip-hint:hover{ background: rgba(255,255,255,.12); }
-
-/* Click glow under the card */
-.flip-card::after{
-  content:"";
-  position: absolute; inset: 0;
-  border-radius: 18px;
-  pointer-events: none;
-  box-shadow:
-    0 0 0 0 rgba(167,243,208,.0),
-    0 0 0 0 rgba(199,210,254,.0);
-  transition: box-shadow .45s ease;
-}
-.flip-card.glow::after{
-  box-shadow:
-    0 0 48px 12px rgba(167,243,208,.22),
-    0 0 110px 26px rgba(199,210,254,.18);
-}
-
-/* Mobile sizing */
-@media (max-width: 991.98px){
-  .flip-card{ max-width: 240px; }
-}
-@media (max-width: 576px){
-  .flip-card{ max-width: 220px; }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .flip-inner{ transition: none; }
-  .flip-card::after{ transition: none; }
-}
-/* 1) Align hero columns on desktop so "Hi there!" isn't too low */
-@media (min-width: 992px){
-  #hero .row{
-    align-items: center;           /* vertically centers the right column to the card */
-  }
-  #hero .col-md-8{
-    margin-top: -6px;              /* tiny nudge up (tweak 0→-20px to taste) */
-  }
-}
-
-/* 2) Make the flip-card larger on desktop; remove scrollbars inside facts */
-@media (min-width: 992px){
-  .flip-card{
-    width: 320px;                  /* was smaller; gives the card more presence */
-    height: 460px;                 /* taller so mini-facts fit without scrolling */
-  }
-  .flip-front .headshot{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 16px;
-  }
-  .flip-back .mini-facts{
-    max-height: 100%;
-    overflow: hidden;              /* no scrollbars on desktop */
-    gap: 10px 12px;
-    font-size: 0.95rem;
-  }
-}
-
-/* Optional: on very wide screens give it a touch more size */
-@media (min-width: 1200px){
-  .flip-card{ width: 340px; height: 480px; }
-}
-
   </style>
 </head>
 
@@ -958,7 +285,6 @@
 
   <!-- Nav -->
   <header id="header" class="header">
-
     <nav id="navmenu" class="navmenu glass-pill">
       <ul>
         <li><a href="#hero" class="active">Home</a></li>
@@ -975,116 +301,103 @@
 
   <main class="main">
 
-   <!-- HERO -->
-<section id="hero" class="hero section">
-  <div class="container" data-aos="fade-up" data-aos-delay="40">
-    <div class="row align-items-start gy-4 gx-4">
+    <!-- HERO -->
+    <section id="hero" class="hero section">
+      <div class="container" data-aos="fade-up" data-aos-delay="40">
+        <div class="row align-items-start gy-4 gx-4">
 
-<!-- Left column: flip-card (photo <-> mini facts) -->
-<div class="col-12 col-md-4 col-xl-3">
-  <div class="flip-card" id="profileFlip" aria-live="polite">
-    <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
+          <!-- Left column: flip card -->
+          <div class="col-12 col-md-4 col-xl-3">
+            <div class="flip-card" id="profileFlip" aria-live="polite">
+              <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
 
-    <div class="flip-inner">
-      <!-- Front: photo -->
-      <div class="flip-face flip-front" aria-hidden="false">
-        <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
-      </div>
-
-      <!-- Back: mini facts -->
-      <div class="flip-face flip-back" aria-hidden="true">
-        <div class="mini-facts">
-          <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
-          <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
-          <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
-          <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
-          <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
-          <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- HERO -->
-<section id="hero" class="hero section">
-  <div class="container" data-aos="fade-up" data-aos-delay="40">
-    <div class="row align-items-start gy-4 gx-4">
-
-      <!-- Left column -->
-      <div class="col-12 col-md-4 col-xl-3">
-        <!-- flip card stuff here -->
-      </div> <!-- ✅ CLOSE left column -->
-
-      <!-- Right column -->
-      <div class="col-12 col-md-8 col-xl-9">
-        <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
-        
-        <!-- RTL LAB -->
-        <div class="rtl-lab mb-3">
-          <div class="rtl-tabs">
-            <div class="rtl-tab active" data-tab="verilog">Verilog</div>
-            <div class="rtl-tab" data-tab="wave">Waveform</div>
-            <div class="rtl-tab" data-tab="pcb">PCB</div>
-          </div>
-
-          <div class="rtl-body">
-            <!-- Verilog panel -->
-            <div class="panel active" id="panel-verilog">
-              <div class="codebox" id="vbox"></div>
-            </div>
-
-            <!-- Waveform panel -->
-            <div class="panel" id="panel-wave">
-              <div class="wavewrap">
-                <!-- svg here -->
-              </div>
-            </div>
-
-            <!-- PCB panel -->
-            <div class="panel" id="panel-pcb">
-              <div class="pcbwrap">
-                <img id="pcbSlide" alt="PCB preview"
-                     src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
+              <div class="flip-inner">
+                <!-- Front -->
+                <div class="flip-face flip-front" aria-hidden="false">
+                  <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
+                </div>
+                <!-- Back -->
+                <div class="flip-face flip-back" aria-hidden="true">
+                  <div class="mini-facts">
+                    <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
+                    <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
+                    <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
+                    <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
+                    <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
+                    <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- typing footer -->
-          <div class="typefooter">
-            <span id="typed-line">Reaching for the stars...</span>
-            <span class="caret"></span>
+          <!-- Right column -->
+          <div class="col-12 col-md-8 col-xl-9">
+            <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
+
+            <!-- RTL LAB -->
+            <div class="rtl-lab mb-3">
+              <div class="rtl-tabs">
+                <div class="rtl-tab active" data-tab="verilog">Verilog</div>
+                <div class="rtl-tab" data-tab="wave">Waveform</div>
+                <div class="rtl-tab" data-tab="pcb">PCB</div>
+              </div>
+
+              <div class="rtl-body">
+                <!-- Verilog panel -->
+                <div class="panel active" id="panel-verilog" aria-label="Verilog code sample">
+                  <div class="codebox" id="vbox"></div>
+                </div>
+
+                <!-- Waveform panel -->
+                <div class="panel" id="panel-wave" aria-label="Waveform preview">
+                  <div class="wavewrap">
+                    <svg viewBox="0 0 700 240" preserveAspectRatio="none" role="img">
+                      <text x="8" y="24" class="sig-label">clk</text>
+                      <polyline class="trace-clk" points="80,20 100,20 100,40 140,40 140,20 180,20 180,40 220,40 220,20 260,20 260,40 300,40 300,20 340,20 340,40 380,40 380,20 420,20 420,40 460,40 460,20 500,20 500,40 540,40 540,20 680,20" fill="none"/>
+                      <text x="8" y="74" class="sig-label">valid</text>
+                      <polyline class="trace-valid" points="80,70 140,70 140,90 300,90 300,70 680,70" fill="none"/>
+                      <text x="8" y="124" class="sig-label">data[7:0]</text>
+                      <polyline class="trace-data" points="80,120 170,120 170,140 220,140 220,120 320,120 320,140 360,140 360,120 680,120" fill="none"/>
+                      <text x="8" y="174" class="sig-label">leds</text>
+                      <polyline class="trace-crc" points="80,170 200,170 200,190 280,190 280,170 480,170 480,190 560,190 560,170 680,170" fill="none"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- PCB panel -->
+                <div class="panel" id="panel-pcb" aria-label="PCB render">
+                  <div class="pcbwrap">
+                    <img id="pcbSlide" alt="PCB preview" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
+                  </div>
+                </div>
+              </div>
+
+              <!-- typing footer -->
+              <div class="typefooter" aria-live="polite">
+                <span id="typed-line">Reaching for the stars...</span><span class="caret" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <!-- Five key chips -->
+            <div class="chips mt-2">
+              <span class="chip-pro">FPGA / Verilog</span>
+              <span class="chip-pro">ASIC Verification</span>
+              <span class="chip-pro">STM32 / ARM</span>
+              <span class="chip-pro">LoRa / RF</span>
+              <span class="chip-pro">Altium PCB</span>
+            </div>
+
+            <div class="cta-row mt-3">
+              <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
+              <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
+              <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
+            </div>
           </div>
+
         </div>
-
-        <!-- Five key chips -->
-        <div class="chips mt-2">
-          <span class="chip-pro">FPGA / Verilog</span>
-          <span class="chip-pro">ASIC Verification</span>
-          <span class="chip-pro">STM32 / ARM</span>
-          <span class="chip-pro">LoRa / RF</span>
-          <span class="chip-pro">Altium PCB</span>
-        </div>
-
-        <!-- CTA -->
-        <div class="cta-row mt-3">
-          <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank">
-            <i class="bi bi-download me-1"></i>Download CV
-          </a>
-          <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank">
-            <i class="bi bi-github me-1"></i>GitHub
-          </a>
-          <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank">
-            <i class="bi bi-linkedin me-1"></i>LinkedIn
-          </a>
-        </div>
-      </div> <!-- ✅ CLOSE right column -->
-
-    </div> <!-- ✅ CLOSE row -->
-  </div> <!-- ✅ CLOSE container -->
-</section> <!-- ✅ CLOSE section -->
-
+      </div>
+    </section>
 
     <!-- ABOUT -->
     <section id="about" class="about section">
@@ -1124,9 +437,9 @@
       </div>
     </section>
 
-    <!-- HIGHLIGHTS (with numbers) -->
+    <!-- HIGHLIGHTS -->
     <section id="features" class="features section">
-      <div class="container section-title" data-aos="fade-up">
+      <div class="container" data-aos="fade-up">
         <div class="section-title"><h2>Highlights</h2></div>
       </div>
       <div class="container">
@@ -1155,7 +468,7 @@
 
     <!-- EXPERIENCE -->
     <section id="experience" class="resume section">
-      <div class="container section-title" data-aos="fade-up">
+      <div class="container" data-aos="fade-up">
         <div class="section-title"><h2>Experience</h2></div>
       </div>
       <div class="container">
@@ -1177,7 +490,7 @@
               <div class="p-2">
                 <h4 class="mb-1">FPGA Design — Embedded AV Systems</h4>
                 <div class="mb-2" style="color:var(--mint)">Korea University • May 2025 – Sep 2025</div>
-                <p>DE1-SoC piano (VGA UI, PS/2, PWM audio) with 100 MHz timing closure. Automated Quartus &amp; ModelSim using Tcl/Bash for reproducible builds and verification.</p>
+                <p>DE1-SoC piano (VGA UI, PS/2, PWM audio) with 100 MHz timing closure. Automated Quartus & ModelSim using Tcl/Bash for reproducible builds and verification.</p>
                 <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system"><i class="bi bi-github me-1"></i>Learn more</a>
               </div>
             </div>
@@ -1188,7 +501,7 @@
 
     <!-- PROJECTS -->
     <section id="portfolio" class="portfolio section">
-      <div class="container section-title" data-aos="fade-up">
+      <div class="container" data-aos="fade-up">
         <div class="section-title"><h2>Projects</h2></div>
       </div>
       <div class="container">
@@ -1198,9 +511,9 @@
             <div class="soft-card p-3 h-100 project-card">
               <img src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/TOP-plane.png" class="img-fluid" alt="LoRa Radio">
               <div class="p-2">
-                <h4 class="mt-2 mb-1">LoRa Telemetry Module</h4>
+                <h4>LoRa Telemetry Module</h4>
                 <div class="w-more" style="color:var(--mint)">STM32WL • custom CRC • USB-CDC • RF validation</div>
-                <p class="mt-2">Chase &amp; car modules with live data routing to the vehicle network. Clean packet design and scope-verified performance.</p>
+                <p>Chase & car modules with live data routing to the vehicle network. Clean packet design and scope-verified performance.</p>
 
                 <!-- Gallery -->
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png"
@@ -1222,9 +535,9 @@
             <div class="soft-card p-3 h-100 project-card">
               <img src="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/3D%20PCB%20render.png" class="img-fluid" alt="SDR Controller">
               <div class="p-2">
-                <h4 class="mt-2 mb-1">SDR Controller Hardware</h4>
+                <h4>SDR Controller Hardware</h4>
                 <div class="w-more" style="color:var(--mint)">ATmega324PB • Si5351A • UART CAT • I/Q</div>
-                <p class="mt-2">LO generation &amp; RX/TX switching with ±1 kHz stability and accurate 90° I/Q. Firmware + Python automation for validation.</p>
+                <p>LO generation & RX/TX switching with ±1 kHz stability and accurate 90° I/Q. Firmware + Python automation for validation.</p>
 
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/block_diagram_sdr.png"
                    class="btn btn-sm btn-ghost me-2 glightbox"
@@ -1244,9 +557,9 @@
             <div class="soft-card p-3 h-100 project-card">
               <img src="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/bd.png" class="img-fluid" alt="RISC-V CPU">
               <div class="p-2">
-                <h4 class="mt-2 mb-1">RISC-V 5-Stage Pipelined CPU</h4>
+                <h4>RISC-V 5-Stage Pipelined CPU</h4>
                 <div class="w-more" style="color:var(--mint)">RV32I • hazards/forwarding • branches</div>
-                <p class="mt-2">Synthesizable CPU with coverage-driven verification. Tcl-driven regressions and waveform triage accelerate iteration.</p>
+                <p>Synthesizable CPU with coverage-driven verification. Tcl-driven regressions and waveform triage accelerate iteration.</p>
 
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/ex_stage.png"
                    class="btn btn-sm btn-ghost me-2 glightbox"
@@ -1266,9 +579,9 @@
             <div class="soft-card p-3 h-100 project-card">
               <img src="https://raw.githubusercontent.com/hyeonjijung1/fpga-niosv-hearing-simulator/main/images/UI-background.jpg" class="img-fluid" alt="FPGA Hearing">
               <div class="p-2">
-                <h4 class="mt-2 mb-1">FPGA Nios® V Hearing Loss & Aid Simulator</h4>
+                <h4>FPGA Nios® V Hearing Loss & Aid Simulator</h4>
                 <div class="w-more" style="color:var(--mint)">8 ms latency • 100 MHz • 12% LUT</div>
-                <p class="mt-2">Real-time DSP on DE1-SoC with VGA UI and PS/2 controls. Measured latency &amp; behavior match design goals.</p>
+                <p>Real-time DSP on DE1-SoC with VGA UI and PS/2 controls. Measured latency & behavior match design goals.</p>
 
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/fpga-niosv-hearing-simulator/main/images/final-bd.png"
                    class="btn btn-sm btn-ghost me-2 glightbox"
@@ -1287,9 +600,9 @@
       </div>
     </section>
 
-    <!-- SKILLS (grouped) -->
+    <!-- SKILLS -->
     <section id="skills" class="section">
-      <div class="container section-title" data-aos="fade-up">
+      <div class="container" data-aos="fade-up">
         <div class="section-title"><h2>Skills</h2></div>
       </div>
       <div class="container">
@@ -1316,14 +629,13 @@
       </div>
     </section>
 
-    <!-- EXTRACURRICULARS (gallery grid) -->
+    <!-- EXTRACURRICULARS -->
     <section id="extracurriculars" class="section">
-      <div class="container section-title" data-aos="fade-up">
+      <div class="container" data-aos="fade-up">
         <div class="section-title"><h2>Extracurriculars</h2></div>
       </div>
       <div class="container">
         <div class="row g-4">
-          <!-- Drop your images into assets/img/extracurriculars/ and update src if needed -->
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="40">
             <div class="soft-card p-3 h-100">
               <img class="img-fluid exp-img" src="assets/img/extracurriculars/global-spark.png" alt="Global Spark">
@@ -1360,12 +672,13 @@
               </div>
             </div>
           </div>
+        </div>
       </div>
     </section>
 
     <!-- CONTACT -->
     <section id="contact" class="contact section">
-      <div class="container section-title" data-aos="fade-up">
+      <div class="container" data-aos="fade-up">
         <div class="section-title"><h2>Contact</h2></div>
       </div>
       <div class="container" data-aos="fade-up" data-aos-delay="60">
@@ -1486,7 +799,7 @@
     })();
   </script>
 
-  <!-- Faster Starfield + stronger hover boost -->
+  <!-- Starfield -->
   <script>
     (function(){
       const canvas = document.getElementById('stars');
@@ -1512,7 +825,7 @@
           stars.push({
             x: Math.random()*w, y: Math.random()*h,
             r: rand(1.6, 3.2) * dpr,
-            vx: rand(-0.10, 0.10) * dpr, vy: rand(-0.10, 0.10) * dpr, // faster
+            vx: rand(-0.10, 0.10) * dpr, vy: rand(-0.10, 0.10) * dpr,
             tw: Math.random()*Math.PI*2, hue
           });
         }
@@ -1536,7 +849,6 @@
       }
 
       function draw(){
-        // gentle nebula
         const grad = ctx.createRadialGradient(w*0.5, h*-0.2, 0, w*0.5, h*0.3, Math.max(w,h)*0.9);
         grad.addColorStop(0, 'rgba(30,40,80,0.35)');
         grad.addColorStop(1, 'rgba(9,14,27,0.0)');
@@ -1571,15 +883,11 @@
 
       function loop(){ ctx.clearRect(0,0,w,h); draw(); rafId = requestAnimationFrame(loop); }
       window.addEventListener('resize', resize);
-      canvas.addEventListener('mousemove', ()=>{
-        speedMul = 2.8;                // stronger boost
-        clearTimeout(window.__sf_to);
-        window.__sf_to = setTimeout(()=>speedMul=1, 260);
-      });
+      canvas.addEventListener('mousemove', ()=>{ speedMul = 2.6; clearTimeout(window.__sf_to); window.__sf_to = setTimeout(()=>speedMul=1, 240); });
       resize();
     })();
 
-    // Title reveal/pulse once when in view
+    // Title reveal/pulse once
     const titleEls = document.querySelectorAll('.section-title h2');
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1594,107 +902,40 @@
     }, { threshold: 0.4 });
     titleEls.forEach(el => obs.observe(el));
   </script>
-  <script>
-    // Staggered reveal for profile facts
-    (function () {
-      const list = document.querySelector('.profile-card .mini-facts.reveal-list');
-      if (!list) return;
-  
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            list.classList.add('is-visible');
-            io.unobserve(e.target); // run once
-          }
-        });
-      }, { threshold: 0.35 });
-  
-      io.observe(list);
-    })();
-    // Flip hint badge: show once, then hide after first flip or timeout
-(function(){
-  const hint = document.getElementById('flipHint');
-  if (!hint) return;
 
-  const KEY = 'seenFlipHint';
-  const seen = localStorage.getItem(KEY) === '1';
-
-  // if user has seen it before, keep it hidden
-  if (seen) { hint.classList.add('hide'); return; }
-
-  // clicking the badge flips, too
-  hint.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const card = document.querySelector('.flip-card');
-    card?.classList.toggle('flipped');
-
-    // glow pulse (re-use your glow class)
-    card?.classList.add('glow');
-    card?.closest('.profile-card')?.classList.add('glow');
-    setTimeout(() => {
-      card?.classList.remove('glow');
-      card?.closest('.profile-card')?.classList.remove('glow');
-    }, 600);
-
-    // hide the hint and remember
-    hint.classList.add('hide');
-    localStorage.setItem(KEY, '1');
-  });
-
-  // also hide after first manual flip
-  const card = document.querySelector('.flip-card');
-  card?.addEventListener('click', () => {
-    if (!hint.classList.contains('hide')) {
-      hint.classList.add('hide');
-      localStorage.setItem(KEY, '1');
-    }
-  }, { passive: true });
-
-  // auto-hide after 6s if user ignores it
-  setTimeout(() => {
-    if (!hint.classList.contains('hide')) {
-      hint.classList.add('hide');
-      localStorage.setItem(KEY, '1');
-    }
-  }, 6000);
-})();
-
-  </script>
+  <!-- Flip-card behavior -->
   <script>
     (function(){
       const card = document.getElementById('profileFlip');
       const hint = document.getElementById('flipHint');
       if (!card) return;
-  
+
       function flip() {
         card.classList.toggle('is-flipped');
-  
-        // update aria-hidden for accessibility
         const front = card.querySelector('.flip-front');
         const back  = card.querySelector('.flip-back');
         const flipped = card.classList.contains('is-flipped');
         front.setAttribute('aria-hidden', flipped ? 'true' : 'false');
         back.setAttribute('aria-hidden', flipped ? 'false' : 'true');
-  
-        // glow burst
         card.classList.add('glow');
         clearTimeout(card.__glowTimeout);
         card.__glowTimeout = setTimeout(()=>card.classList.remove('glow'), 500);
       }
-  
-      // click / tap anywhere on the card
-      card.addEventListener('click', (e) => {
-        // ignore clicks on links inside the facts
-        if (e.target.tagName === 'A') return;
-        flip();
-      });
-      // dedicated button
-      hint?.addEventListener('click', (e) => { e.stopPropagation(); flip(); });
-      // keyboard access
+
+      card.addEventListener('click', (e) => { if (e.target.tagName !== 'A') flip(); });
       card.tabIndex = 0;
       card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); flip(); }});
+
+      // Flip hint (show once)
+      (function(){
+        if (!hint) return;
+        const KEY = 'seenFlipHint';
+        if (localStorage.getItem(KEY) === '1') { hint.classList.add('hide'); return; }
+        hint.addEventListener('click', (e)=>{ e.stopPropagation(); flip(); hint.classList.add('hide'); localStorage.setItem(KEY,'1'); });
+        card.addEventListener('click', ()=>{ if (!hint.classList.contains('hide')) { hint.classList.add('hide'); localStorage.setItem(KEY,'1'); }});
+        setTimeout(()=>{ if(!hint.classList.contains('hide')) { hint.classList.add('hide'); localStorage.setItem(KEY,'1'); }}, 6000);
+      })();
     })();
   </script>
-  
 </body>
 </html>
