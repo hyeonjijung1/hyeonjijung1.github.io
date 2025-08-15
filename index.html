@@ -352,6 +352,43 @@
     @media (prefers-reduced-motion: reduce){
       .chips{ transform: none !important; }
     }
+
+    /* === Kill template white slabs & overlays (high specificity) === */
+
+/* No global white background on sections */
+section, .section { background: transparent !important; }
+
+/* Remove the inner white card the template injects for About */
+.about .container { 
+  background: transparent !important; 
+  box-shadow: none !important; 
+  padding: 0 !important;   /* keep if you like the spacing: comment out to retain */
+}
+
+/* No white veils over images/sections */
+.hero:before,
+.stats:before,
+.testimonials:before { 
+  background: transparent !important; 
+}
+
+/* Contact cards/forms: remove template whites (you already have custom cards) */
+.contact .info-wrap,
+.contact .php-email-form {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;    /* let your custom layout control spacing */
+}
+
+/* Optional: make the mobile nav off-canvas not pure white */
+:root {
+  --nav-mobile-background-color: rgba(14, 20, 36, 0.88);
+  --nav-dropdown-background-color: rgba(18, 24, 44, 0.96);
+  --nav-dropdown-color: #E8EDFF;
+  --nav-dropdown-hover-color: #a7f3d0;
+}
+
   </style>
 </head>
 
