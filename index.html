@@ -276,6 +276,41 @@
     .contact-card{ background: var(--glass-dark); border: 1px solid var(--glass-border); border-radius: 18px; padding: 20px; height:100%; box-shadow: 0 10px 30px rgba(0,0,0,.28); }
 
     .footer{ background: rgba(10,16,30,0.55); border-top:1px solid rgba(255,255,255,0.08); }
+
+    /* ---- remove white panels in hero + about (and any section) ---- */
+
+/* 1) kill template backgrounds & shadows */
+#hero,
+#hero .container,
+#about,
+#about .container,
+.section,
+section {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+/* 2) some themes paint a pseudo-element overlay: nuke it */
+#hero::before,
+#about::before,
+.section::before {
+  background: transparent !important;
+  content: "" !important;          /* keep it harmless if the theme expects it */
+}
+
+/* 3) make sure no stray .bg-light or inline background slips through */
+#hero [class*="bg-"],
+#about [class*="bg-"] {
+  background-color: transparent !important;
+}
+
+/* 4) keep your cards/glass looking correct (optional) */
+.soft-card {
+  background: rgba(10,14,28,0.82) !important;  /* your glass dark */
+  border: 1px solid rgba(255,255,255,0.2) !important;
+}
+
   </style>
 </head>
 
