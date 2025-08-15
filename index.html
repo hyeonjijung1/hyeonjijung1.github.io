@@ -901,6 +901,274 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
     transform: translate(-50%, 0);
   }
 }
+/* Make heading + typing bar stack predictably */
+.hero-heading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;        /* left-align both */
+}
+
+/* Ensure the H1 is its own block and gives a bit of space */
+.hero-title {
+  display: block;
+  margin: 0 0 .35rem 0;           /* space above the skills bar */
+  line-height: 1.05;              /* tidy line height for the <br> line */
+}
+
+/* Force the typing bar onto its own line and keep height stable */
+.skills-bar {
+  display: block;                 /* no inline flow next to H1 */
+  width: 100%;
+  min-height: 1.6em;              /* prevents layout jump while typing */
+  line-height: 1.6;               /* matches min-height */
+  margin-top: .1rem;
+  white-space: nowrap;            /* keeps type on one line; remove if you want wrapping */
+  overflow: hidden;               /* just in case long strings appear */
+}
+
+/* Keep typed text + caret aligned nicely */
+#skillsType {
+  display: inline-block;
+  vertical-align: baseline;
+}
+.skills-caret {
+  display: inline-block;
+  width: 0.6ch;
+  border-left: 2px solid currentColor;
+  transform: translateY(0.1em);
+  animation: caretBlink 1s steps(1, end) infinite;
+}
+
+@keyframes caretBlink {
+  0%, 49% { opacity: 1; }
+  50%,100% { opacity: 0; }
+}
+
+/* Small screens: give a touch more spacing */
+@media (max-width: 576px) {
+  .hero-title { margin-bottom: .45rem; line-height: 1.1; }
+  .skills-bar { min-height: 1.8em; line-height: 1.8; }
+}
+/* Experience — sleek gradient cards */
+.xp-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.xp-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.28);
+  border-color: hsla(var(--h, 220), 90%, 60%, .4);
+}
+
+/* Subtle animated border accent */
+.xp-accent {
+  --h: 220;
+  pointer-events: none;
+  position: absolute; inset: -2px;
+  border-radius: 18px;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    hsla(var(--h), 95%, 60%, 0) 0%,
+    hsla(calc(var(--h)+40), 95%, 65%, .25) 25%,
+    hsla(calc(var(--h)+80), 95%, 70%, .35) 50%,
+    hsla(calc(var(--h)+120), 95%, 65%, .25) 75%,
+    hsla(var(--h), 95%, 60%, 0) 100%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: xpSpin 10s linear infinite;
+}
+@keyframes xpSpin { to { transform: rotate(360deg); } }
+
+/* Media area with overlay badges */
+.xp-media {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #0b1220;
+}
+.xp-media img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+}
+.xp-badges {
+  position: absolute; left: 12px; bottom: 12px;
+  display: flex; flex-wrap: wrap; gap: .4rem;
+}
+.xp-badges .pill {
+  font-weight: 600;
+  font-size: .78rem;
+  padding: .3rem .55rem;
+  border-radius: 999px;
+  color: #0b1220;
+  background: linear-gradient(135deg, hsla(195,95%,60%,.9), hsla(315,95%,70%,.9));
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  backdrop-filter: blur(6px);
+}
+
+/* Body */
+.xp-body { padding: 0.9rem 1rem 1rem; }
+.xp-role { margin: .2rem 0 .15rem 0; font-size: 1.1rem; }
+.xp-meta { color: var(--mint, #00b4d8); margin-bottom: .35rem; font-weight: 600; }
+
+/* Bullets — compact, scannable */
+.xp-bullets {
+  margin: 0 0 .7rem 0; padding-left: 1.1rem;
+  display: grid; gap: .3rem;
+}
+.xp-bullets li {
+  list-style: none; position: relative; color: var(--muted, #cbd5e1);
+  line-height: 1.3;
+}
+.xp-bullets li::before {
+  content: "▸";
+  position: absolute; left: -1.1rem; top: 0; color: var(--mint, #00b4d8);
+}
+
+/* Actions */
+.xp-actions { display: flex; align-items: center; gap: .5rem; }
+.xp-actions .btn-ghost,
+.xp-actions .btn.btn-ghost {
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.05);
+  color: #eaf2ff;
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  transition: border-color .2s ease, transform .2s ease, background .2s ease;
+}
+.xp-actions .btn-ghost:hover {
+  border-color: var(--mint, #00b4d8);
+  background: rgba(0,180,216,0.12);
+  transform: translateY(-2px);
+}
+
+/* Small tweaks for mobile */
+@media (max-width: 576px) {
+  .xp-badges { left: 10px; bottom: 10px; }
+  .xp-badges .pill { font-size: .75rem; padding: .28rem .5rem; }
+  .xp-body { padding: .75rem .85rem .9rem; }
+}
+/* About container styles */
+.about-card {
+  position: relative;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* Lead paragraph */
+.about-lead {
+  font-size: 1.05rem;
+  margin: 0 0 .8rem 0;
+}
+
+/* Section subtitles */
+.about-sub {
+  color: var(--mint, #00b4d8);
+  margin: .25rem 0 .4rem 0;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  font-weight: 700;
+  font-size: .8rem;
+}
+
+/* Grid for skills/approach */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+/* Each skill line */
+.about-skill {
+  position: relative;
+  padding-left: 1.4rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: var(--text, #fff);
+}
+
+/* Mint accent bar */
+.skill-accent {
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--mint, #00b4d8);
+  border-radius: 50%;
+}
+
+/* Highlight pills */
+.about-recent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-top: 1rem;
+}
+.pill {
+  font-weight: 600;
+  font-size: .78rem;
+  padding: .32rem .6rem;
+  border-radius: 999px;
+  color: #0b1220;
+  background: linear-gradient(135deg, hsla(195,95%,60%,.9), hsla(315,95%,70%,.9));
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+}
+
+/* Quick facts card */
+.about-facts {
+  border: 1px solid rgba(255,255,255,.12);
+}
+.fact-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: .4rem;
+  align-items: center;
+  padding: .35rem 0;
+  border-bottom: 1px dashed rgba(255,255,255,.12);
+}
+.fact-row:last-child {
+  border-bottom: 0;
+}
+.fact-label {
+  color: var(--muted, #cbd5e1);
+  font-weight: 600;
+}
+.fact-value {
+  color: var(--text, #fff);
+}
+.fact-link {
+  color: #eaf2ff;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+/* Tags */
+.fact-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .8rem;
+}
+.tag {
+  padding: .28rem .55rem;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  color: #eaf2ff;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
   </style>
 </head>
@@ -958,15 +1226,17 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
         <!-- Note directly under the card -->
         <div id="flipNote" class="flip-note glow-sync">Tap photo to see more info</div>
       </div>
-
+<!-- Right column -->
+<div class="col-12 col-md-8 col-xl-9">
+  <div class="hero-heading-wrap">
+    <h1 class="gradient-title hero-title">
+      Hi there!<br><span>I’m Diana</span>
       <!-- Right column -->
-      <div class="col-12 col-md-8 col-xl-9">
-        <h1 class="gradient-title hero-title">Hi there!<br><span>I’m Diana</span></h1>
+      <   </h1>
 
-        <!-- Sleek, auto-typing skills bar -->
-        <div class="skills-bar" aria-label="Key skills">
-          <span id="skillsType"></span><span class="skills-caret" aria-hidden="true"></span>
-        </div>
+      <!-- Sleek, auto-typing skills bar -->
+      <div class="skills-bar" aria-label="Key skills">
+        <span id="skillsType"></span><span class="skills-caret" aria-hidden="true"></span>
 
         <!-- RTL LAB -->
         <div class="rtl-lab mb-3 hero-lab">
@@ -1028,43 +1298,70 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
 </section>
 
 
-    <!-- ABOUT -->
-    <section id="about" class="about section">
-      <div class="container" data-aos="fade-up" data-aos-delay="50">
-        <div class="section-title"><h2>About</h2></div>
+   <!-- ABOUT -->
+<section id="about" class="about section">
+  <div class="container" data-aos="fade-up" data-aos-delay="50">
+    <div class="section-title"><h2>About</h2></div>
 
-        <div class="row g-3 align-items-stretch">
-          <div class="col-lg-8">
-            <div class="soft-card p-4 h-100">
-              <p class="lead" style="font-size:1.2rem">
-                I’m an ECE student who loves building hardware that ends up in the lab <em>and</em> in the world.
-                I gravitate to FPGA/RTL, careful PCB layout, and measurements that match the waveform I simulated.
-                Calm bring-up, clean docs, and test benches you can rerun a month later make me happy.
-              </p>
-              <p class="mt-2">
-                Outside circuits, I like leading teams and creating spaces where people grow.
-                I mentor younger students, help organize events, and I’m drawn to projects with a sustainability heartbeat.
-              </p>
-              <p class="mb-0">
-                Recent work: <strong>STM32WL LoRa</strong> telemetry (custom packet/CRC, RF validation),
-                and an <strong>FPGA audio/UX</strong> stack with real-time I/O.
-              </p>
+    <div class="row g-3 align-items-stretch">
+      <!-- Left: confident story -->
+      <div class="col-lg-8">
+        <article class="soft-card p-4 h-100 about-card">
+          <p class="about-lead">
+            I design and build <strong>hardware that works on the bench</strong> — from PCB layout to FPGA logic to embedded firmware.
+          </p>
+
+          <div class="about-grid">
+            <div>
+              <h6 class="about-sub">Core skills</h6>
+              <div class="about-skill"><span class="skill-accent"></span>PCB design for 2–4 layer boards, from placement to routing and bring-up</div>
+              <div class="about-skill"><span class="skill-accent"></span>FPGA/RTL development in Verilog and SystemVerilog with timing closure</div>
+              <div class="about-skill"><span class="skill-accent"></span>Embedded development on STM32 with UART, I²C, and SPI communication</div>
+            </div>
+
+            <div>
+              <h6 class="about-sub">Approach</h6>
+              <div class="about-skill"><span class="skill-accent"></span>Maintain clean, well-documented design files</div>
+              <div class="about-skill"><span class="skill-accent"></span>Validate performance with measurable lab testing</div>
+              <div class="about-skill"><span class="skill-accent"></span>Use repeatable build and test flows for consistent results</div>
             </div>
           </div>
 
-          <div class="col-lg-4">
-            <div class="soft-card p-4 h-100">
-              <div class="d-flex align-items-center mb-2"><i class="bi bi-person-badge me-2" style="color:var(--mint)"></i><strong>Name</strong></div>
-              <div class="mb-3" style="color:var(--text)">Diana (Hyeonji) Jung</div>
-              <div class="d-flex align-items-center mb-2"><i class="bi bi-envelope me-2" style="color:var(--mint)"></i><strong>Email</strong></div>
-              <div class="mb-3"><a class="contact-link" href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></div>
-              <div class="d-flex align-items-center mb-2"><i class="bi bi-geo-alt me-2" style="color:var(--mint)"></i><strong>Location</strong></div>
-              <div>Toronto, Ontario</div>
-            </div>
+          <div class="about-recent">
+            <span class="pill">LoRa module &gt;2&nbsp;km</span>
+            <span class="pill">Custom packet + CRC</span>
+            <span class="pill">FPGA audio UI</span>
           </div>
-        </div>
+        </article>
       </div>
-    </section>
+
+      <!-- Right: quick facts -->
+      <div class="col-lg-4">
+        <aside class="soft-card p-4 h-100 about-facts">
+          <div class="fact-row">
+            <span class="fact-label">Name</span>
+            <span class="fact-value">Diana (Hyeonji) Jung</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Email</span>
+            <a class="fact-link" href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a>
+          </div>
+          <div class="fact-row">
+            <span class="fact-label">Location</span>
+            <span class="fact-value">Toronto, ON</span>
+          </div>
+
+          <div class="fact-tags">
+            <span class="tag">PCB Design</span>
+            <span class="tag">FPGA/RTL</span>
+            <span class="tag">Embedded Systems</span>
+            <span class="tag">LoRa/RF</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- HIGHLIGHTS -->
     <section id="features" class="features section">
@@ -1096,37 +1393,75 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
     </section>
 
     <!-- EXPERIENCE -->
-    <section id="experience" class="resume section">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title"><h2>Experience</h2></div>
-      </div>
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
-            <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" alt="Blue Sky LoRa" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
-              <div class="p-2">
-                <h4 class="mb-1">Embedded Hardware & Wireless Systems Lead</h4>
-                <div class="mb-2" style="color:var(--mint)">Blue Sky Solar Racing • Jan 2025 – Present</div>
-                <p>STM32WL LoRa module with custom packet/CRC and &gt;2 km reliable range. Schematic → layout → bring-up, RF validation and range testing, and USB-CDC integration for live dashboards.</p>
-                <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module"><i class="bi bi-github me-1"></i>Learn more</a>
-              </div>
+<section id="experience" class="resume section">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title"><h2>Experience</h2></div>
+  </div>
+
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Blue Sky Solar Racing -->
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="40">
+        <article class="xp-card">
+          <div class="xp-media">
+            <img class="img-fluid exp-img" alt="Blue Sky LoRa" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
+            <div class="xp-badges">
+              <span class="pill">>2 km range</span>
+              <span class="pill">STM32WL</span>
+              <span class="pill">USB-CDC</span>
             </div>
           </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" alt="FPGA AV System" src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png">
-              <div class="p-2">
-                <h4 class="mb-1">FPGA Design — Embedded AV Systems</h4>
-                <div class="mb-2" style="color:var(--mint)">Korea University • May 2025 – Sep 2025</div>
-                <p>DE1-SoC piano (VGA UI, PS/2, PWM audio) with 100 MHz timing closure. Automated Quartus & ModelSim using Tcl/Bash for reproducible builds and verification.</p>
-                <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system"><i class="bi bi-github me-1"></i>Learn more</a>
-              </div>
+          <div class="xp-body">
+            <h4 class="xp-role">Embedded Hardware & Wireless Systems Lead</h4>
+            <div class="xp-meta">Blue Sky Solar Racing • Jan 2025 – Present</div>
+            <ul class="xp-bullets">
+              <li>Designed & validated a LoRa telemetry stack (custom packet + CRC) from schematic → layout → bring-up.</li>
+              <li>Field-tested reliable >2 km link; clean packets and scoped timing/jitter across UART/I²C/SPI paths.</li>
+              <li>Built host tooling: USB-CDC forwarding to live dashboards; repeatable test harnesses & logs.</li>
+            </ul>
+            <div class="xp-actions">
+              <a class="btn btn-sm btn-ghost" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module">
+                <i class="bi bi-github me-1"></i>Repository
+              </a>
             </div>
           </div>
-        </div>
+          <div class="xp-accent" style="--h: 195"></div>
+        </article>
       </div>
-    </section>
+
+      <!-- Korea University -->
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="80">
+        <article class="xp-card">
+          <div class="xp-media">
+            <img class="img-fluid exp-img" alt="FPGA AV System" src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png">
+            <div class="xp-badges">
+              <span class="pill">100 MHz</span>
+              <span class="pill">VGA • PS/2 • PWM</span>
+              <span class="pill">Tcl/Bash CI-like</span>
+            </div>
+          </div>
+          <div class="xp-body">
+            <h4 class="xp-role">FPGA Design — Embedded AV Systems</h4>
+            <div class="xp-meta">Korea University • May 2025 – Sep 2025</div>
+            <ul class="xp-bullets">
+              <li>Implemented DE1-SoC piano: VGA UI, PS/2 input, PWM audio; timing closure at 100&nbsp;MHz.</li>
+              <li>Automated Quartus synth & ModelSim runs with Tcl/Bash; deterministic, one-command builds.</li>
+              <li>Structured verification with focused testbenches; clear pass/fail artifacts for review.</li>
+            </ul>
+            <div class="xp-actions">
+              <a class="btn btn-sm btn-ghost" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system">
+                <i class="bi bi-github me-1"></i>Repository
+              </a>
+            </div>
+          </div>
+          <div class="xp-accent" style="--h: 310"></div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
 
    <!-- PROJECTS -->
 <section id="portfolio" class="portfolio section">
@@ -1290,10 +1625,6 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
   </div>
 </section>
 
-
-  <!-- Add in <head> -->
-<link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-
 <section id="skills" class="section">
   <div class="container section-title" data-aos="fade-up">
     <h2>Skills</h2>
@@ -1302,8 +1633,8 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
   <div class="container">
     <!-- Category cards -->
     <div class="skill-grid mt-2">
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="40">
-        <div class="skill-icon glass-glow"><i class="ti ti-layout-board"></i></div>
+      <article class="skill-card" data-aos="zoom-in" data-aos-delay="40" style="--h: 190">
+        <div class="skill-accent"></div>
         <h3>PCB Design</h3>
         <p>Stackup planning, impedance, pours, placement & routing, DRC, bring-up.</p>
         <div class="skill-tags">
@@ -1311,8 +1642,8 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
         </div>
       </article>
 
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="80">
-        <div class="skill-icon glass-glow"><i class="ti ti-cpu"></i></div>
+      <article class="skill-card" data-aos="zoom-in" data-aos-delay="80" style="--h: 260">
+        <div class="skill-accent"></div>
         <h3>FPGA / RTL</h3>
         <p>Verilog/SystemVerilog, timing closure, verification, clean build flows.</p>
         <div class="skill-tags">
@@ -1320,8 +1651,8 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
         </div>
       </article>
 
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="120">
-        <div class="skill-icon glass-glow"><i class="ti ti-device-chip"></i></div>
+      <article class="skill-card" data-aos="zoom-in" data-aos-delay="120" style="--h: 320">
+        <div class="skill-accent"></div>
         <h3>Embedded Systems</h3>
         <p>STM32 (HAL), drivers, packets/CRC, USB-CDC, tooling & test harnesses.</p>
         <div class="skill-tags">
@@ -1329,8 +1660,8 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
         </div>
       </article>
 
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="160">
-        <div class="skill-icon glass-glow"><i class="ti ti-wave-sine"></i></div>
+      <article class="skill-card" data-aos="zoom-in" data-aos-delay="160" style="--h: 20">
+        <div class="skill-accent"></div>
         <h3>Mixed-Signal & Analog</h3>
         <p>Filters, sampling paths, power integrity awareness, measurement.</p>
         <div class="skill-tags">
@@ -1338,8 +1669,8 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
         </div>
       </article>
 
-      <article class="skill-card" data-aos="zoom-in" data-aos-delay="200">
-        <div class="skill-icon glass-glow"><i class="ti ti-atom"></i></div>
+      <article class="skill-card" data-aos="zoom-in" data-aos-delay="200" style="--h: 300">
+        <div class="skill-accent"></div>
         <h3>ASIC Design & Verification</h3>
         <p>Coverage-driven benches, hazards/forwarding, scripted regressions.</p>
         <div class="skill-tags">
@@ -1348,111 +1679,142 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
       </article>
     </div>
 
-    <!-- Tools -->
+    <!-- Tools (animated gradient pills) -->
     <div class="tools-grid mt-4" data-aos="fade-up" data-aos-delay="80">
-      <div class="tool glass-glow"><i class="ti ti-brand-github"></i><span>GitHub</span></div>
-      <div class="tool glass-glow"><i class="ti ti-brand-python"></i><span>Python</span></div>
-      <div class="tool glass-glow"><i class="ti ti-code"></i><span>C/C++</span></div>
-      <div class="tool glass-glow"><i class="ti ti-antenna"></i><span>LoRa/RF</span></div>
-      <div class="tool glass-glow"><i class="ti ti-terminal-2"></i><span>Tcl/Bash</span></div>
-      <div class="tool glass-glow"><i class="ti ti-bug"></i><span>Verification</span></div>
-      <div class="tool glass-glow"><i class="ti ti-brand-linux"></i><span>Linux</span></div>
-      <div class="tool glass-glow"><i class="ti ti-brand-algolia"></i><span>CI-like</span></div>
+      <div class="tool"><span>GitHub</span></div>
+      <div class="tool"><span>Python</span></div>
+      <div class="tool"><span>C/C++</span></div>
+      <div class="tool"><span>LoRa/RF</span></div>
+      <div class="tool"><span>Tcl/Bash</span></div>
+      <div class="tool"><span>Verification</span></div>
+      <div class="tool"><span>Linux</span></div>
+      <div class="tool"><span>CI-like</span></div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Glow + glassmorphism */
-  .glass-glow {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    border-radius: 50%;
-    padding: 0.8rem;
-    box-shadow: 0 0 15px rgba(0, 180, 216, 0.35), 
-                0 0 25px rgba(255, 182, 193, 0.25), 
-                inset 0 0 8px rgba(255, 255, 255, 0.1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .glass-glow:hover {
-    transform: translateY(-4px) scale(1.08);
-    box-shadow: 0 0 20px rgba(0, 220, 200, 0.6),
-                0 0 35px rgba(255, 210, 230, 0.4),
-                inset 0 0 12px rgba(255, 255, 255, 0.2);
-  }
-
-  /* Icon sizing */
-  #skills .skill-icon i {
-    font-size: 32px;
-    color: var(--mint, #00b4d8);
-  }
-  #skills .tools-grid .tool i {
-    font-size: 22px;
-    color: var(--mint, #00b4d8);
-  }
-
-  /* Tool layout */
-  #skills .tools-grid {
+  /* Grid layout */
+  #skills .skill-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1rem;
-    margin-top: 2rem;
-  }
-  #skills .tools-grid .tool {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 12px;
-    color: var(--text, #fff);
-  }
-</style>
-<style>
-  /* Float animation (gentle vertical bob + tiny drift + glow pulse) */
-  @keyframes floatY {
-    0%   { transform: translateY(0px); }
-    50%  { transform: translateY(var(--float-amp, 8px)); }
-    100% { transform: translateY(0px); }
-  }
-  @keyframes driftX {
-    0%   { transform: translateX(0px); }
-    50%  { transform: translateX(calc(var(--float-amp, 8px) / 2)); }
-    100% { transform: translateX(0px); }
-  }
-  @keyframes glowPulse {
-    0%,100% { box-shadow: 0 0 15px rgba(0, 180, 216, 0.35),
-                       0 0 25px rgba(255, 182, 193, 0.25),
-                       inset 0 0 8px rgba(255, 255, 255, 0.1); }
-    50%     { box-shadow: 0 0 20px rgba(0, 220, 200, 0.55),
-                       0 0 35px rgba(255, 210, 230, 0.35),
-                       inset 0 0 12px rgba(255, 255, 255, 0.18); }
   }
 
-  /* Attach animations */
-  .glass-glow.float {
-    will-change: transform, box-shadow;
-    animation: floatY var(--float-dur, 6s) ease-in-out var(--float-delay, 0s) infinite,
-               glowPulse calc(var(--float-dur, 6s) * 1.2) ease-in-out var(--float-delay, 0s) infinite;
-    /* Layer a subtle horizontal drift using a wrapper trick */
+  /* Card shell (glass + gradient border) */
+  #skills .skill-card {
+    --h: 200; /* hue fallback if inline style not set */
     position: relative;
+    padding: 1rem;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   }
-  .glass-glow.float::after {
+  #skills .skill-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    border-color: hsla(var(--h), 90%, 60%, 0.45);
+  }
+
+  /* Animated accent strip */
+  #skills .skill-accent {
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    padding: 1px;
+    background: conic-gradient(
+      from 0deg,
+      hsla(var(--h), 95%, 60%, .0) 0%,
+      hsla(calc(var(--h) + 40), 95%, 65%, .25) 25%,
+      hsla(calc(var(--h) + 80), 95%, 70%, .35) 50%,
+      hsla(calc(var(--h) + 120), 95%, 65%, .25) 75%,
+      hsla(var(--h), 95%, 60%, .0) 100%
+    );
+    -webkit-mask: 
+      linear-gradient(#000 0 0) content-box, 
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: spin 8s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #skills .skill-card h3 {
+    margin: 0 0 .35rem 0;
+    font-size: 1.05rem;
+  }
+  #skills .skill-card p {
+    margin: 0 0 .6rem 0;
+    color: var(--muted, #cbd5e1);
+    font-size: .95rem;
+  }
+
+  /* Pill tags with animated sheen */
+  #skills .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+  #skills .skill-tags span {
+    position: relative;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    font-size: .85rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #eaf2ff;
+    overflow: hidden;
+  }
+  #skills .skill-tags span::after {
     content: "";
     position: absolute; inset: 0;
-    border-radius: inherit;
-    animation: driftX calc(var(--float-dur, 6s) * 1.6) ease-in-out calc(var(--float-delay, 0s) / 2) infinite;
+    background: linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,0.2) 30%,
+      transparent 60%);
+    transform: translateX(-100%);
+    animation: sheen 3.2s ease-in-out infinite;
+  }
+  @keyframes sheen {
+    0%, 70% { transform: translateX(-120%); }
+    100%    { transform: translateX(120%); }
   }
 
-  /* Respect reduced motion */
+  /* Tools grid as animated gradient chips */
+  #skills .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: .8rem;
+  }
+  #skills .tools-grid .tool {
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 14px; padding: .55rem .8rem;
+    color: #0b1220;
+    background: linear-gradient(135deg,
+      hsla(195, 95%, 60%, .85),
+      hsla(315, 95%, 70%, .85));
+    position: relative; overflow: hidden;
+  }
+  #skills .tools-grid .tool span { position: relative; z-index: 1; font-weight: 600; }
+  #skills .tools-grid .tool::before {
+    content: ""; position: absolute; inset: -40%;
+    background: radial-gradient(60% 60% at 30% 30%,
+      hsla(0,0%,100%,.35), transparent 60%);
+    animation: floatBlob 10s ease-in-out infinite;
+  }
+  @keyframes floatBlob {
+    0%,100% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(6%, -6%) rotate(15deg); }
+  }
+
+  /* Reduce motion accessibility */
   @media (prefers-reduced-motion: reduce) {
-    .glass-glow.float,
-    .glass-glow.float::after { animation: none !important; }
+    #skills .skill-accent,
+    #skills .skill-tags span::after,
+    #skills .tools-grid .tool::before { animation: none !important; }
   }
 </style>
+
 
     <!-- EXTRACURRICULARS -->
     <section id="extracurriculars" class="section">
