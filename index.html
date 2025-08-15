@@ -636,13 +636,42 @@
 
   .headshot {
     display: block;
-    margin-bottom: 20px; /* space between image and facts */
+    margin-bottom: 200px; /* space between image and facts */
   }
 
   .mini-facts {
     margin-top: 0 !important; /* remove overlapping offset */
     width: 100%;
   }
+  .gradient-title {
+  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  background: linear-gradient(90deg, #00c6ff, #ffb347, #ff6ec4, #4facfe);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text; /* compatibility */
+  -webkit-text-fill-color: transparent;
+  animation:
+    titleGradient 6s ease infinite,
+    titlePulse 1.5s ease-out infinite; /* keeps glowing */
+}
+
+/* Gradient drift */
+@keyframes titleGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glow pulse */
+@keyframes titlePulse {
+  0%   { text-shadow: 0 0 0 rgba(255,255,255,0); }
+  45%  { text-shadow: 0 0 12px rgba(255,255,255,.85),
+                     0 0 28px rgba(111,192,255,.45),
+                     0 0 44px rgba(199,210,254,.35); }
+  100% { text-shadow: 0 0 0 rgba(255,255,255,0); }
+}
+
 }
   </style>
 </head>
@@ -653,9 +682,7 @@
 
   <!-- Nav -->
   <header id="header" class="header">
-    <a href="#hero" class="logo d-flex align-items-center text-decoration-none site-brand">
-      <h1 class="sitename m-0">Diana Jung</h1>
-    </a>
+
     <nav id="navmenu" class="navmenu glass-pill">
       <ul>
         <li><a href="#hero" class="active">Home</a></li>
