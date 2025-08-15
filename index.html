@@ -540,6 +540,35 @@
   .headshot{ max-width: 150px; }
   .profile-card{ gap: 12px; }
 }
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headshot {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 16px;
+  margin: 0 auto;
+}
+
+.mini-facts {
+  width: 100%;
+  margin-top: 24px !important;  /* <-- strong vertical push */
+  padding: 10px 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+@media (max-width: 991.98px) {
+  .headshot { max-width: 150px; }
+  .mini-facts { margin-top: 30px !important; }
+}
 
   </style>
 </head>
