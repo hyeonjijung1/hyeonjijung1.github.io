@@ -1847,6 +1847,80 @@ body{ padding-top: calc(var(--nav-h) + 22px + env(safe-area-inset-top, 0px)); }
   .menu a::after{ transition: none !important; }
   .hamburger .line{ transition: none !important; }
 }
+:root { --nav-h: 56px; --mint:#00b4d8; --rose:#ffd1e5; }
+body { padding-top: calc(var(--nav-h) + 20px); }
+#stars { position: fixed; inset: 0; z-index:0; pointer-events:none; }
+
+/* desktop look you liked */
+.sleek-nav{ position: fixed; top:12px; left:0; right:0; z-index:10000; }
+.sleek-nav .nav-inner{
+  height: var(--nav-h);
+  margin: 0 14px; padding: 0 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-radius:14px;
+  background: rgba(8,12,20,0.45);
+  border:1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.35), 0 0 20px rgba(0,180,216,0.22);
+}
+.sleek-nav .brand{ color:#eaf2ff; text-decoration:none; font-weight:800; padding:.35rem .6rem; }
+
+.menu{ display:flex; gap:.6rem; align-items:center; }
+.menu a{
+  position:relative; color:#eaf2ff; text-decoration:none; padding:.45rem .7rem; border-radius:10px;
+}
+.menu a::after{
+  content:""; position:absolute; left:.7rem; right:.7rem; bottom:.28rem; height:2px; border-radius:2px;
+  background: linear-gradient(90deg, var(--mint), var(--rose));
+  transform:scaleX(0); transform-origin:left; transition:transform .18s ease;
+}
+.menu a:hover::after, .menu a.active::after{ transform:scaleX(1); }
+
+/* STAR-BURGER (mobile button) */
+.hamburger{ display:none; align-items:center; gap:8px; padding:6px 10px;
+  border-radius:12px; border:1px solid rgba(255,255,255,0.10);
+  background: rgba(8,12,20,0.45); color:#eaf2ff; cursor:pointer;
+}
+.star-burger .star{
+  width:18px; height:18px; fill:transparent; stroke: var(--mint); stroke-width:1.6;
+  filter: drop-shadow(0 0 6px rgba(0,180,216,.5));
+  transition: transform .2s ease, fill .2s ease, stroke .2s ease;
+}
+.star-burger .lines{ display:flex; flex-direction:column; gap:4px; }
+.star-burger .line{ width:18px; height:2px; background:#eaf2ff; transition:transform .18s ease, opacity .18s ease; }
+.star-burger .label{ font-weight:700; letter-spacing:.02em; }
+
+/* open state -> X + glowing star */
+.sleek-nav[data-open="true"] .l1{ transform: translateY(6px) rotate(45deg); }
+.sleek-nav[data-open="true"] .l2{ opacity:0; }
+.sleek-nav[data-open="true"] .l3{ transform: translateY(-6px) rotate(-45deg); }
+.sleek-nav[data-open="true"] .star{ transform: rotate(20deg) scale(1.1); fill: rgba(0,180,216,.25); stroke: #c7f2ff; }
+
+/* Mobile dropdown */
+@media (max-width:1024px){
+  .hamburger{ display:inline-flex; }
+  .menu{
+    position: fixed;
+    top: calc(12px + var(--nav-h) + 8px);
+    left:14px; right:14px;
+    display:none; flex-direction:column; gap:.5rem; padding:.7rem;
+    border-radius:14px; border:1px solid rgba(255,255,255,0.10);
+    background: rgba(8,12,20,0.62);
+    backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 22px rgba(0,180,216,.22);
+  }
+  .sleek-nav[data-open="true"] .menu{ display:flex; animation: drop .18s ease-out; }
+  @keyframes drop{ from{ transform: translateY(-8px); opacity:0 } to{ transform:none; opacity:1 } }
+}
+
+/* Desktop inline; hide hamburger */
+@media (min-width:1025px){
+  .hamburger{ display:none; }
+  .menu{ display:flex !important; position:static; background:transparent; border:0; box-shadow:none; }
+}
+
+/* Nice scroll offsets for fixed nav */
+section{ scroll-margin-top: calc(var(--nav-h) + 24px); }
 
   </style>
 </head>
@@ -1855,26 +1929,32 @@ body{ padding-top: calc(var(--nav-h) + 22px + env(safe-area-inset-top, 0px)); }
 <body class="index-page">
   <!-- Starfield -->
   <canvas id="stars" aria-hidden="true"></canvas>
-  <header id="nav" class="neo-nav" role="navigation" aria-label="Primary">
-    <div class="neo-shell">
-      <span class="neo-ring" aria-hidden="true"></span>
-      <a href="#top" class="brand">Diana</a>
+  <header id="nav" class="sleek-nav" role="navigation" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="#top" class="brand">Hyeonji</a>
   
-      <button class="hamburger" aria-label="Open menu" aria-controls="neoMenu" aria-expanded="false">
-        <span class="line l1"></span>
-        <span class="line l2"></span>
-        <span class="line l3"></span>
+      <!-- Star-burger -->
+      <button class="hamburger star-burger" aria-label="Open menu" aria-controls="navMenu" aria-expanded="false">
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true">
+          <polygon points="12,2 14.9,8.2 22,9 16.8,13.4 18.3,20.4 12,16.9 5.7,20.4 7.2,13.4 2,9 9.1,8.2"/>
+        </svg>
+        <span class="lines">
+          <span class="line l1"></span>
+          <span class="line l2"></span>
+          <span class="line l3"></span>
+        </span>
+        <span class="label">Menu</span>
       </button>
-      <nav id="neoMenu" class="menu">
+  
+      <nav id="navMenu" class="menu">
         <a href="#about">About</a>
-        <a href="#features">Highlights</a>        <!-- was #highlights -->
+        <a href="#features">Highlights</a>    <!-- matches your id="features" -->
         <a href="#experience">Experience</a>
-        <a href="#portfolio">Projects</a>         <!-- was #projects -->
+        <a href="#portfolio">Projects</a>     <!-- matches your id="portfolio" -->
         <a href="#skills">Skills</a>
         <a href="#extracurriculars">Extracurriculars</a>
         <a href="#contact">Contact</a>
       </nav>
-      
     </div>
   </header>
   
@@ -3132,7 +3212,38 @@ body{ padding-top: calc(var(--nav-h) + 22px + env(safe-area-inset-top, 0px)); }
         onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
       });
       </script>
-      
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const header = document.getElementById('nav');
+          const btn    = header?.querySelector('.hamburger');
+          const menu   = header?.querySelector('#navMenu');
+          if (!header || !btn || !menu) return;
+        
+          const label = btn.querySelector('.label');
+        
+          const open = () => {
+            header.setAttribute('data-open','true');
+            btn.setAttribute('aria-expanded','true');
+            btn.setAttribute('aria-label','Close menu');
+            if (label) label.textContent = 'Close';
+            document.body.style.overflow = 'hidden';
+          };
+          const close = () => {
+            header.setAttribute('data-open','false');
+            btn.setAttribute('aria-expanded','false');
+            btn.setAttribute('aria-label','Open menu');
+            if (label) label.textContent = 'Menu';
+            document.body.style.overflow = '';
+          };
+          const toggle = () => (header.getAttribute('data-open') === 'true') ? close() : open();
+        
+          btn.addEventListener('click', toggle);
+          menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+          document.addEventListener('click', (e) => { if (!header.contains(e.target)) close(); });
+          document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+        });
+        </script>
+        
   </body>
   
 
