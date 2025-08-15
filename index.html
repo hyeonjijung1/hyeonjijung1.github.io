@@ -570,6 +570,62 @@
   .headshot { max-width: 150px; }
   .mini-facts { margin-top: 200px !important; }
 }
+/* --- Keep text clearly beneath the photo (desktop + mobile) --- */
+.profile-card{
+  display: block;                 /* avoid flex weirdness from earlier rules */
+}
+
+.headshot{
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+  margin: 0 auto 28px !important; /* <-- hard bottom gap on DESKTOP */
+}
+
+.mini-facts{
+  margin-top: 0 !important;       /* don't stack with img margin */
+  padding: 10px 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+/* mobile: smaller photo, extra separation if you like */
+@media (max-width: 991.98px){
+  .headshot{ max-width: 150px; margin-bottom: 200px !important; }
+}
+
+/* Mobile: mini-facts as one large square grid card */
+@media (max-width: 767.98px) {
+  .mini-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side */
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .mini-facts .fact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mini-facts .label {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .mini-facts .value {
+    font-size: 0.95rem;
+  }
+}
 
   </style>
 </head>
