@@ -508,6 +508,38 @@
 .profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(6){ animation-delay: .42s; }
 .profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(7){ animation-delay: .50s; }
 .profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(8){ animation-delay: .58s; }
+/* keep facts clearly under the photo */
+.profile-card{
+  display: flex;              /* vertical stack */
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;                  /* space between image and facts */
+}
+
+.headshot{
+  display: block;
+  width: 100%;
+  max-width: 200px;           /* your fixed cap */
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 16px;
+  margin: 0 auto;             /* center */
+}
+
+.mini-facts{
+  width: 100%;
+  margin: 0 !important;       /* kill any collapsed margins */
+  padding: 10px 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+/* mobile: keep the spacing tidy */
+@media (max-width: 991.98px){
+  .headshot{ max-width: 150px; }
+  .profile-card{ gap: 12px; }
+}
 
   </style>
 </head>
