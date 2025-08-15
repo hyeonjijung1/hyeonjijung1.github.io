@@ -2838,34 +2838,131 @@ html {
   </div>
 </section>
 
-    <!-- HIGHLIGHTS -->
-    <section id="features" class="features section">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title"><h2>Highlights</h2></div>
-      </div>
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-md-4" data-aos="zoom-in" data-aos-delay="40">
-            <div class="soft-card fcard h-100">
-              <div class="big">550+</div>
-              <div class="desc">Leaders mentored for Frosh Week</div>
-            </div>
-          </div>
-          <div class="col-md-4" data-aos="zoom-in" data-aos-delay="90">
-            <div class="soft-card fcard h-100">
-              <div class="big">5+</div>
-              <div class="desc">Custom PCBs from schematic to scope</div>
-            </div>
-          </div>
-          <div class="col-md-4" data-aos="zoom-in" data-aos-delay="140">
-            <div class="soft-card fcard h-100">
-              <div class="big">LoRa</div>
-              <div class="desc">Radio systems lead @ Blue Sky Solar Racing</div>
-            </div>
-          </div>
+<!-- HIGHLIGHTS -->
+<section id="features" class="features section">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2 class="nebula-title">Highlights</h2>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row g-4">
+      
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="40">
+        <div class="soft-card fcard h-100 highlight-card">
+          <div class="stars"></div>
+          <div class="highlight-value">550<span class="plus">+</span></div>
+          <div class="highlight-desc">Leaders mentored for Frosh Week</div>
         </div>
       </div>
-    </section>
+
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="90">
+        <div class="soft-card fcard h-100 highlight-card">
+          <div class="stars"></div>
+          <div class="highlight-value">5<span class="plus">+</span></div>
+          <div class="highlight-desc">Custom PCBs from schematic to scope</div>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="140">
+        <div class="soft-card fcard h-100 highlight-card">
+          <div class="stars"></div>
+          <div class="highlight-value">LoRa</div>
+          <div class="highlight-desc">Radio systems lead @ Blue Sky Solar Racing</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+/* Card style */
+.highlight-card {
+  position: relative;
+  padding: 1.8rem 1.4rem;
+  text-align: center;
+  background: radial-gradient(120% 120% at -20% -10%, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.highlight-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.22);
+  box-shadow: 0 14px 36px rgba(0,0,0,.35), 0 0 36px rgba(120,255,243,.12);
+}
+
+/* Stars background */
+.stars {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  overflow: hidden;
+  pointer-events: none;
+}
+.stars::before, .stars::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.7), transparent),
+                    radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.6), transparent),
+                    radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.5), transparent),
+                    radial-gradient(1px 1px at 60% 40%, rgba(255,255,255,0.4), transparent),
+                    radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.6), transparent),
+                    radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.5), transparent);
+  background-size: cover;
+  animation: twinkle 6s infinite alternate;
+}
+.stars::after {
+  animation-delay: 3s;
+  opacity: 0.7;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0.4; transform: scale(1); }
+}
+
+/* Value text */
+.highlight-value {
+  font-size: 2.6rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #b8ffe7, #c9e6ff, #ffe7a3, #f7c7ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 8s ease infinite;
+  position: relative;
+  z-index: 1;
+}
+.highlight-value .plus {
+  font-size: 2rem;
+}
+
+/* Description text */
+.highlight-desc {
+  font-size: 0.95rem;
+  opacity: .85;
+  margin-top: 0.4rem;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+/* Gradient animation reused */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
+
     <section id="experience" class="resume section"> <div class="container" data-aos="fade-up"> <div class="section-title"><h2>Experience</h2></div> </div> <div class="container"> <div class="row g-4">
  <!-- Blue Sky Solar Racing -->
 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="40">
@@ -2892,7 +2989,6 @@ html {
       <!-- mini skillset row -->
       <div class="xp-skilltags">
         <span class="tag">Roadmap/Milestones</span>
-        <span class="tag">Risk Register</span>
         <span class="tag">Supplier Mgmt.</span>
         <span class="tag">Altium</span>
         <span class="tag">LTspice</span>
@@ -2933,8 +3029,6 @@ html {
       <div class="xp-skilltags">
         <span class="tag">Quartus</span>
         <span class="tag">ModelSim</span>
-        <span class="tag">SV Assertions</span>
-        <span class="tag">Regression Pipelines</span>
         <span class="tag">Stakeholder Updates</span>
       </div>
 
@@ -3321,6 +3415,7 @@ html {
 
 
   <!-- CONTACT -->
+<!-- CONTACT -->
 <section id="contact" class="contact section">
   <div class="container" data-aos="fade-up">
     <div class="section-title">
@@ -3344,12 +3439,16 @@ html {
         <i class="bi bi-linkedin"></i><span>LinkedIn</span>
       </a>
     </div>
-<!-- replace your current GitHub chip -->
-<a class="chip galaxy" target="_blank" rel="noopener" href="https://github.com/hyeonjijung1">
-  <span class="galaxy-orbit" aria-hidden="true"></span>
-  <i class="bi bi-github"></i> GitHub
-</a>
 
+    <!-- Quiet secondary links -->
+    <div class="quiet-row">
+      <a class="chip galaxy" target="_blank" rel="noopener" href="https://github.com/hyeonjijung1">
+        <span class="galaxy-wrap">
+          <span class="galaxy-orbit" aria-hidden="true"></span>
+          <i class="bi bi-github"></i>
+        </span>
+        GitHub
+      </a>
     </div>
   </div>
 </section>
@@ -3442,54 +3541,61 @@ html {
   .btn-astro, .btn-ghost, .btn-pulse { width: 100%; justify-content: center; }
   .cta-row { gap: .6rem; }
 }
-/* Galaxy effect for GitHub chip */
-.chip.galaxy { 
-  position: relative; 
-  padding-left: 2.2rem; /* make room for orbit */
-  overflow: visible;
+/* Galaxy chip (wrapped orbit around icon) */
+.chip.galaxy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .5rem .8rem;
 }
 
-.chip.galaxy .galaxy-orbit {
-  position: absolute; 
-  left: .6rem; 
-  top: 50%; 
-  width: 22px; 
-  height: 22px; 
-  transform: translateY(-50%) rotateX(55deg);
-  animation: orbitSpin 7s linear infinite;
-  opacity: .95;
+/* Wrap holds orbit + icon centered together */
+.galaxy-wrap {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ring */
-.chip.galaxy .galaxy-orbit::before {
-  content: "";
-  position: absolute; inset: 0; border-radius: 50%;
+/* Orbit ring */
+.galaxy-orbit {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   border: 1px solid rgba(255,255,255,.28);
   box-shadow: inset 0 0 8px rgba(160,255,255,.25);
-  filter: blur(.15px);
+  animation: orbitSpin 7s linear infinite;
+  opacity: .9;
 }
 
-/* satellite star */
-.chip.galaxy .galaxy-orbit::after {
+/* Orbiting star */
+.galaxy-orbit::after {
   content: "";
-  position: absolute; 
-  left: 50%; top: 0%;
-  width: 5px; height: 5px; border-radius: 50%;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   background: currentColor;
   box-shadow: 0 0 6px currentColor;
   transform: translate(-50%, -50%);
 }
 
-/* spins the whole orbit (the dot rides the ring) */
 @keyframes orbitSpin {
-  0%   { transform: translateY(-50%) rotateX(55deg) rotate(0deg); }
-  100% { transform: translateY(-50%) rotateX(55deg) rotate(360deg); }
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .chip.galaxy .galaxy-orbit { animation: none; }
+  .galaxy-orbit { animation: none; }
 }
+
 
 </style>
 
