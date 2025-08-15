@@ -19,41 +19,24 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
+  <!-- Devicon (icons for tools/skills) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"/>
+
   <!-- Base template CSS -->
   <link href="assets/css/main.css" rel="stylesheet">
 
   <!-- Custom overrides -->
   <style>
     :root{
-      /* Navy + aurora */
-      --bg-deep:#0a1224;
-      --bg-deeper:#070d19;
-
-      /* readable text hierarchy */
-      --text-strong:#F6F8FF;   /* headings */
-      --text:#E8EDFF;          /* body */
-      --muted:#AFC1FF;         /* captions/meta */
-
-      /* accents */
-      --mint:#a7f3d0;
-      --lilac:#c7d2fe;
-      --rose:#fbcfe8;
-      --sun:#fde68a;
-      --cyan:#a5f3fc;
-
-      /* gradients */
+      --bg-deep:#0a1224; --bg-deeper:#070d19;
+      --text-strong:#F6F8FF; --text:#E8EDFF; --muted:#AFC1FF;
+      --mint:#a7f3d0; --lilac:#c7d2fe; --rose:#fbcfe8; --sun:#fde68a; --cyan:#a5f3fc;
       --grad-1: linear-gradient(120deg, var(--rose), var(--mint), var(--lilac));
       --grad-2: linear-gradient(120deg, var(--lilac), var(--cyan), var(--sun));
       --grad-3: linear-gradient(120deg, #6ee7b7, #93c5fd, #fca5a5);
-
-      /* glass */
-      --glass-dark: rgba(10,14,28,.78);
-      --glass: rgba(255,255,255,.06);
-      --glass-border: rgba(255,255,255,.20);
-
-      --ink:#081022;           /* dark text on bright buttons */
+      --glass-dark: rgba(10,14,28,.78); --glass: rgba(255,255,255,.06); --glass-border: rgba(255,255,255,.20);
+      --ink:#081022;
     }
-
     html, body { height: 100%; }
     body{
       background: radial-gradient(1400px 900px at 50% -20%, #13213d 0%, var(--bg-deep) 45%, var(--bg-deeper) 100%);
@@ -61,17 +44,14 @@
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       overflow-x: hidden;
     }
-    h1,h2,h3,h4,h5,h6,.navmenu ul{
-      font-family: "Plus Jakarta Sans", 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
+    h1,h2,h3,h4,h5,h6,.navmenu ul{ font-family: "Plus Jakarta Sans", 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
 
     /* Star canvas behind everything */
     #stars{ position: fixed; inset: 0; z-index: 0; background: transparent; pointer-events: none; }
     header, main, footer, .scroll-top{ position: relative; z-index: 1; }
 
-    /* ================= NAV (desktop + mobile glass pill) ================= */
-    .header{ position: relative; background: transparent !important; border: none !important; box-shadow: none !important; height: 0; z-index: 40; }
-
+    /* ================= FLOATING NAV ================= */
+    .header{ background: transparent !important; border: none !important; box-shadow: none !important; height: 0; z-index: 40; }
     .site-brand{
       position: fixed; left: 24px; top: 18px; z-index: 41;
       padding: 8px 12px; border-radius: 12px;
@@ -100,7 +80,7 @@
     .navmenu a.active{ color:#07101e; background: var(--grad-1); box-shadow: 0 0 18px rgba(167,243,208,.45), 0 0 28px rgba(199,210,254,.24); }
     #navmenu a::after, .mobile-nav-toggle{ display:none !important; }
 
-    /* Mobile: bottom glass dock with safe area padding */
+    /* Mobile bottom dock */
     @media(max-width:992px){
       body{ padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
       .site-brand{ left:12px; top:12px; padding:6px 10px; border-radius:10px; }
@@ -113,12 +93,8 @@
       .navmenu a{ padding:12px 14px; font-size:.96rem; }
     }
 
-    /* ================= HERO (no white background) ================= */
-    .hero{
-      padding: 6rem 0 3rem;
-      background: transparent !important; /* NO white overlay */
-    }
-
+    /* ================= HERO ================= */
+    .hero{ padding: 6rem 0 2.25rem; background: transparent !important; }
     .gradient-title{
       font-weight:800; letter-spacing:.2px; line-height:1.05;
       font-size:clamp(2rem, 4vw, 3rem);
@@ -131,34 +107,35 @@
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
 
-    /* hero left card */
+    /* hero left card (fixed headshot sizing) */
     .profile-card{
       background: var(--glass-dark);
       border: 1px solid var(--glass-border);
       border-radius: 22px;
       box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-      max-width: 300px; margin-inline:auto;
+      max-width: 320px;
+      margin-inline:auto;
     }
     .headshot{
-      display:block; width:100%; max-width:240px; height:auto; aspect-ratio:1/1; object-fit:cover;
+      display:block; width:100%; max-width:260px; height:auto;
+      aspect-ratio: 3/4; object-fit: cover;
       border-radius:16px; background: var(--glass); border:1px solid var(--glass-border);
       box-shadow: 0 10px 30px rgba(0,0,0,0.35); margin-inline:auto;
     }
-    @media(max-width:991.98px){ .headshot{ max-width:190px; } .profile-card{ max-width:250px; } }
+    @media(max-width:991.98px){ .headshot{ max-width:200px; } .profile-card{ max-width:280px; } }
     @media(min-width:1200px){ .profile-card{ position: sticky; top: 96px; } }
 
-    .mini-facts{ margin-top:.25rem; }
+    .mini-facts{ margin-top:.35rem; }
     .mini-facts .fact{
-      display:flex; gap:10px;
-      padding:.45rem .25rem; border-bottom:1px dashed rgba(255,255,255,0.12);
+      display:flex; gap:10px; align-items:flex-start;
+      padding:.48rem .25rem; border-bottom:1px dashed rgba(255,255,255,0.12);
       color: var(--text);
     }
     .mini-facts .fact:last-child{ border-bottom:0; }
-    .mini-facts .label{ color:var(--muted); font-size:.92rem; min-width:110px; }
-    .mini-facts .value{ font-size:.95rem; }
+    .mini-facts .label{ color:var(--muted); font-size:.92rem; min-width:120px; }
+    .mini-facts .value{ font-size:.95rem; word-break: break-word; }
     .mini-facts .value a{ color:var(--mint); text-decoration:none; }
 
-    /* hero chips & buttons */
     .chips{ will-change: transform; transform: translateZ(0); }
     .chip-pro{
       background: rgba(255,255,255,.08);
@@ -173,158 +150,59 @@
     }
     .chip-pro::before{ content:""; position:absolute; inset:0; opacity:.45; background: var(--grad-1); mix-blend-mode:overlay; }
     .chip-pro:hover{ transform: translateY(-2px); border-color:#fff3; }
-
     .cta-row .btn{ font-weight:600; border-radius:14px; padding:.65rem 1.05rem; }
-    .btn-accent{
-      background: var(--grad-2) !important;
-      color: var(--ink) !important; border:none;
-      box-shadow: 0 14px 36px rgba(0,0,0,.45);
-    }
+    .btn-accent{ background: var(--grad-2) !important; color: var(--ink) !important; border:none; box-shadow: 0 14px 36px rgba(0,0,0,.45); }
     .btn-accent:hover{ filter: brightness(1.04); transform: translateY(-1px); }
-    .btn-ghost{
-      color: var(--mint) !important;
-      border:1px solid var(--glass-border) !important;
-      background: rgba(255,255,255,.10) !important;
-      border-radius:14px;
-    }
+    .btn-ghost{ color: var(--mint) !important; border:1px solid var(--glass-border) !important; background: rgba(255,255,255,.10) !important; border-radius:14px; }
     .btn-ghost:hover{ background: rgba(255,255,255,.14) !important; border-color:#fff3 !important; }
 
-    /* ================= RTL LAB (hero-right) ================= */
-    .rtl-lab{
-      background: var(--glass-dark);
-      border:1px solid var(--glass-border);
-      border-radius: 18px;
-      box-shadow: 0 14px 40px rgba(0,0,0,.42);
-      overflow:hidden;
-    }
-    .rtl-tabs{
-      display:flex; gap:6px; padding:8px;
-      background: rgba(255,255,255,.05);
-      border-bottom:1px solid var(--glass-border);
-    }
-    .rtl-tab{
-      padding:8px 12px; border-radius:999px; font-weight:600; font-size:.92rem;
-      color: var(--muted); cursor:pointer; user-select:none;
-      transition: background .15s ease, color .15s ease, transform .15s ease;
-    }
+    /* RTL LAB (right of hero) */
+    .rtl-lab{ background: var(--glass-dark); border:1px solid var(--glass-border); border-radius: 18px; box-shadow: 0 14px 40px rgba(0,0,0,.42); overflow:hidden; }
+    .rtl-tabs{ display:flex; gap:6px; padding:8px; background: rgba(255,255,255,.05); border-bottom:1px solid var(--glass-border); }
+    .rtl-tab{ padding:8px 12px; border-radius:999px; font-weight:600; font-size:.92rem; color: var(--muted); cursor:pointer; user-select:none; transition: background .15s ease, color .15s ease, transform .15s ease; }
     .rtl-tab:hover{ background: rgba(255,255,255,.08); color: var(--text); transform: translateY(-1px); }
     .rtl-tab.active{ background: var(--grad-1); color:#07101e; box-shadow: 0 0 14px rgba(167,243,208,.28); }
-
     .rtl-body{ position:relative; padding:14px; min-height:320px; }
-    .panel{ display:none; }
-    .panel.active{ display:block; }
+    .panel{ display:none; } .panel.active{ display:block; }
 
-    /* Verilog panel */
-    .codebox{
-      background: #0f1426; border:1px solid #ffffff22; border-radius:14px; padding:14px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      color:#e6ecff; font-size: .92rem; line-height: 1.45;
-      box-shadow: inset 0 0 0 1px #00000020;
-      position:relative;
-    }
-    .codebox .kw{ color:#c7d2fe; }
-    .codebox .id{ color:#a7f3d0; }
-    .codebox .num{ color:#fde68a; }
-    .codebox .com{ color:#94a3b8; }
+    /* code panel (line-by-line typing) */
+    .codebox{ background: #0f1426; border:1px solid #ffffff22; border-radius:14px; padding:14px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; color:#e6ecff; font-size: .92rem; line-height: 1.45; box-shadow: inset 0 0 0 1px #00000020; }
+    .code-line{ white-space: pre; display:block; }
+    .kw{ color:#c7d2fe; } .id{ color:#a7f3d0; } .num{ color:#fde68a; } .com{ color:#94a3b8; }
 
-    /* Waveform panel */
-    .wavewrap{
-      background:#0e1424; border:1px solid #ffffff22; border-radius:14px; padding:12px;
-      overflow:hidden; position:relative;
-    }
+    /* waveform + pcb */
+    .wavewrap,.pcbwrap{ background:#0e1424; border:1px solid #ffffff22; border-radius:14px; padding:12px; }
     .wavewrap svg{ width:100%; height:220px; display:block; }
     .sig-label{ fill:#cdd7ff; font: 12px Inter, system-ui; }
     .trace-clk{ stroke:#a7f3d0; stroke-width:2; }
     .trace-data{ stroke:#c7d2fe; stroke-width:2; }
     .trace-valid{ stroke:#fde68a; stroke-width:2; }
     .trace-crc{ stroke:#fbcfe8; stroke-width:2; }
+    .pcbwrap img{ width:100%; max-height:240px; object-fit: cover; border-radius:12px; border:1px solid #ffffff22; box-shadow: 0 10px 26px rgba(0,0,0,.35); }
 
-    /* PCB panel */
-    .pcbwrap{
-      background:#0e1424; border:1px solid #ffffff22; border-radius:14px; padding:12px;
-      display:grid; place-items:center; min-height:220px;
-    }
-    .pcbwrap img{ max-width:100%; border-radius:12px; border:1px solid #ffffff22; box-shadow: 0 10px 26px rgba(0,0,0,.35); }
-
-    /* typing footer */
-    .typefooter{
-      border-top:1px solid var(--glass-border);
-      background: rgba(255,255,255,.05);
-      padding:10px 12px;
-      font-family: ui-monospace,SFMono-Regular,Consolas,Monaco,monospace;
-      color:#cdd7ff; font-size:.92rem;
-      display:flex; align-items:center; gap:8px;
-    }
-    .caret{
-      width:10px; height:18px; background:#cdd7ff; border-radius:2px; display:inline-block;
-      animation: blink 1s step-start infinite;
-    }
+    .typefooter{ border-top:1px solid var(--glass-border); background: rgba(255,255,255,.05); padding:10px 12px; font-family: ui-monospace,SFMono-Regular,Consolas,Monaco,monospace; color:#cdd7ff; font-size:.92rem; display:flex; align-items:center; gap:8px; }
+    .caret{ width:10px; height:18px; background:#cdd7ff; border-radius:2px; display:inline-block; animation: blink 1s step-start infinite; }
     @keyframes blink{ 50%{ opacity:0; } }
 
-    /* ================= SECTION BASICS (no white anywhere) ================= */
-    .section,
-    .about, .resume, .portfolio, .contact{
-      background: transparent !important; box-shadow:none !important;
-    }
-    .section::before, .section::after,
-    .about::before, .about::after{ display:none !important; }
+    /* ================= SECTIONS ================= */
+    .section, .about, .resume, .portfolio, .contact{ background: transparent !important; box-shadow:none !important; }
+    .section::before, .section::after, .about::before, .about::after{ display:none !important; }
+    .section-title h2{ color: var(--text-strong); text-shadow: 0 0 16px rgba(199,210,254,.22), 0 0 24px rgba(167,243,208,.14); }
 
-    .section-title h2{
-      color: var(--text-strong);
-      text-shadow: 0 0 16px rgba(199,210,254,.22), 0 0 24px rgba(167,243,208,.14);
-    }
-
-    /* cards */
-    .soft-card{
-      position:relative;
-      background: var(--glass-dark);
-      border:1px solid var(--glass-border);
-      border-radius:22px;
-      box-shadow: 0 18px 48px rgba(0,0,0,.46);
-      overflow:hidden;
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-    .soft-card::before{
-      content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
-      background:
-        radial-gradient(900px 320px at -10% -10%, rgba(167,243,208,.09), transparent 40%),
-        radial-gradient(900px 320px at 110% 120%, rgba(199,210,254,.09), transparent 45%);
-    }
+    .soft-card{ position:relative; background: var(--glass-dark); border:1px solid var(--glass-border); border-radius:22px; box-shadow: 0 18px 48px rgba(0,0,0,.46); overflow:hidden; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .soft-card::before{ content:""; position:absolute; inset:0; pointer-events:none; z-index:0; background:
+      radial-gradient(900px 320px at -10% -10%, rgba(167,243,208,.09), transparent 40%),
+      radial-gradient(900px 320px at 110% 120%, rgba(199,210,254,.09), transparent 45%); }
     .soft-card:hover{ transform: translateY(-3px); border-color:#ffffff2a; }
     .soft-card > *{ position:relative; z-index:1; }
+    .w-more,.lead,.text-muted{ color: var(--muted) !important; }
 
-    /* readable copy */
-    .soft-card, .soft-card p, .soft-card .w-more, .soft-card .mb-2, .soft-card .mb-1, .soft-card .mt-2,
-    .resume .soft-card ul li, .portfolio .soft-card p { color: var(--text) !important; opacity:1 !important; }
-    .text-muted, .w-more, .lead{ color: var(--muted) !important; opacity:.95 !important; }
-    .resume .soft-card ul li::marker, .portfolio .soft-card ul li::marker{ color: var(--mint) !important; }
-
-    /* media */
-    .portfolio .img-fluid, .exp-img{
-      border-radius:16px;
-      border:1px solid #ffffff2c;
-      box-shadow: 0 12px 34px rgba(0,0,0,.42);
-    }
-    .portfolio .soft-card:hover .img-fluid{ transform: translateY(-2px); transition: transform .18s ease; }
-
-    /* highlights */
+    /* Highlights numbers */
     .features .fcard{ text-align:center; }
-    .features .big{
-      font-size:2.3rem; font-weight:800; letter-spacing:.5px;
-      background: var(--grad-3); -webkit-background-clip:text; background-clip:text; color:transparent;
-      text-shadow: 0 0 18px rgba(164,196,255,.28);
-    }
+    .features .big{ font-size:2.3rem; font-weight:800; letter-spacing:.5px; background: var(--grad-3); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 0 18px rgba(164,196,255,.28); }
 
-    /* contact */
-    #contact .section-title h2{ color: var(--text-strong); }
-    .contact-card{
-      background: var(--glass-dark);
-      border: 1px solid var(--glass-border);
-      border-radius: 18px; padding: 20px; height:100%;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0,0,0,.28);
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    }
+    /* Contact cards */
+    .contact-card{ background: var(--glass-dark); border: 1px solid var(--glass-border); border-radius: 18px; padding: 20px; height:100%; backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,.28); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
     .contact-card:hover{ transform: translateY(-3px); border-color: #ffffff33; }
     .contact-icon{ width:56px; height:56px; border-radius:50%; display:grid; place-items:center; background: rgba(255,255,255,.08); border:1px solid var(--glass-border); margin-right:14px; }
     .contact-icon i{ font-size:22px; color: var(--mint); }
@@ -333,62 +211,44 @@
     .contact-link:hover{ text-decoration: underline; }
     .contact .social-links{ display:none !important; }
 
+    /* Skills grid (flashy) */
+    .skills-grid{ display:grid; grid-template-columns: repeat(5, 1fr); gap:14px; }
+    @media(max-width:1200px){ .skills-grid{ grid-template-columns: repeat(4, 1fr); } }
+    @media(max-width:768px){ .skills-grid{ grid-template-columns: repeat(3, 1fr); } }
+    @media(max-width:520px){ .skills-grid{ grid-template-columns: repeat(2, 1fr); } }
+    .skill-tile{
+      background: rgba(255,255,255,.05);
+      border:1px solid var(--glass-border);
+      border-radius: 18px;
+      padding:18px 14px;
+      display:flex; flex-direction:column; align-items:center; gap:10px;
+      text-align:center; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      position:relative; overflow:hidden;
+    }
+    .skill-tile::after{ content:""; position:absolute; inset:0; background: radial-gradient(600px 200px at 120% -20%, rgba(167,243,208,.15), transparent 48%), radial-gradient(600px 200px at -20% 120%, rgba(199,210,254,.12), transparent 48%); pointer-events:none; }
+    .skill-tile:hover{ transform: translateY(-3px); border-color:#ffffff33; }
+    .skill-tile i{ font-size:36px; }
+    .skill-tile .label{ font-weight:700; letter-spacing:.2px; }
+
+    /* Project skill chips row */
+    .proj-chips .chip-pro{ margin-top:8px; }
+
     .footer{ background: rgba(10,16,30,0.55); border-top:1px solid rgba(255,255,255,0.08); }
     #hero{ scroll-margin-top: 110px; }
 
-    /* ===== Mobile polish ===== */
+    /* Mobile tweaks */
     @media (max-width: 576px){
-      .hero{ padding: 4rem 0 2rem; }
+      .hero{ padding: 4rem 0 1.75rem; }
       .gradient-title{ font-size: clamp(1.8rem, 8vw, 2.2rem); line-height: 1.08; }
       .chips{ display:flex; flex-wrap: wrap; gap: 8px; }
       .chip-pro{ padding: 7px 12px; font-size: .9rem; margin: 0; }
       .cta-row .btn{ width:100%; margin: 0 0 .5rem 0; }
       .soft-card{ border-radius: 18px; }
       .soft-card p, .soft-card li{ font-size: .96rem; line-height: 1.35; }
-      .headshot{ max-width: 180px; }
-      .profile-card{ max-width: 240px; }
+      .headshot{ max-width: 190px; }
+      .profile-card{ max-width: 260px; }
       .rtl-body{ min-height: 280px; }
     }
-    @media (prefers-reduced-motion: reduce){
-      .chips{ transform: none !important; }
-    }
-
-    /* === Kill template white slabs & overlays (high specificity) === */
-
-/* No global white background on sections */
-section, .section { background: transparent !important; }
-
-/* Remove the inner white card the template injects for About */
-.about .container { 
-  background: transparent !important; 
-  box-shadow: none !important; 
-  padding: 0 !important;   /* keep if you like the spacing: comment out to retain */
-}
-
-/* No white veils over images/sections */
-.hero:before,
-.stats:before,
-.testimonials:before { 
-  background: transparent !important; 
-}
-
-/* Contact cards/forms: remove template whites (you already have custom cards) */
-.contact .info-wrap,
-.contact .php-email-form {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;    /* let your custom layout control spacing */
-}
-
-/* Optional: make the mobile nav off-canvas not pure white */
-:root {
-  --nav-mobile-background-color: rgba(14, 20, 36, 0.88);
-  --nav-dropdown-background-color: rgba(18, 24, 44, 0.96);
-  --nav-dropdown-color: #E8EDFF;
-  --nav-dropdown-hover-color: #a7f3d0;
-}
-
   </style>
 </head>
 
@@ -409,6 +269,7 @@ section, .section { background: transparent !important; }
         <li><a href="#features">Highlights</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#portfolio">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -419,13 +280,12 @@ section, .section { background: transparent !important; }
     <!-- HERO -->
     <section id="hero" class="hero section">
       <div class="container" data-aos="fade-up" data-aos-delay="50">
-        <div class="row align-items-center gy-4 gx-5">
+        <div class="row align-items-start gy-4 gx-5">
 
-          <!-- Left: Headshot + quick facts -->
+          <!-- Left: Headshot + quick facts (fixed layout) -->
           <div class="col-12 col-md-4 col-lg-4 col-xl-3">
             <div class="profile-card p-3 p-md-4">
               <img src="assets/img/diana.png" alt="Diana Jung headshot" class="headshot mb-3">
-
               <div class="mini-facts">
                 <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
                 <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
@@ -450,59 +310,44 @@ section, .section { background: transparent !important; }
               </div>
 
               <div class="rtl-body">
-                <!-- Verilog -->
+                <!-- Verilog (typed line-by-line) -->
                 <div class="panel active" id="panel-verilog" aria-label="Verilog code sample">
-                  <div class="codebox">
-<span class="com">// crc16.sv — tiny snippet</span>
-<span class="kw">module</span> <span class="id">crc16</span>(
-  <span class="kw">input  logic</span>       <span class="id">clk</span>, <span class="kw">input  logic</span> <span class="id">rst_n</span>,
-  <span class="kw">input  logic</span>       <span class="id">valid</span>,
-  <span class="kw">input  logic</span> [<span class="num">7</span>:<span class="num">0</span>] <span class="id">data</span>,
-  <span class="kw">output logic</span> [<span class="num">15</span>:<span class="num">0</span>] <span class="id">crc</span>
-);
-  <span class="kw">always_ff</span> @(<span class="kw">posedge</span> <span class="id">clk</span> <span class="kw">or negedge</span> <span class="id">rst_n</span>) <span class="kw">begin</span>
-    <span class="kw">if</span>(!<span class="id">rst_n</span>)         <span class="id">crc</span> &lt;= <span class="num">16'hFFFF</span>;
-    <span class="kw">else if</span>(<span class="id">valid</span>)   <span class="id">crc</span> &lt;= <span class="id">next_crc16</span>(<span class="id">crc</span>, <span class="id">data</span>);
-  <span class="kw">end</span>
-<span class="kw">endmodule</span>
+                  <div class="codebox" id="codebox">
+                    <!-- lines will be injected -->
                   </div>
                 </div>
 
                 <!-- Waveform -->
                 <div class="panel" id="panel-wave" aria-label="Waveform preview">
                   <div class="wavewrap">
-                    <!-- Simple SVG timing diagram -->
                     <svg viewBox="0 0 700 220" preserveAspectRatio="none" role="img">
                       <text x="8" y="24" class="sig-label">clk</text>
                       <polyline class="trace-clk" points="80,20 100,20 100,40 140,40 140,20 180,20 180,40 220,40 220,20 260,20 260,40 300,40 300,20 340,20 340,40 380,40 380,20 420,20 420,40 460,40 460,20 500,20 500,40 540,40 540,20 680,20" fill="none"/>
-
                       <text x="8" y="64" class="sig-label">valid</text>
                       <polyline class="trace-valid" points="80,60 220,60 220,80 380,80 380,60 680,60" fill="none"/>
-
                       <text x="8" y="104" class="sig-label">data[7:0]</text>
                       <polyline class="trace-data" points="80,100 120,100 120,120 200,120 200,100 280,100 280,120 360,120 360,100 680,100" fill="none"/>
-
                       <text x="8" y="144" class="sig-label">crc_ok</text>
                       <polyline class="trace-crc" points="80,140 360,140 360,160 540,160 540,140 680,140" fill="none"/>
                     </svg>
                   </div>
                 </div>
 
-                <!-- PCB -->
+                <!-- PCB auto-carousel -->
                 <div class="panel" id="panel-pcb" aria-label="PCB render">
                   <div class="pcbwrap">
-                    <img alt="PCB preview" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
+                    <img id="pcb-slide" alt="PCB preview" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
                   </div>
                 </div>
               </div>
 
               <!-- typing footer -->
               <div class="typefooter" aria-live="polite">
-                <span id="typed-line"></span><span class="caret" aria-hidden="true"></span>
+                <span id="typed-line">println("reaching for the stars…")</span><span class="caret" aria-hidden="true"></span>
               </div>
             </div>
 
-            <!-- Skills chips -->
+            <!-- Skills chips (quick) -->
             <div class="chips mt-2">
               <span class="chip-pro">FPGA / Verilog</span>
               <span class="chip-pro">ASIC Verification</span>
@@ -531,42 +376,56 @@ section, .section { background: transparent !important; }
       </div>
     </section>
 
-    <!-- ABOUT (no white background) -->
+    <!-- ABOUT (Skye-style layout) -->
     <section id="about" class="about section">
       <div class="container" data-aos="fade-up" data-aos-delay="50">
         <div class="section-title mb-2">
           <h2>About</h2>
         </div>
 
-        <div class="row g-3 mt-1">
-          <div class="col-md-6">
-            <div class="soft-card p-3">
-              <h6 class="mb-1" style="color:var(--mint)">What I do</h6>
+        <div class="row g-4 mt-1 align-items-stretch">
+          <!-- Left: intro paragraph -->
+          <div class="col-lg-8">
+            <div class="soft-card h-100 p-3 p-md-4">
+              <p class="lead mb-3" style="color:var(--text)">
+                I build embedded hardware that ships — from RF telemetry and high-speed PCB to FPGA/RTL with
+                measurable reliability. I care about clean bring-up, reproducible test benches, and sim-to-scope agreement.
+              </p>
               <ul class="mb-0">
                 <li>Schematic → layout (Altium) → assembly → lab validation</li>
-                <li>FPGA/Verilog, basic ASIC-style verification, timing closure</li>
+                <li>FPGA/Verilog with ASIC-style verification and timing closure</li>
                 <li>STM32 firmware (HAL) • SPI/I²C/UART • custom packet/CRC</li>
               </ul>
+              <p class="mt-3 mb-0" style="color:var(--text)">
+                Recent work: <strong>STM32WL LoRa</strong> telemetry (&gt;2 km, custom CRC) and an <strong>FPGA audio/UX</strong> stack with real-time I/O.
+              </p>
             </div>
           </div>
-
-          <div class="col-md-6">
-            <div class="soft-card p-3">
-              <h6 class="mb-1" style="color:var(--mint)">Strengths</h6>
-              <ul class="mb-0">
-                <li>RF-aware layout & signal integrity on 2–4-layer boards</li>
-                <li>Methodical bring-up: scripts, checklists, scope/LA captures</li>
-                <li>Clear documentation and reproducible test benches</li>
-              </ul>
+          <!-- Right: fact box -->
+          <div class="col-lg-4">
+            <div class="soft-card h-100 p-3 p-md-4">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-person-badge me-2" style="color:var(--mint)"></i>
+                <div>
+                  <div class="text-muted">Name</div>
+                  <div class="fw-bold" style="color:var(--text)">Diana (Hyeonji) Jung</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-envelope me-2" style="color:var(--mint)"></i>
+                <div>
+                  <div class="text-muted">Email</div>
+                  <a class="contact-link d-block" href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-0">
+                <i class="bi bi-geo-alt me-2" style="color:var(--mint)"></i>
+                <div>
+                  <div class="text-muted">Location</div>
+                  <div style="color:var(--text)">Toronto, Ontario</div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-lg-10">
-            <p class="mb-0" style="color:var(--text)">
-              Recent work: <strong>STM32WL LoRa</strong> telemetry (&gt;2 km, custom CRC) and <strong>FPGA audio/UX</strong> with real-time I/O.
-            </p>
           </div>
         </div>
       </div>
@@ -580,19 +439,19 @@ section, .section { background: transparent !important; }
       <div class="container">
         <div class="row g-4">
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="50">
-            <div class="fcard soft-card">
+            <div class="fcard soft-card p-3">
               <div class="big">550+</div>
               <div class="mt-1">Leaders Mentored — Frosh Week</div>
             </div>
           </div>
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="fcard soft-card">
+            <div class="fcard soft-card p-3">
               <div class="big">5+</div>
               <div class="mt-1">Custom PCBs — Design to Lab Validation</div>
             </div>
           </div>
           <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
-            <div class="fcard soft-card">
+            <div class="fcard soft-card p-3">
               <div class="big">LoRa</div>
               <div class="mt-1">Radio Systems Lead — Blue Sky Solar Racing</div>
             </div>
@@ -615,11 +474,18 @@ section, .section { background: transparent !important; }
                 <h4 class="mb-1">Embedded Hardware & Wireless Systems Lead</h4>
                 <div class="text-muted mb-2">Blue Sky Solar Racing • Jan 2025 – Present</div>
                 <ul class="mb-2">
-                  <li>STM32WL LoRa module; &gt;2 km reliable range; custom packet + CRC; 50+ telemetry params.</li>
+                  <li>STM32WL LoRa module; &gt;2 km range; custom packet + CRC; 50+ telemetry params.</li>
                   <li>Schematic → layout → bring-up; RF validation and range testing.</li>
                   <li>USB-CDC link to chase vehicle server for live dashboards.</li>
                 </ul>
-                <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module"><i class="bi bi-github me-1"></i>Repo</a>
+                <div class="proj-chips">
+                  <span class="chip-pro">STM32WL</span>
+                  <span class="chip-pro">LoRa</span>
+                  <span class="chip-pro">Altium</span>
+                  <span class="chip-pro">RF • SI</span>
+                  <span class="chip-pro">Python</span>
+                </div>
+                <a class="btn btn-sm btn-ghost mt-2" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module"><i class="bi bi-github me-1"></i>Repo</a>
               </div>
             </div>
           </div>
@@ -634,7 +500,14 @@ section, .section { background: transparent !important; }
                   <li>DE1-SoC FPGA piano (VGA UI, PS/2, PWM audio), 100 MHz timing closure.</li>
                   <li>Automated Quartus + ModelSim with Tcl/Bash; reproducible verification.</li>
                 </ul>
-                <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system"><i class="bi bi-github me-1"></i>Repo</a>
+                <div class="proj-chips">
+                  <span class="chip-pro">SystemVerilog</span>
+                  <span class="chip-pro">Quartus</span>
+                  <span class="chip-pro">ModelSim</span>
+                  <span class="chip-pro">Tcl • Bash</span>
+                  <span class="chip-pro">VGA • PS/2</span>
+                </div>
+                <a class="btn btn-sm btn-ghost mt-2" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system"><i class="bi bi-github me-1"></i>Repo</a>
               </div>
             </div>
           </div>
@@ -657,8 +530,14 @@ section, .section { background: transparent !important; }
                 <h4 class="mt-2 mb-1">LoRa Telemetry Module</h4>
                 <div class="w-more">STM32WL • &gt;2 km • custom packet/CRC • USB CDC</div>
                 <p class="mt-2">Chase & car modules, RF validation, and live data to the vehicle network.</p>
-                <a href="https://github.com/hyeonjijung1/LoRa-Radio-Module" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
-                <a href="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+                <div class="proj-chips">
+                  <span class="chip-pro">STM32 HAL</span>
+                  <span class="chip-pro">LoRa PHY</span>
+                  <span class="chip-pro">Altium</span>
+                  <span class="chip-pro">Python</span>
+                </div>
+                <a href="https://github.com/hyeonjijung1/LoRa-Radio-Module" target="_blank" class="btn btn-sm btn-accent me-2 mt-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png" class="btn btn-sm btn-ghost glightbox mt-2">Preview</a>
               </div>
             </div>
           </div>
@@ -671,8 +550,15 @@ section, .section { background: transparent !important; }
                 <h4 class="mt-2 mb-1">SDR Controller Hardware</h4>
                 <div class="w-more">ATmega324PB • Si5351A • UART CAT • I/Q</div>
                 <p class="mt-2">RX/TX switching and LO control; ±1 kHz LO stability and 90° I/Q accuracy. Firmware + Python validation automation.</p>
-                <a href="https://github.com/hyeonjijung1/controller-hardware-sdr" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
-                <a href="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/block_diagram_sdr.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+                <div class="proj-chips">
+                  <span class="chip-pro">ATmega</span>
+                  <span class="chip-pro">Si5351A</span>
+                  <span class="chip-pro">Altium</span>
+                  <span class="chip-pro">UART • I/Q</span>
+                  <span class="chip-pro">Python</span>
+                </div>
+                <a href="https://github.com/hyeonjijung1/controller-hardware-sdr" target="_blank" class="btn btn-sm btn-accent me-2 mt-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/block_diagram_sdr.png" class="btn btn-sm btn-ghost glightbox mt-2">Preview</a>
               </div>
             </div>
           </div>
@@ -685,8 +571,14 @@ section, .section { background: transparent !important; }
                 <h4 class="mt-2 mb-1">RISC-V 5-Stage Pipelined CPU</h4>
                 <div class="w-more">RV32I • hazards & forwarding • branches</div>
                 <p class="mt-2">Synthesizable Verilog CPU with coverage-driven verification; Tcl-driven regressions and waveform analysis.</p>
-                <a href="https://github.com/hyeonjijung1/riscv-pipeline-cpu" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
-                <a href="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/ex_stage.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+                <div class="proj-chips">
+                  <span class="chip-pro">Verilog</span>
+                  <span class="chip-pro">Questa</span>
+                  <span class="chip-pro">Tcl</span>
+                  <span class="chip-pro">Coverage</span>
+                </div>
+                <a href="https://github.com/hyeonjijung1/riscv-pipeline-cpu" target="_blank" class="btn btn-sm btn-accent me-2 mt-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/riscv-pipeline-cpu/main/docs/ex_stage.png" class="btn btn-sm btn-ghost glightbox mt-2">Preview</a>
               </div>
             </div>
           </div>
@@ -698,41 +590,65 @@ section, .section { background: transparent !important; }
               <div class="p-2">
                 <h4 class="mt-2 mb-1">FPGA Nios® V Hearing Loss & Aid Simulator</h4>
                 <div class="w-more">8 ms latency • 100 MHz • 12% LUT</div>
-                <p class="mt-2">Real-time DSP on DE1-SoC with VGA UI, PS/2 controls, mic/store audio, and oscilloscope-verified performance.</p>
-                <a href="https://github.com/hyeonjijung1/fpga-niosv-hearing-simulator" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
-                <a href="https://raw.githubusercontent.com/hyeonjijung1/fpga-niosv-hearing-simulator/main/images/final-bd.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- FPGA Piano -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
-            <div class="soft-card p-3 h-100">
-              <img src="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/demo_photo.png" class="img-fluid" alt="FPGA Piano">
-              <div class="p-2">
-                <h4 class="mt-2 mb-1">FPGA Piano Audio System</h4>
-                <div class="w-more">VGA • PS/2 • PWM Audio</div>
-                <p class="mt-2">Synthesizable Verilog design with UI rendering and real-time audio; automated build/sim with Tcl & Bash.</p>
-                <a href="https://github.com/hyeonjijung1/fpga-piano-audio-system" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
-                <a href="https://raw.githubusercontent.com/hyeonjijung1/fpga-piano-audio-system/main/docs/waveform_epwave.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+                <p class="mt-2">Real-time DSP on DE1-SoC with VGA UI, PS/2 controls, mic/store audio, and scope-verified performance.</p>
+                <div class="proj-chips">
+                  <span class="chip-pro">Nios® V</span>
+                  <span class="chip-pro">Verilog</span>
+                  <span class="chip-pro">Quartus</span>
+                  <span class="chip-pro">DSP</span>
+                </div>
+                <a href="https://github.com/hyeonjijung1/fpga-niosv-hearing-simulator" target="_blank" class="btn btn-sm btn-accent me-2 mt-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/fpga-niosv-hearing-simulator/main/images/final-bd.png" class="btn btn-sm btn-ghost glightbox mt-2">Preview</a>
               </div>
             </div>
           </div>
 
           <!-- Linear Regulator PCB -->
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="250">
             <div class="soft-card p-3 h-100">
               <img src="https://raw.githubusercontent.com/hyeonjijung1/linear-voltage-regulator-pcb/main/images/pcb-final.jpg" class="img-fluid" alt="Linear Regulator PCB">
               <div class="p-2">
                 <h4 class="mt-2 mb-1">Linear Voltage Regulator PCB</h4>
                 <div class="w-more">±20 mV regulation • &lt;100 mVpp ripple</div>
                 <p class="mt-2">Discrete analog regulator: LTspice → PCB → solder → oscilloscope validation. Accurate sim-to-lab correlation.</p>
-                <a href="https://github.com/hyeonjijung1/linear-voltage-regulator-pcb" target="_blank" class="btn btn-sm btn-accent me-2"><i class="bi bi-github me-1"></i>Repo</a>
-                <a href="https://raw.githubusercontent.com/hyeonjijung1/linear-voltage-regulator-pcb/main/images/osc-1.png" class="btn btn-sm btn-ghost glightbox">Preview</a>
+                <div class="proj-chips">
+                  <span class="chip-pro">Analog</span>
+                  <span class="chip-pro">LTspice</span>
+                  <span class="chip-pro">Altium</span>
+                  <span class="chip-pro">SI/PI</span>
+                </div>
+                <a href="https://github.com/hyeonjijung1/linear-voltage-regulator-pcb" target="_blank" class="btn btn-sm btn-accent me-2 mt-2"><i class="bi bi-github me-1"></i>Repo</a>
+                <a href="https://raw.githubusercontent.com/hyeonjijung1/linear-voltage-regulator-pcb/main/images/osc-1.png" class="btn btn-sm btn-ghost glightbox mt-2">Preview</a>
               </div>
             </div>
           </div>
 
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS (flashy grid) -->
+    <section id="skills" class="section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Skills</h2>
+      </div>
+      <div class="container" data-aos="fade-up" data-aos-delay="80">
+        <div class="skills-grid">
+          <div class="skill-tile"><i class="devicon-systemverilog-plain colored"></i><div class="label">SystemVerilog</div></div>
+          <div class="skill-tile"><i class="devicon-verilog-plain colored"></i><div class="label">Verilog</div></div>
+          <div class="skill-tile"><i class="devicon-intel-plain colored"></i><div class="label">Quartus / Nios® V</div></div>
+          <div class="skill-tile"><i class="devicon-xilinx-plain colored"></i><div class="label">Vivado</div></div>
+          <div class="skill-tile"><i class="devicon-bash-plain colored"></i><div class="label">Tcl • Bash</div></div>
+          <div class="skill-tile"><i class="devicon-c-plain colored"></i><div class="label">C / C++</div></div>
+          <div class="skill-tile"><i class="devicon-python-plain colored"></i><div class="label">Python</div></div>
+          <div class="skill-tile"><i class="devicon-linux-plain colored"></i><div class="label">Linux / Make</div></div>
+          <div class="skill-tile"><i class="devicon-altiumdesigner-plain colored"></i><div class="label">Altium</div></div>
+          <div class="skill-tile"><i class="devicon-kicad-plain colored"></i><div class="label">KiCad</div></div>
+          <div class="skill-tile"><i class="bi bi-broadcast-pin" style="font-size:36px;color:var(--mint)"></i><div class="label">RF / LoRa</div></div>
+          <div class="skill-tile"><i class="bi bi-cpu" style="font-size:36px;color:var(--lilac)"></i><div class="label">STM32 HAL</div></div>
+          <div class="skill-tile"><i class="bi bi-diagram-2" style="font-size:36px;color:var(--sun)"></i><div class="label">SPI • I²C • UART</div></div>
+          <div class="skill-tile"><i class="devicon-matlab-plain colored"></i><div class="label">MATLAB</div></div>
+          <div class="skill-tile"><i class="bi bi-activity" style="font-size:36px;color:var(--rose)"></i><div class="label">Signal Integrity</div></div>
         </div>
       </div>
     </section>
@@ -744,7 +660,6 @@ section, .section { background: transparent !important; }
       </div>
       <div class="container" data-aos="fade-up" data-aos-delay="60">
         <div class="row gy-3">
-          <!-- Email -->
           <div class="col-md-4">
             <div class="contact-card d-flex align-items-center">
               <div class="contact-icon"><i class="bi bi-envelope"></i></div>
@@ -754,7 +669,6 @@ section, .section { background: transparent !important; }
               </div>
             </div>
           </div>
-          <!-- GitHub -->
           <div class="col-md-4">
             <div class="contact-card d-flex align-items-center">
               <div class="contact-icon"><i class="bi bi-github"></i></div>
@@ -764,186 +678,212 @@ section, .section { background: transparent !important; }
               </div>
             </div>
           </div>
-                   <!-- LinkedIn -->
-                   <div class="col-md-4">
-                    <div class="contact-card d-flex align-items-center">
-                      <div class="contact-icon"><i class="bi bi-linkedin"></i></div>
-                      <div>
-                        <p class="contact-title">LinkedIn</p>
-                        <a class="contact-link" target="_blank" href="https://www.linkedin.com/in/dianajung-uoft/">/in/dianajung-uoft</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-        
-                <!-- Calls-to-action -->
-                <div class="contact-cta text-center mt-4">
-                  <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank">
-                    <i class="bi bi-download me-1"></i>Download CV
-                  </a>
-                  <a class="btn btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1">
-                    <i class="bi bi-github me-1"></i>GitHub
-                  </a>
-                  <a class="btn btn-ghost" target="_blank" href="https://www.linkedin.com/in/dianajung-uoft/">
-                    <i class="bi bi-linkedin me-1"></i>LinkedIn
-                  </a>
-                </div>
+          <div class="col-md-4">
+            <div class="contact-card d-flex align-items-center">
+              <div class="contact-icon"><i class="bi bi-linkedin"></i></div>
+              <div>
+                <p class="contact-title">LinkedIn</p>
+                <a class="contact-link" target="_blank" href="https://www.linkedin.com/in/dianajung-uoft/">/in/dianajung-uoft</a>
               </div>
-            </section>
-        
-          </main>
-        
-          <!-- FOOTER -->
-          <footer id="footer" class="footer accent-background">
-            <div class="container text-center">
-              <p>© <span id="year"></span> <strong class="px-1 sitename">Diana Jung</strong></p>
-              <div class="credits small mt-2">Designed with DevFolio base • Custom starfield by Diana</div>
             </div>
-          </footer>
-        
-          <!-- Scroll Top -->
-          <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-            <i class="bi bi-arrow-up-short"></i>
+          </div>
+        </div>
+
+        <div class="contact-cta text-center mt-4">
+          <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank">
+            <i class="bi bi-download me-1"></i>Download CV
           </a>
-        
-          <!-- Vendor JS -->
-          <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-          <script src="assets/vendor/aos/aos.js"></script>
-          <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-          <script src="assets/js/main.js"></script>
-        
-          <!-- Init AOS / GLightbox / year -->
-          <script>
-            AOS.init({ once: true, offset: 80, duration: 700, easing: 'ease-out' });
-            GLightbox({ selector: '.glightbox' });
-            document.getElementById('year').textContent = new Date().getFullYear();
-          </script>
-        
-          <!-- RTL-Lab: tabs + one-shot typing -->
-          <script>
-            // Tabs
-            (function(){
-              const tabs = document.querySelectorAll('.rtl-tab');
-              const panels = {
-                verilog: document.getElementById('panel-verilog'),
-                wave: document.getElementById('panel-wave'),
-                pcb: document.getElementById('panel-pcb')
-              };
-              tabs.forEach(t => {
-                t.addEventListener('click', () => {
-                  tabs.forEach(x => x.classList.remove('active'));
-                  Object.values(panels).forEach(p => p.classList.remove('active'));
-                  t.classList.add('active');
-                  const id = t.dataset.tab;
-                  panels[id].classList.add('active');
-                });
-              });
-            })();
-        
-            // Typing line (one time per page load)
-            (function(){
-              const el = document.getElementById('typed-line');
-              if(!el) return;
-              const text = 'println("reaching for the stars…")';
-              let i = 0;
-              const speed = 38; // ms per character
-              function step(){
-                if(i <= text.length){
-                  el.textContent = text.slice(0, i++);
-                  requestAnimationFrame(() => setTimeout(step, speed));
-                }
-              }
-              // start after a brief pause so layout settles
-              setTimeout(step, 450);
-            })();
-          </script>
-        
-          <!-- Starfield -->
-          <script>
-            (function(){
-              const canvas = document.getElementById('stars');
-              const ctx = canvas.getContext('2d');
-              let w, h, dpr, stars = [], rafId;
-        
-              function resize(){
-                dpr = Math.min(window.devicePixelRatio || 1, 2);
-                w = canvas.width  = Math.floor(window.innerWidth  * dpr);
-                h = canvas.height = Math.floor(window.innerHeight * dpr);
-                canvas.style.width  = window.innerWidth  + 'px';
-                canvas.style.height = window.innerHeight + 'px';
-                init();
-              }
-              function rand(a,b){ return a + Math.random()*(b-a); }
-        
-              function init(){
-                const hues = [330, 55, 140, 195, 265];
-                const count = Math.min(180, Math.max(90, Math.floor(w*h*0.00005)));
-                stars = [];
-                for (let i=0;i<count;i++){
-                  const hue = hues[(Math.random()*hues.length)|0];
-                  stars.push({
-                    x: Math.random()*w, y: Math.random()*h,
-                    r: rand(1.8, 3.6) * dpr,
-                    vx: rand(-0.05, 0.05) * dpr, vy: rand(-0.05, 0.05) * dpr,
-                    tw: Math.random()*Math.PI*2, hue
-                  });
-                }
-                if (rafId) cancelAnimationFrame(rafId);
-                loop();
-              }
-        
-              function nearestNeighbors(k=2){
-                const n = stars.length, neighbors = Array.from({length:n}, ()=>[]);
-                for (let i=0;i<n;i++){
-                  const a = stars[i], dists = [];
-                  for (let j=0;j<n;j++){
-                    if (i===j) continue;
-                    const b = stars[j], dx = a.x - b.x, dy = a.y - b.y;
-                    dists.push([j, dx*dx + dy*dy]);
-                  }
-                  dists.sort((u,v)=>u[1]-v[1]);
-                  neighbors[i] = dists.slice(0,k).map(p=>p[0]);
-                }
-                return neighbors;
-              }
-        
-              function draw(){
-                const grad = ctx.createRadialGradient(w*0.5, h*-0.2, 0, w*0.5, h*0.3, Math.max(w,h)*0.9);
-                grad.addColorStop(0, 'rgba(30,40,80,0.35)');
-                grad.addColorStop(1, 'rgba(9,14,27,0.0)');
-                ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
-        
-                for (const s of stars){
-                  s.x += s.vx; s.y += s.vy;
-                  if (s.x < 0) s.x = w; if (s.x > w) s.x = 0;
-                  if (s.y < 0) s.y = h; if (s.y > h) s.y = 0;
-                  s.tw += 0.02;
-                }
-        
-                const nbrs = nearestNeighbors(2);
-                ctx.lineWidth = 0.7 * dpr;
-                for (let i=0;i<stars.length;i++){
-                  const a = stars[i], base = 'rgba(210,225,255,';
-                  for (const j of nbrs[i]){
-                    const b = stars[j];
-                    const dist = Math.hypot(a.x - b.x, a.y - b.y);
-                    const alpha = Math.max(0.08, Math.min(0.22, 0.28 - dist / (220*dpr)));
-                    ctx.strokeStyle = base + alpha.toFixed(3) + ')';
-                    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-                  }
-                }
-        
-                for (const s of stars){
-                  const alpha = 0.7 + Math.sin(s.tw)*0.25;
-                  ctx.beginPath(); ctx.fillStyle = `hsla(${s.hue}, 85%, 80%, ${alpha})`; ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
-                  ctx.beginPath(); ctx.fillStyle = `hsla(${s.hue}, 90%, 85%, ${alpha*0.35})`; ctx.arc(s.x, s.y, s.r*1.8, 0, Math.PI*2); ctx.fill();
-                }
-              }
-        
-              function loop(){ ctx.clearRect(0,0,w,h); draw(); rafId = requestAnimationFrame(loop); }
-              window.addEventListener('resize', resize); resize();
-            })();
-          </script>
-        </body>
-        </html>
-        
+          <a class="btn btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1">
+            <i class="bi bi-github me-1"></i>GitHub
+          </a>
+          <a class="btn btn-ghost" target="_blank" href="https://www.linkedin.com/in/dianajung-uoft/">
+            <i class="bi bi-linkedin me-1"></i>LinkedIn
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="footer accent-background">
+    <div class="container text-center">
+      <p>© <span id="year"></span> <strong class="px-1 sitename">Diana Jung</strong></p>
+      <div class="credits small mt-2">Designed with DevFolio base • Custom starfield by Diana</div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+  <!-- Vendor JS -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- Init AOS / GLightbox / year -->
+  <script>
+    AOS.init({ once: true, offset: 80, duration: 700, easing: 'ease-out' });
+    GLightbox({ selector: '.glightbox' });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- RTL-Lab: tabs + typed Verilog + PCB carousel -->
+  <script>
+    // Tabs
+    (function(){
+      const tabs = document.querySelectorAll('.rtl-tab');
+      const panels = { verilog: 'panel-verilog', wave: 'panel-wave', pcb: 'panel-pcb' };
+      tabs.forEach(t => {
+        t.addEventListener('click', () => {
+          tabs.forEach(x => x.classList.remove('active'));
+          Object.values(panels).forEach(id => document.getElementById(id).classList.remove('active'));
+          t.classList.add('active');
+          document.getElementById(panels[t.dataset.tab]).classList.add('active');
+        });
+      });
+    })();
+
+    // Typed Verilog (line-by-line)
+    (function(){
+      const box = document.getElementById('codebox');
+      if(!box) return;
+      const lines = [
+        '<span class="com">// crc16.sv — tiny snippet</span>',
+        '<span class="kw">module</span> <span class="id">crc16</span>(<span class="kw">input</span> <span class="id">logic</span> <span class="id">clk</span>, <span class="kw">input</span> <span class="id">logic</span> <span class="id">rst_n</span>,',
+        '  <span class="kw">input</span> <span class="id">logic</span> <span class="id">valid</span>,',
+        '  <span class="kw">input</span> <span class="id">logic</span> [<span class="num">7</span>:<span class="num">0</span>] <span class="id">data</span>,',
+        '  <span class="kw">output</span> <span class="id">logic</span> [<span class="num">15</span>:<span class="num">0</span>] <span class="id">crc</span> );',
+        '  <span class="kw">always_ff</span> @(<span class="kw">posedge</span> <span class="id">clk</span> <span class="kw">or negedge</span> <span class="id">rst_n</span>) <span class="kw">begin</span>',
+        '    <span class="kw">if</span>(!<span class="id">rst_n</span>) <span class="id">crc</span> &lt;= <span class="num">16\'hFFFF</span>;',
+        '    <span class="kw">else if</span>(<span class="id">valid</span>) <span class="id">crc</span> &lt;= <span class="id">next_crc16</span>(<span class="id">crc</span>, <span class="id">data</span>);',
+        '  <span class="kw">end</span>',
+        '<span class="kw">endmodule</span>'
+      ];
+      let i = 0;
+      function addLine(){
+        if(i >= lines.length) return;
+        const el = document.createElement('span');
+        el.className = 'code-line';
+        box.appendChild(el);
+        // type the current line character-by-character
+        const text = lines[i++];
+        let j = 0;
+        const tick = () => {
+          el.innerHTML = text.slice(0, ++j);
+          if(j < text.length) setTimeout(tick, 18);
+          else setTimeout(addLine, 130);
+        };
+        tick();
+      }
+      setTimeout(addLine, 350);
+    })();
+
+    // PCB auto image carousel (every 2s)
+    (function(){
+      const img = document.getElementById('pcb-slide');
+      if(!img) return;
+      const pics = [
+        'https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png',
+        'https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/TOP-plane.png',
+        'https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/3D%20PCB%20render.png'
+      ];
+      let k = 0;
+      setInterval(()=>{ k = (k+1)%pics.length; img.src = pics[k]; }, 2000);
+    })();
+
+    // One-shot footer typing already present as literal string above
+
+  </script>
+
+  <!-- Starfield -->
+  <script>
+    (function(){
+      const canvas = document.getElementById('stars');
+      const ctx = canvas.getContext('2d');
+      let w, h, dpr, stars = [], rafId;
+
+      function resize(){
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = canvas.width  = Math.floor(window.innerWidth  * dpr);
+        h = canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width  = window.innerWidth  + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        init();
+      }
+      function rand(a,b){ return a + Math.random()*(b-a); }
+
+      function init(){
+        const hues = [330, 55, 140, 195, 265];
+        const count = Math.min(180, Math.max(90, Math.floor(w*h*0.00005)));
+        stars = [];
+        for (let i=0;i<count;i++){
+          const hue = hues[(Math.random()*hues.length)|0];
+          stars.push({
+            x: Math.random()*w, y: Math.random()*h,
+            r: rand(1.8, 3.6) * dpr,
+            vx: rand(-0.05, 0.05) * dpr, vy: rand(-0.05, 0.05) * dpr,
+            tw: Math.random()*Math.PI*2, hue
+          });
+        }
+        if (rafId) cancelAnimationFrame(rafId);
+        loop();
+      }
+
+      function nearestNeighbors(k=2){
+        const n = stars.length, neighbors = Array.from({length:n}, ()=>[]);
+        for (let i=0;i<n;i++){
+          const a = stars[i], dists = [];
+          for (let j=0;j<n;j++){
+            if (i===j) continue;
+            const b = stars[j], dx = a.x - b.x, dy = a.y - b.y;
+            dists.push([j, dx*dx + dy*dy]);
+          }
+          dists.sort((u,v)=>u[1]-v[1]);
+          neighbors[i] = dists.slice(0,k).map(p=>p[0]);
+        }
+        return neighbors;
+      }
+
+      function draw(){
+        const grad = ctx.createRadialGradient(w*0.5, h*-0.2, 0, w*0.5, h*0.3, Math.max(w,h)*0.9);
+        grad.addColorStop(0, 'rgba(30,40,80,0.35)');
+        grad.addColorStop(1, 'rgba(9,14,27,0.0)');
+        ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
+
+        for (const s of stars){
+          s.x += s.vx; s.y += s.vy;
+          if (s.x < 0) s.x = w; if (s.x > w) s.x = 0;
+          if (s.y < 0) s.y = h; if (s.y > h) s.y = 0;
+          s.tw += 0.02;
+        }
+
+        const nbrs = nearestNeighbors(2);
+        ctx.lineWidth = 0.7 * dpr;
+        for (let i=0;i<stars.length;i++){
+          const a = stars[i], base = 'rgba(210,225,255,';
+          for (const j of nbrs[i]){
+            const b = stars[j];
+            const dist = Math.hypot(a.x - b.x, a.y - b.y);
+            const alpha = Math.max(0.08, Math.min(0.22, 0.28 - dist / (220*dpr)));
+            ctx.strokeStyle = base + alpha.toFixed(3) + ')';
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+
+        for (const s of stars){
+          const alpha = 0.7 + Math.sin(s.tw)*0.25;
+          ctx.beginPath(); ctx.fillStyle = `hsla(${s.hue}, 85%, 80%, ${alpha})`; ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.fillStyle = `hsla(${s.hue}, 90%, 85%, ${alpha*0.35})`; ctx.arc(s.x, s.y, s.r*1.8, 0, Math.PI*2); ctx.fill();
+        }
+      }
+
+      function loop(){ ctx.clearRect(0,0,w,h); draw(); rafId = requestAnimationFrame(loop); }
+      window.addEventListener('resize', resize); resize();
+    })();
+  </script>
+</body>
+</html>
