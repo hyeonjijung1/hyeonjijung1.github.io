@@ -9,9 +9,11 @@
   <link rel="icon" href="assets/img/favicon.png" />
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Fonts (variable) -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Plus+Jakarta+Sans:wght@600..900&display=swap" rel="stylesheet">
+
 
   <!-- Vendor CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -331,6 +333,171 @@ section {
   0%, 100% { text-shadow: 0 0 5px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.3); }
   50% { text-shadow: 0 0 15px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.4); }
 }
+/* Code-style colors for the typing footer */
+.typefooter .kw  { color: #a7f3d0; font-weight: 700; }   /* mint keyword */
+.typefooter .str { color: #fde68a; }                      /* warm string  */
+.typefooter #typed-line{
+  letter-spacing: .3px;
+  text-shadow: 0 0 10px rgba(255,255,255,.12), 0 0 22px rgba(120,180,255,.10);
+}
+/* ==================== Sleek Typography Pack ==================== */
+:root{
+  --font-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --lh-tight: 1.15;
+  --lh-normal: 1.6;
+  --track-tight: -0.01em;
+  --track-tighter: -0.015em;
+}
+
+/* Global smoothing + legibility */
+html{
+  font-size: 16px; /* base */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+body{
+  font-family: var(--font-sans);
+  font-weight: 450;                 /* nicer default weight with Inter var */
+  line-height: var(--lh-normal);
+  font-optical-sizing: auto;
+  font-variant-numeric: tabular-nums; /* cleaner numbers in chips, tabs */
+  font-synthesis-weight: none;        /* avoid faux bold/italic */
+}
+
+/* Headings (display) */
+h1,h2,h3,h4,h5,h6,.navmenu ul{
+  font-family: var(--font-display) !important;
+  font-weight: 800;
+  letter-spacing: var(--track-tight);
+  line-height: var(--lh-tight);
+  text-wrap: balance;                /* modern browsers: nicer multi-line */
+}
+
+/* Hero headline: a touch tighter & bigger */
+.gradient-title{
+  letter-spacing: var(--track-tighter);
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+/* Section titles already gradient—just refine spacing */
+.section-title h2{
+  letter-spacing: var(--track-tight);
+  line-height: 1.1;
+}
+
+/* Navigation: confident weight without heaviness */
+.navmenu a{
+  font-weight: 650;                  /* Inter var allows this mid-weight */
+  letter-spacing: .01em;
+}
+
+/* Buttons/chips: slightly denser text */
+.btn, .chip-pro{
+  font-weight: 650;
+  letter-spacing: .01em;
+}
+
+/* Cards: make paragraphs extremely readable */
+.soft-card p,
+.soft-card li,
+.portfolio .soft-card .w-more {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  letter-spacing: .005em;
+}
+
+/* Project card headings and meta */
+.portfolio .soft-card h4{
+  font-weight: 800;
+  letter-spacing: var(--track-tight);
+  line-height: 1.2;
+}
+.portfolio .soft-card .w-more{
+  font-weight: 600;
+  opacity: .9;
+}
+
+/* Experience cards: unify style with projects */
+.resume .soft-card h4{
+  font-weight: 800;
+  letter-spacing: var(--track-tight);
+}
+.resume .soft-card p{
+  font-size: 1.03rem;
+  line-height: 1.65;
+}
+
+/* Type footer (code look) stays crisp */
+.typefooter{
+  font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+/* Make all cards “interactive” and keep the soft hover glow */
+.soft-card,
+.project-card,
+.flip-card,
+.contact-card {
+  position: relative;
+  overflow: hidden;                 /* contain the ripple */
+  border-radius: 16px;              /* keeps ripple shape soft */
+  transition: box-shadow .25s ease, transform .18s ease;
+}
+
+.soft-card:hover,
+.project-card:hover,
+.flip-card:hover,
+.contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 18px rgba(255, 182, 193, .35), /* pink */
+    0 0 36px rgba(173, 216, 230, .28), /* light blue */
+    0 0 60px rgba(255, 255, 153, .18); /* pastel yellow */
+}
+
+/* Ripple element injected on click */
+.ripple {
+  position: absolute;
+  left: 0; top: 0;
+  width: 28px; height: 28px;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: .9;
+  filter: blur(1.5px);
+  background: radial-gradient(circle,
+              rgba(255, 182, 193, .95) 0%,
+              rgba(173, 216, 230, .75) 40%,
+              rgba(255, 255, 153, .55) 60%,
+              rgba(255,255,255,0) 70%);
+  animation: ripple-go .8s ease-out forwards;
+}
+
+/* The expansion/fade of the ripple */
+@keyframes ripple-go {
+  to {
+    transform: translate(-50%, -50%) scale(38); /* large enough for big cards */
+    opacity: 0;
+  }
+}
+
+/* Optional: tiny click “lift” + quick glow on the card itself */
+.card-click-burst {
+  animation: cardBurst .6s ease-out;
+}
+@keyframes cardBurst {
+  0%   { box-shadow: 0 0 0 rgba(255,255,255,0); }
+  45%  { box-shadow:
+            0 0 26px rgba(255,182,193,.65),
+            0 0 60px rgba(173,216,230,.35),
+            0 0 90px rgba(255,255,153,.28);
+          transform: translateY(-3px); }
+  100% { box-shadow: 0 0 0 rgba(255,255,255,0); transform: translateY(0); }
+}
 
   </style>
 </head>
@@ -429,11 +596,13 @@ section {
                 </div>
               </div>
 
-              <!-- typing footer -->
               <div class="typefooter" aria-live="polite">
-                <span id="typed-line">Reaching for the stars...</span><span class="caret" aria-hidden="true"></span>
+                <span id="typed-line">
+                  <span class="kw">println</span>(<span class="str">"Reaching for the stars…"</span>);
+                </span>
+                <span class="caret" aria-hidden="true"></span>
               </div>
-            </div>
+              
 
             <!-- Five key chips -->
             <div class="chips mt-2">
@@ -847,7 +1016,8 @@ section {
       const pics = [
         'https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png',
         'https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/TOP-plane.png',
-        'https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/bottom.png'
+        'https://raw.githubusercontent.com/hyeonjijung1/sea-smart-grid-yakutsk-pcb/main/images/header-3d.png',
+        'https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/3D%20PCB%20render.png'
       ];
       const img = document.getElementById('pcbSlide');
       let k = 0;
@@ -993,5 +1163,36 @@ section {
       })();
     })();
   </script>
+  <script>
+    // Ripple-on-click for all interactive cards
+    (function(){
+      const SELECTOR = '.soft-card, .project-card, .flip-card, .contact-card';
+      document.querySelectorAll(SELECTOR).forEach(card => {
+        card.addEventListener('click', (e) => {
+          // Ignore clicks on links so navigation feels snappy
+          if (e.target.closest('a, button')) return;
+  
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+  
+          // Create the ripple at click point
+          const r = document.createElement('span');
+          r.className = 'ripple';
+          r.style.left = x + 'px';
+          r.style.top  = y + 'px';
+          card.appendChild(r);
+  
+          // Optional: a brief glow/lift on the card itself
+          card.classList.add('card-click-burst');
+  
+          // Cleanup after the animation ends
+          r.addEventListener('animationend', () => r.remove());
+          setTimeout(() => card.classList.remove('card-click-burst'), 650);
+        }, { passive: true });
+      });
+    })();
+  </script>
+  
 </body>
 </html>
