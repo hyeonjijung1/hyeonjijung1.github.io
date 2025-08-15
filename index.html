@@ -2616,6 +2616,10 @@ html {
   .skill-card,
   .tools-grid .tool { animation: none !important; filter: none !important; }
 }
+.pill-hw,
+.pill-lead {
+  color: #fff !important;
+}
 
   </style>
 </head>
@@ -3106,104 +3110,128 @@ html {
     </div>
   </div>
 </section>
-
-<div class="skill-grid mt-2">
-  <!-- Leadership (TPM) -->
-  <article class="skill-card cat-lead" data-aos="zoom-in" data-aos-delay="0" style="--h: 25">
-    <div class="skill-accent"></div>
-    <h3>Leadership</h3>
-    <p>Guiding cross-functional teams to hit aggressive timelines with clarity, accountability, and momentum.</p>
-    <div class="skill-tags">
-      <span>Team Building</span><span>Cross-Functional</span><span>Stakeholder Alignment</span>
-    </div>
-  </article>
-
-  <!-- PCB (Hardware) -->
-  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="40" style="--h: 190">
-    <div class="skill-accent"></div>
-    <h3>PCB Design</h3>
-    <p>Stackup planning, impedance, pours, placement & routing, DRC, bring-up.</p>
-    <div class="skill-tags">
-      <span>Altium Designer</span><span>2–4 layer</span><span>SI basics</span>
-    </div>
-  </article>
-
-  <!-- FPGA / RTL (Hardware) -->
-  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="80" style="--h: 260">
-    <div class="skill-accent"></div>
-    <h3>FPGA / RTL</h3>
-    <p>Verilog/SystemVerilog, timing closure, verification, clean build flows.</p>
-    <div class="skill-tags">
-      <span>Quartus</span><span>ModelSim</span><span>100&nbsp;MHz+</span>
-    </div>
-  </article>
-
-  <!-- Embedded (Hardware) -->
-  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="120" style="--h: 320">
-    <div class="skill-accent"></div>
-    <h3>Embedded Systems</h3>
-    <p>STM32 (HAL), drivers, packets/CRC, USB-CDC, tooling & test harnesses.</p>
-    <div class="skill-tags">
-      <span>C/C++</span><span>UART/I²C/SPI</span><span>Python</span>
-    </div>
-  </article>
-
-  <!-- Mixed-Signal (Hardware) -->
-  <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="160" style="--h: 20">
-    <div class="skill-accent"></div>
-    <h3>Mixed-Signal & Analog</h3>
-    <p>Filters, sampling paths, power integrity awareness, measurement.</p>
-    <div class="skill-tags">
-      <span>Scope/LA</span><span>DFM</span><span>Noise</span>
-    </div>
-  </article>
-
-  <!-- ASIC (Hardware/Verification) -->
-  <article class="skill-card cat-verif" data-aos="zoom-in" data-aos-delay="200" style="--h: 300">
-    <div class="skill-accent"></div>
-    <h3>ASIC Design & Verification</h3>
-    <p>Coverage-driven benches, hazards/forwarding, scripted regressions.</p>
-    <div class="skill-tags">
-      <span>SV</span><span>Tcl/Bash</span><span>CI-like flows</span>
-    </div>
-  </article>
-  <div class="tools-grid mt-4" data-aos="fade-up" data-aos-delay="80">
-    <!-- Hardware / PCB -->
-    <div class="tool tool-hw"><span>GitHub</span></div>
-    <div class="tool tool-hw"><span>C/C++</span></div>
-    <div class="tool tool-hw"><span>Linux</span></div>
-    <div class="tool tool-hw"><span>Altium Designer</span></div>
-    <div class="tool tool-hw"><span>LTspice</span></div>
-    <div class="tool tool-hw"><span>Oscilloscope/LA</span></div>
-  
-    <!-- Ops / Dev -->
-    <div class="tool tool-ops"><span>Python</span></div>
-    <div class="tool tool-ops"><span>Tcl/Bash</span></div>
-    <div class="tool tool-ops"><span>Git</span></div>
-    <div class="tool tool-ops"><span>Shell Scripting</span></div>
-  
-    <!-- RF / Embedded -->
-    <div class="tool tool-rf"><span>LoRa/RF</span></div>
-    <div class="tool tool-rf"><span>STM32</span></div>
-    <div class="tool tool-rf"><span>UART/I²C/SPI</span></div>
-    <div class="tool tool-rf"><span>USB-CDC</span></div>
-  
-    <!-- Verification / Digital -->
-    <div class="tool tool-verif"><span>Verification</span></div>
-    <div class="tool tool-verif"><span>SystemVerilog</span></div>
-    <div class="tool tool-verif"><span>ModelSim</span></div>
-    <div class="tool tool-verif"><span>Quartus</span></div>
-    <div class="tool tool-verif"><span>Timing Closure</span></div>
-    <div class="tool tool-verif"><span>Testbench Dev</span></div>
-  
-    <!-- Leadership / PM -->
-    <div class="tool tool-pm"><span>Team Leadership</span></div>
-    <div class="tool tool-pm"><span>Cross-Functional Coordination</span></div>
-    <div class="tool tool-pm"><span>Event Planning</span></div>
-    <div class="tool tool-pm"><span>Mentorship</span></div>
+<section id="skills" class="section">
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Skills</h2>
   </div>
-  
-</div>
+
+  <div class="skill-grid mt-2">
+    <!-- Leadership (TPM) -->
+    <article class="skill-card cat-lead" data-aos="zoom-in" data-aos-delay="0" style="--h: 25">
+      <div class="skill-accent"></div>
+      <h3>Leadership</h3>
+      <p>Guiding cross-functional teams to hit aggressive timelines with clarity, accountability, and momentum.</p>
+      <div class="skill-tags">
+        <span>Team Building</span><span>Cross-Functional</span><span>Stakeholder Alignment</span>
+      </div>
+      <!-- Tools -->
+      <div class="skill-tools" data-aos="fade-up" data-aos-delay="60">
+        <div class="tool tool-pm"><span>Team Leadership</span></div>
+        <div class="tool tool-pm"><span>Cross-Functional Coordination</span></div>
+        <div class="tool tool-pm"><span>Event Planning</span></div>
+        <div class="tool tool-pm"><span>Mentorship</span></div>
+      </div>
+    </article>
+
+    <!-- PCB (Hardware) -->
+    <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="40" style="--h: 190">
+      <div class="skill-accent"></div>
+      <h3>PCB Design</h3>
+      <p>Stackup planning, impedance, pours, placement & routing, DRC, bring-up.</p>
+      <div class="skill-tags">
+        <span>Altium Designer</span><span>2–4 layer</span><span>SI basics</span>
+      </div>
+      <!-- Tools -->
+      <div class="skill-tools" data-aos="fade-up" data-aos-delay="100">
+        <div class="tool tool-hw"><span>Altium Designer</span></div>
+        <div class="tool tool-hw"><span>LTspice</span></div>
+        <div class="tool tool-hw"><span>Oscilloscope/LA</span></div>
+        <div class="tool tool-hw"><span>Linux</span></div>
+        <div class="tool tool-hw"><span>GitHub</span></div>
+        <div class="tool tool-ops"><span>Git</span></div>
+      </div>
+    </article>
+
+    <!-- FPGA / RTL (Hardware) -->
+    <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="80" style="--h: 260">
+      <div class="skill-accent"></div>
+      <h3>FPGA / RTL</h3>
+      <p>Verilog/SystemVerilog, timing closure, verification, clean build flows.</p>
+      <div class="skill-tags">
+        <span>Quartus</span><span>ModelSim</span><span>100&nbsp;MHz+</span>
+      </div>
+      <!-- Tools -->
+      <div class="skill-tools" data-aos="fade-up" data-aos-delay="140">
+        <div class="tool tool-verif"><span>Quartus</span></div>
+        <div class="tool tool-verif"><span>ModelSim</span></div>
+        <div class="tool tool-verif"><span>SystemVerilog</span></div>
+        <div class="tool tool-verif"><span>Timing Closure</span></div>
+        <div class="tool tool-verif"><span>Testbench Dev</span></div>
+        <div class="tool tool-ops"><span>Git</span></div>
+        <div class="tool tool-hw"><span>Linux</span></div>
+      </div>
+    </article>
+
+    <!-- Embedded (Hardware) -->
+    <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="120" style="--h: 320">
+      <div class="skill-accent"></div>
+      <h3>Embedded Systems</h3>
+      <p>STM32 (HAL), drivers, packets/CRC, USB-CDC, tooling & test harnesses.</p>
+      <div class="skill-tags">
+        <span>C/C++</span><span>UART/I²C/SPI</span><span>Python</span>
+      </div>
+      <!-- Tools -->
+      <div class="skill-tools" data-aos="fade-up" data-aos-delay="180">
+        <div class="tool tool-rf"><span>STM32</span></div>
+        <div class="tool tool-rf"><span>UART/I²C/SPI</span></div>
+        <div class="tool tool-rf"><span>USB-CDC</span></div>
+        <div class="tool tool-hw"><span>Linux</span></div>
+        <div class="tool tool-hw"><span>GitHub</span></div>
+        <div class="tool tool-ops"><span>C/C++</span></div>
+        <div class="tool tool-ops"><span>Python</span></div>
+        <div class="tool tool-ops"><span>Shell Scripting</span></div>
+        <div class="tool tool-ops"><span>Git</span></div>
+      </div>
+    </article>
+
+    <!-- Mixed-Signal (Hardware) -->
+    <article class="skill-card cat-hw" data-aos="zoom-in" data-aos-delay="160" style="--h: 20">
+      <div class="skill-accent"></div>
+      <h3>Mixed-Signal & Analog</h3>
+      <p>Filters, sampling paths, power integrity awareness, measurement.</p>
+      <div class="skill-tags">
+        <span>Scope/LA</span><span>DFM</span><span>Noise</span>
+      </div>
+      <!-- Tools -->
+      <div class="skill-tools" data-aos="fade-up" data-aos-delay="220">
+        <div class="tool tool-hw"><span>LTspice</span></div>
+        <div class="tool tool-hw"><span>Oscilloscope/LA</span></div>
+        <div class="tool tool-hw"><span>Linux</span></div>
+      </div>
+    </article>
+
+    <!-- ASIC (Hardware/Verification) -->
+    <article class="skill-card cat-verif" data-aos="zoom-in" data-aos-delay="200" style="--h: 300">
+      <div class="skill-accent"></div>
+      <h3>ASIC Design & Verification</h3>
+      <p>Coverage-driven benches, hazards/forwarding, scripted regressions.</p>
+      <div class="skill-tags">
+        <span>SV</span><span>Tcl/Bash</span><span>CI-like flows</span>
+      </div>
+      <!-- Tools -->
+      <div class="skill-tools" data-aos="fade-up" data-aos-delay="260">
+        <div class="tool tool-verif"><span>SystemVerilog</span></div>
+        <div class="tool tool-verif"><span>ModelSim</span></div>
+        <div class="tool tool-verif"><span>Quartus</span></div>
+        <div class="tool tool-verif"><span>Timing Closure</span></div>
+        <div class="tool tool-verif"><span>Testbench Dev</span></div>
+        <div class="tool tool-ops"><span>Tcl/Bash</span></div>
+        <div class="tool tool-ops"><span>Python</span></div>
+        <div class="tool tool-ops"><span>Git</span></div>
+      </div>
+    </article>
+  </div>
+</section>
 
 
 <!-- EXTRACURRICULARS -->
@@ -3292,76 +3320,179 @@ html {
 </section>
 
 
-    <!-- CONTACT -->
+  <!-- CONTACT -->
 <section id="contact" class="contact section">
   <div class="container" data-aos="fade-up">
-    <div class="section-title"><h2>Contact</h2></div>
+    <div class="section-title">
+      <h2 class="nebula-title">Contact</h2>
+    </div>
 
-    <!-- Primary CTAs -->
-    <div class="text-center mt-2 mb-3">
-      <a class="btn btn-accent btn-lg me-2"
-         href="assets/files/DianaJung_Resume.pdf"
-         target="_blank" rel="noopener"
+    <!-- Main actions -->
+    <div class="cta-row">
+      <a class="btn-astro" href="assets/files/DianaJung_Resume.pdf" target="_blank" rel="noopener"
          aria-label="Download Diana Jung resume (PDF)">
-        <i class="bi bi-download me-1"></i>Download CV
+        <i class="bi bi-download"></i><span>Download CV</span>
       </a>
 
-      <a class="btn btn-ghost btn-lg me-2"
-         href="mailto:dianajunguoftece@gmail.com?subject=Opportunity%20for%20Diana%20Jung"
+      <a class="btn-ghost" href="mailto:dianajunguoftece@gmail.com?subject=Opportunity%20for%20Diana%20Jung"
          aria-label="Email Diana Jung">
-        <i class="bi bi-envelope me-1"></i>Email me
+        <i class="bi bi-envelope"></i><span>Email me</span>
       </a>
 
-      <button class="btn btn-ghost btn-lg" id="copyEmailBtn"
-              type="button" aria-label="Copy email address">
-        <i class="bi bi-clipboard me-1"></i>Copy email
-      </button>
+      <a class="btn-pulse" target="_blank" rel="noopener" href="https://www.linkedin.com/in/dianajung-uoft/"
+         aria-label="LinkedIn profile">
+        <i class="bi bi-linkedin"></i><span>LinkedIn</span>
+      </a>
     </div>
+<!-- replace your current GitHub chip -->
+<a class="chip galaxy" target="_blank" rel="noopener" href="https://github.com/hyeonjijung1">
+  <span class="galaxy-orbit" aria-hidden="true"></span>
+  <i class="bi bi-github"></i> GitHub
+</a>
 
-    <!-- Contact cards -->
-    <div class="row gy-3" data-aos="fade-up" data-aos-delay="60">
-      <div class="col-md-4">
-        <div class="contact-card">
-          <div class="contact-icon"><i class="bi bi-envelope"></i></div>
-          <div>
-            <p class="contact-title m-0">Email</p>
-            <a class="contact-link" href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="contact-card">
-          <div class="contact-icon"><i class="bi bi-github"></i></div>
-          <div>
-            <p class="contact-title m-0">GitHub</p>
-            <a class="contact-link" target="_blank" rel="noopener" href="https://github.com/hyeonjijung1">github.com/hyeonjijung1</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="contact-card">
-          <div class="contact-icon"><i class="bi bi-linkedin"></i></div>
-          <div>
-            <p class="contact-title m-0">LinkedIn</p>
-            <a class="contact-link" target="_blank" rel="noopener" href="https://www.linkedin.com/in/dianajung-uoft/">/in/dianajung-uoft</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quiet social row -->
-    <div class="text-center mt-4">
-      <a class="btn btn-ghost me-2" target="_blank" rel="noopener" href="https://github.com/hyeonjijung1">
-        <i class="bi bi-github me-1"></i>GitHub
-      </a>
-      <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.linkedin.com/in/dianajung-uoft/">
-        <i class="bi bi-linkedin me-1"></i>LinkedIn
-      </a>
     </div>
   </div>
 </section>
+
+<style>
+/* Title gradient */
+.nebula-title {
+  position: relative;
+  display: inline-block;
+  padding-inline: .35rem;
+  letter-spacing: .5px;
+  background: linear-gradient(90deg, #f7e08c, #c3f2ff 35%, #9be5df 70%, #f1c7ff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: 0 0 24px rgba(160,255,255,.15);
+}
+
+.cta-row {
+  display: flex; justify-content: center; gap: .75rem; flex-wrap: wrap;
+  margin: .5rem 0 1.25rem;
+}
+
+/* Gradient animation for Download CV */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Pulse animation for LinkedIn */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0px rgba(88, 171, 255, 0.6); }
+  50% { box-shadow: 0 0 12px rgba(88, 171, 255, 0.8); }
+}
+
+.btn-astro, .btn-ghost, .btn-pulse {
+  height: 52px; padding: 0 18px; border-radius: 16px;
+  display: inline-flex; align-items: center; gap: .6rem; font-weight: 600;
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(8px);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+/* Download CV animated gradient */
+.btn-astro {
+  background: linear-gradient(270deg, #b8ffe7, #c9e6ff, #ffe7a3, #f7c7ff);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  border: none;
+  color: #111;
+}
+
+/* Email button (calm ghost style) */
+.btn-ghost {
+  background: rgba(255,255,255,.05);
+  color: #eaf6ff;
+}
+
+/* LinkedIn with pulse glow */
+.btn-pulse {
+  background: rgba(88, 171, 255, 0.12);
+  color: #eaf6ff;
+  animation: pulseGlow 2.8s ease-in-out infinite;
+  border-color: rgba(88, 171, 255, 0.4);
+}
+
+.btn-astro:hover, .btn-ghost:hover, .btn-pulse:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.34), 0 0 24px rgba(88,255,239,.15);
+  border-color: rgba(255,255,255,.28);
+}
+
+.btn-astro i, .btn-ghost i, .btn-pulse i { font-size: 1.05rem; transform: translateY(1px); }
+
+/* Secondary quiet row */
+.quiet-row {
+  display:flex; justify-content:center; gap:.5rem; margin-top: 1.1rem;
+}
+.chip {
+  display:inline-flex; align-items:center; gap:.45rem; padding:.5rem .8rem;
+  border-radius: 999px; font-weight:600; text-decoration:none;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  transition: transform .15s ease, border-color .15s ease;
+  color: #eaf6ff;
+}
+.chip:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.24); }
+
+/* Mobile responsiveness */
+@media (max-width: 575.98px) {
+  .btn-astro, .btn-ghost, .btn-pulse { width: 100%; justify-content: center; }
+  .cta-row { gap: .6rem; }
+}
+/* Galaxy effect for GitHub chip */
+.chip.galaxy { 
+  position: relative; 
+  padding-left: 2.2rem; /* make room for orbit */
+  overflow: visible;
+}
+
+.chip.galaxy .galaxy-orbit {
+  position: absolute; 
+  left: .6rem; 
+  top: 50%; 
+  width: 22px; 
+  height: 22px; 
+  transform: translateY(-50%) rotateX(55deg);
+  animation: orbitSpin 7s linear infinite;
+  opacity: .95;
+}
+
+/* ring */
+.chip.galaxy .galaxy-orbit::before {
+  content: "";
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.28);
+  box-shadow: inset 0 0 8px rgba(160,255,255,.25);
+  filter: blur(.15px);
+}
+
+/* satellite star */
+.chip.galaxy .galaxy-orbit::after {
+  content: "";
+  position: absolute; 
+  left: 50%; top: 0%;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  transform: translate(-50%, -50%);
+}
+
+/* spins the whole orbit (the dot rides the ring) */
+@keyframes orbitSpin {
+  0%   { transform: translateY(-50%) rotateX(55deg) rotate(0deg); }
+  100% { transform: translateY(-50%) rotateX(55deg) rotate(360deg); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .chip.galaxy .galaxy-orbit { animation: none; }
+}
+
+</style>
+
 
   </main>
 
