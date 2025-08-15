@@ -2961,6 +2961,113 @@ html {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+/* Bigger highlight values */
+.highlight-value {
+  font-size: 3.2rem; /* was 2.6rem */
+  font-weight: 700;
+  background: linear-gradient(90deg, #b8ffe7, #c9e6ff, #ffe7a3, #f7c7ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 8s ease infinite;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.25s ease;
+}
+.highlight-value .plus {
+  font-size: 2.4rem;
+}
+
+/* Hover scale + glow */
+.highlight-card:hover .highlight-value {
+  transform: scale(1.08);
+  text-shadow: 0 0 12px rgba(255,255,255,0.5),
+               0 0 20px rgba(184,255,231,0.4),
+               0 0 28px rgba(199,230,255,0.3);
+}
+
+/* White descriptions */
+.highlight-desc {
+  font-size: 1rem;
+  color: #fff;
+  margin-top: 0.4rem;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+/* Glow pulse animation */
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(255,255,255,0.4),
+                 0 0 16px rgba(184,255,231,0.35),
+                 0 0 24px rgba(199,230,255,0.25);
+  }
+  50% {
+    text-shadow: 0 0 14px rgba(255,255,255,0.55),
+                 0 0 26px rgba(184,255,231,0.45),
+                 0 0 36px rgba(199,230,255,0.35);
+  }
+}
+
+/* Bigger highlight values with glow pulse */
+.highlight-value {
+  font-size: 3.2rem; /* bigger */
+  font-weight: 700;
+  background: linear-gradient(90deg, #b8ffe7, #c9e6ff, #ffe7a3, #f7c7ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 8s ease infinite, glowPulse 4s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.25s ease;
+}
+.highlight-value .plus {
+  font-size: 2.4rem;
+}
+
+/* Hover scale boost */
+.highlight-card:hover .highlight-value {
+  transform: scale(1.08);
+}
+
+/* White descriptions */
+.highlight-desc {
+  font-size: 1rem;
+  color: #fff;
+  margin-top: 0.4rem;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+/* Sync gradient + glow timing */
+.highlight-value {
+  /* same duration + easing for both */
+  animation: gradientShift 6s ease-in-out infinite,
+             glowPulse     6s ease-in-out infinite;
+  transition: transform .25s ease;
+}
+
+/* Stagger each card slightly for a wave effect */
+.row .col-md-4:nth-child(1) .highlight-value { animation-delay: 0s,   0s; }
+.row .col-md-4:nth-child(2) .highlight-value { animation-delay: .6s, .6s; }
+.row .col-md-4:nth-child(3) .highlight-value { animation-delay: 1.2s, 1.2s; }
+
+/* Hover stays snappy on top of the synced loop */
+.highlight-card:hover .highlight-value { transform: scale(1.08); }
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce) {
+  .highlight-value {
+    animation: none;            /* stop pulsing/gradient */
+    text-shadow: none;          /* remove glow */
+    transform: none;            /* no hover scale */
+  }
+}
+
 </style>
 
     <section id="experience" class="resume section"> <div class="container" data-aos="fade-up"> <div class="section-title"><h2>Experience</h2></div> </div> <div class="container"> <div class="row g-4">
