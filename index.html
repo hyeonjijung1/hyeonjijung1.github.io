@@ -821,6 +821,8 @@
 @media (prefers-reduced-motion: reduce){
   .flip-hint{ animation: none; }
 }
+/* Keep the flip-card tidy and aligned */
+.flip-card{ width:100%; max-width:320px; margin:0 auto; }
 
   </style>
 </head>
@@ -848,104 +850,43 @@
 
   <main class="main">
 
-    <!-- HERO -->
-    <section id="hero" class="hero section">
-      <div class="container" data-aos="fade-up" data-aos-delay="40">
-        <div class="row align-items-start gy-4 gx-4">
-          <!-- Left column: fixed photo card -->
-          <div class="col-12 col-md-4 col-xl-3">
-            <div class="flip-card" id="profileFlip">
-              <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">
-                ↺ Flip
-              </button>
-              
-              <div class="flip-inner">
-                <!-- Front: photo -->
-                <div class="flip-front">
-                  <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
-                </div>
-            
-                <!-- Back: mini facts -->
-                <div class="flip-back">
-                  <div class="mini-facts">
-                    <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
-                    <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
-                    <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
-                    <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
-                    <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
-                    <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
-                  </div>
-                </div>
-              </div>
+   <!-- HERO -->
+<section id="hero" class="hero section">
+  <div class="container" data-aos="fade-up" data-aos-delay="40">
+    <div class="row align-items-start gy-4 gx-4">
+
+      <!-- Left column: fixed photo card -->
+      <div class="col-12 col-md-4 col-xl-3">
+        <div class="flip-card" id="profileFlip">
+          <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
+          <div class="flip-inner">
+            <!-- Front: photo -->
+            <div class="flip-front">
+              <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
             </div>
-            
-          <!-- Right column: greeting + lab -->
-          <div class="col-12 col-md-8 col-xl-9">
-            <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
-
-            <!-- RTL LAB -->
-            <div class="rtl-lab mb-3">
-              <div class="rtl-tabs">
-                <div class="rtl-tab active" data-tab="verilog">Verilog</div>
-                <div class="rtl-tab" data-tab="wave">Waveform</div>
-                <div class="rtl-tab" data-tab="pcb">PCB</div>
+            <!-- Back: mini facts -->
+            <div class="flip-back">
+              <div class="mini-facts">
+                <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
+                <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
+                <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
+                <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
+                <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
+                <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
               </div>
-
-              <div class="rtl-body">
-                <!-- Verilog — typed line by line -->
-                <div class="panel active" id="panel-verilog" aria-label="Verilog code sample">
-                  <div class="codebox" id="vbox"></div>
-                </div>
-
-                <!-- Waveform (HI pattern) -->
-                <div class="panel" id="panel-wave" aria-label="Waveform preview">
-                  <div class="wavewrap">
-                    <svg viewBox="0 0 700 240" preserveAspectRatio="none" role="img">
-                      <text x="8" y="24" class="sig-label">clk</text>
-                      <polyline class="trace-clk" points="80,20 100,20 100,40 140,40 140,20 180,20 180,40 220,40 220,20 260,20 260,40 300,40 300,20 340,20 340,40 380,40 380,20 420,20 420,40 460,40 460,20 500,20 500,40 540,40 540,20 680,20" fill="none"/>
-                      <text x="8" y="74" class="sig-label">valid</text>
-                      <polyline class="trace-valid" points="80,70 140,70 140,90 300,90 300,70 680,70" fill="none"/>
-                      <text x="8" y="124" class="sig-label">data[7:0]</text>
-                      <!-- carve HI = 0x48 0x49 -->
-                      <polyline class="trace-data" points="80,120 170,120 170,140 220,140 220,120 320,120 320,140 360,140 360,120 680,120" fill="none"/>
-                      <text x="8" y="174" class="sig-label">leds</text>
-                      <polyline class="trace-crc" points="80,170 200,170 200,190 280,190 280,170 480,170 480,190 560,190 560,170 680,170" fill="none"/>
-                    </svg>
-                  </div>
-                </div>
-
-                <!-- PCB slideshow (2s) -->
-                <div class="panel" id="panel-pcb" aria-label="PCB render">
-                  <div class="pcbwrap">
-                    <img id="pcbSlide" alt="PCB preview" src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
-                  </div>
-                </div>
-              </div>
-
-              <!-- typing footer -->
-              <div class="typefooter" aria-live="polite">
-                <span id="typed-line">Reaching for the stars...</span><span class="caret" aria-hidden="true"></span>
-              </div>
-            </div>
-
-            <!-- Five key chips -->
-            <div class="chips mt-2">
-              <span class="chip-pro">FPGA / Verilog</span>
-              <span class="chip-pro">ASIC Verification</span>
-              <span class="chip-pro">STM32 / ARM</span>
-              <span class="chip-pro">LoRa / RF</span>
-              <span class="chip-pro">Altium PCB</span>
-            </div>
-
-            <div class="cta-row mt-3">
-              <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank"><i class="bi bi-download me-1"></i>Download CV</a>
-              <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank"><i class="bi bi-github me-1"></i>GitHub</a>
-              <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank"><i class="bi bi-linkedin me-1"></i>LinkedIn</a>
             </div>
           </div>
         </div>
+      </div> <!-- ✅ CLOSE the left column -->
+
+      <!-- Right column: greeting + lab -->
+      <div class="col-12 col-md-8 col-xl-9">
+        <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
+        ...
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- ABOUT -->
     <section id="about" class="about section">
