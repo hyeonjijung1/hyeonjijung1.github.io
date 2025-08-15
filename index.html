@@ -914,6 +914,40 @@
   .flip-inner{ transition: none; }
   .flip-card::after{ transition: none; }
 }
+/* 1) Align hero columns on desktop so "Hi there!" isn't too low */
+@media (min-width: 992px){
+  #hero .row{
+    align-items: center;           /* vertically centers the right column to the card */
+  }
+  #hero .col-md-8{
+    margin-top: -6px;              /* tiny nudge up (tweak 0→-20px to taste) */
+  }
+}
+
+/* 2) Make the flip-card larger on desktop; remove scrollbars inside facts */
+@media (min-width: 992px){
+  .flip-card{
+    width: 320px;                  /* was smaller; gives the card more presence */
+    height: 460px;                 /* taller so mini-facts fit without scrolling */
+  }
+  .flip-front .headshot{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+  .flip-back .mini-facts{
+    max-height: 100%;
+    overflow: hidden;              /* no scrollbars on desktop */
+    gap: 10px 12px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Optional: on very wide screens give it a touch more size */
+@media (min-width: 1200px){
+  .flip-card{ width: 340px; height: 480px; }
+}
 
   </style>
 </head>
