@@ -673,6 +673,155 @@
 }
 
 }
+/* Make gradient title reliable on mobile (iOS/Safari) */
+.gradient-title{
+  display: inline-block;                 /* needed for -webkit-clip on multi-line */
+  -webkit-background-clip: text;         /* iOS needs the prefixed version */
+          background-clip: text;         /* standard */
+  -webkit-text-fill-color: transparent;  /* iOS: actually show the gradient */
+  will-change: background-position, filter;
+}
+
+/* iOS: text-shadow on clipped text is flaky — use drop-shadow instead */
+@supports (-webkit-touch-callout: none) {
+  .gradient-title{
+    text-shadow: none;
+    /* two soft glows to replace the pulse shadow */
+    filter: drop-shadow(0 0 10px rgba(255,255,255,.35))
+            drop-shadow(0 0 22px rgba(120,180,255,.25));
+  }
+}
+
+/* If your device is honoring reduced motion, keep gradient but stop the drift */
+@media (prefers-reduced-motion: reduce){
+  .gradient-title{ animation: none; }
+}
+/* === Flip card container (uses a fixed height so both sides match) === */
+:root{ --profileCardH: 320px; }
+@media (max-width: 991.98px){ :root{ --profileCardH: 260px; } }
+
+.profile-card { padding: 16px; } /* keep your glass card look */
+
+.flip-card{
+  width: 100%;
+  max-width: 280px;
+  height: var(--profileCardH);
+  perspective: 1000px;
+  margin-inline: auto;
+  position: relative;
+}
+
+.flip-inner{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .8s ease;
+  border-radius: 16px;
+}
+
+/* desktop: hover flips; mobile: we’ll toggle class via JS on tap */
+@media (hover: hover){
+  .flip-card:hover .flip-inner{ transform: rotateY(180deg); }
+}
+
+/* manual flip state (used on mobile via JS, and also when you click on desktop) */
+.flip-card.flipped .flip-inner{ transform: rotateY(180deg); }
+
+/* faces */
+.flip-front, .flip-back{
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.35);
+  border: 1px solid var(--glass-border);
+}
+
+.flip-front .headshot{
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+
+.flip-back{
+  background: rgba(12,18,36,.92);
+  transform: rotateY(180deg);
+  display: grid; place-items: center;
+  padding: 12px;
+}
+
+/* mini-facts layout on the back side: big square grid */
+.flip-back .mini-facts{
+  width: 100%; height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  padding: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: auto;
+}
+.flip-back .fact{ display: flex; flex-direction: column; }
+.flip-back .label{ color: var(--muted); font-weight: 700; font-size: .92rem; }
+.flip-back .value{ color: var(--text); font-size: .95rem; line-height: 1.25; }
+.flip-back .value a{ color: var(--mint); text-decoration: none; }
+
+@media (max-width: 576px){
+  .flip-back .mini-facts{ grid-template-columns: 1fr; } /* stack on small phones */
+}
+
+/* click glow pulse around the profile card */
+.profile-card.glow,
+.flip-card.glow{
+  animation: flipGlow .6s ease-out;
+}
+@keyframes flipGlow{
+  0% { box-shadow: 0 0 0 rgba(167,243,208,0); }
+  40%{ box-shadow: 0 0 26px rgba(167,243,208,.65), 0 0 60px rgba(199,210,254,.35); }
+  100%{ box-shadow: 0 0 0 rgba(167,243,208,0); }
+}
+.flip-hint{
+  position: absolute;
+  top: 8px; right: 8px;
+  z-index: 2;
+  padding: 6px 10px;
+  font-weight: 800;
+  font-size: .84rem;
+  letter-spacing: .3px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,.10);
+  color: var(--text);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .18s ease, opacity .18s ease, box-shadow .18s ease;
+  animation: flipHintPulse 1.2s ease-in-out infinite alternate;
+}
+
+.flip-hint:hover{ transform: translateY(-1px); }
+.flip-hint:active{ transform: translateY(0); }
+
+/* pulse glow */
+@keyframes flipHintPulse{
+  0%   { box-shadow: 0 0 0 rgba(167,243,208,0); }
+  100% { box-shadow: 0 0 18px rgba(167,243,208,.45), 0 0 28px rgba(199,210,254,.28); }
+}
+
+/* hide state */
+.flip-hint.hide{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .flip-hint{ animation: none; }
+}
+
   </style>
 </head>
 
@@ -705,19 +854,31 @@
         <div class="row align-items-start gy-4 gx-4">
           <!-- Left column: fixed photo card -->
           <div class="col-12 col-md-4 col-xl-3">
-            <div class="profile-card p-3 p-md-3">
-              <img src="assets/img/diana.png" alt="Diana headshot" class="headshot mb-3">
-              <div class="mini-facts reveal-list">
-                <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
-                <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
-                <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
-                <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
-                <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
-                <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
+            <div class="flip-card" id="profileFlip">
+              <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">
+                ↺ Flip
+              </button>
+              
+              <div class="flip-inner">
+                <!-- Front: photo -->
+                <div class="flip-front">
+                  <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
+                </div>
+            
+                <!-- Back: mini facts -->
+                <div class="flip-back">
+                  <div class="mini-facts">
+                    <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
+                    <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
+                    <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
+                    <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
+                    <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
+                    <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-
+            
           <!-- Right column: greeting + lab -->
           <div class="col-12 col-md-8 col-xl-9">
             <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
@@ -1311,6 +1472,54 @@
   
       io.observe(list);
     })();
+    // Flip hint badge: show once, then hide after first flip or timeout
+(function(){
+  const hint = document.getElementById('flipHint');
+  if (!hint) return;
+
+  const KEY = 'seenFlipHint';
+  const seen = localStorage.getItem(KEY) === '1';
+
+  // if user has seen it before, keep it hidden
+  if (seen) { hint.classList.add('hide'); return; }
+
+  // clicking the badge flips, too
+  hint.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const card = document.querySelector('.flip-card');
+    card?.classList.toggle('flipped');
+
+    // glow pulse (re-use your glow class)
+    card?.classList.add('glow');
+    card?.closest('.profile-card')?.classList.add('glow');
+    setTimeout(() => {
+      card?.classList.remove('glow');
+      card?.closest('.profile-card')?.classList.remove('glow');
+    }, 600);
+
+    // hide the hint and remember
+    hint.classList.add('hide');
+    localStorage.setItem(KEY, '1');
+  });
+
+  // also hide after first manual flip
+  const card = document.querySelector('.flip-card');
+  card?.addEventListener('click', () => {
+    if (!hint.classList.contains('hide')) {
+      hint.classList.add('hide');
+      localStorage.setItem(KEY, '1');
+    }
+  }, { passive: true });
+
+  // auto-hide after 6s if user ignores it
+  setTimeout(() => {
+    if (!hint.classList.contains('hide')) {
+      hint.classList.add('hide');
+      localStorage.setItem(KEY, '1');
+    }
+  }, 6000);
+})();
+
   </script>
   
 </body>

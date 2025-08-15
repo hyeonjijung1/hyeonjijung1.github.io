@@ -126,6 +126,22 @@
   }
   document.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
+// Flip-card interaction: hover on desktop (handled by CSS), click/tap toggles on all
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    // prevent accidental text selection
+    e.preventDefault();
+    card.classList.toggle('flipped');
+
+    // glow pulse on each flip
+    card.classList.add('glow');
+    card.closest('.profile-card')?.classList.add('glow');
+    setTimeout(() => {
+      card.classList.remove('glow');
+      card.closest('.profile-card')?.classList.remove('glow');
+    }, 600);
+  });
+});
 
   /* ============ Initial state ============ */
   document.addEventListener('DOMContentLoaded', () => {
