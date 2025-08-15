@@ -374,6 +374,50 @@
 
 /* make sure the RTL lab on the right never hides under the card */
 .rtl-lab{ position: relative; z-index: 1; }
+/* Let profile card adjust to content */
+.profile-card {
+  background: rgba(255, 255, 255, 0.05);  /* transparent glass */
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  height: auto !important;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Image adjustments */
+.profile-card .headshot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+/* Facts styling */
+.profile-card .mini-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-card .fact {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #fff;
+  opacity: 0.85;
+}
+
+.profile-card .fact .label {
+  font-weight: 600;
+}
+
+.profile-card .fact .value a {
+  color: #a6e1ff;
+  text-decoration: none;
+}
 
   </style>
 </head>
