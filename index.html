@@ -10,10 +10,10 @@
 
   <!-- Fonts -->
   <!-- Fonts (variable) -->
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Plus+Jakarta+Sans:wght@600..900&display=swap" rel="stylesheet">
-
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -1921,6 +1921,77 @@ body { padding-top: calc(var(--nav-h) + 20px); }
 
 /* Nice scroll offsets for fixed nav */
 section{ scroll-margin-top: calc(var(--nav-h) + 24px); }
+/* Menu should sit above all content when open */
+.sleek-nav .menu { z-index: 200000; pointer-events: auto; }
+
+/* Starfield (or any bg canvas) must NEVER capture taps */
+#stars { pointer-events: none !important; z-index: 0 !important; }
+
+/* If you have a hero overlay or particles div, neutralize it too */
+.particles-canvas, .hero-overlay { pointer-events: none; z-index: 0; }
+/* === Shared hero/nav gradient (tweak stops if your hero uses different ones) === */
+:root{
+  --hero-grad: linear-gradient(90deg,
+    #eaf2ff 0%,
+    #9be8ff 18%,
+    #00b4d8 40%,
+    #8b7dff 70%,
+    #ffd1e5 100%);
+}
+
+/* Global font upgrade */
+html { 
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji"; 
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+}
+.hero-title, .sleek-nav .brand, .sleek-nav .menu a, .sleek-nav .hamburger .label {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* === Shiny gradient text for nav (brand, links, mobile label) === */
+.sleek-nav .brand,
+.sleek-nav .menu a,
+.sleek-nav .hamburger .label {
+  color:#eaf2ff; /* fallback */
+}
+@supports (-webkit-background-clip:text) or (background-clip:text){
+  .sleek-nav .brand,
+  .sleek-nav .menu a,
+  .sleek-nav .hamburger .label {
+    background: var(--hero-grad);
+    background-size: 220% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    text-shadow: 0 0 12px rgba(0,180,216,.12);
+  }
+}
+
+/* Brand: slow hero-like drift */
+@keyframes heroDrift { 0%{background-position:0% 0%} 50%{background-position:100% 0%} 100%{background-position:0% 0%} }
+.sleek-nav .brand { font-weight: 900; letter-spacing:.02em; animation: heroDrift 16s linear infinite; }
+
+/* Links: quick shine on hover/active */
+@keyframes linkShine { from{background-position:0% 0%} to{background-position:200% 0%} }
+.sleek-nav .menu a { font-weight: 700; opacity:.95; background-size:300% 100%; }
+.sleek-nav .menu a:hover,
+.sleek-nav .menu a.active { animation: linkShine .9s linear forwards; opacity:1; }
+
+/* Mobile label: shine when opening */
+.sleek-nav .hamburger .label { font-weight: 800; background-size:300% 100%; }
+.sleek-nav[data-open="true"] .hamburger .label { animation: linkShine .9s linear; }
+
+/* Keep your underline effect in the same palette */
+.sleek-nav .menu a::after {
+  background: linear-gradient(90deg, #00b4d8, #ffd1e5);
+}
+
+/* Reduce motion accessibility */
+@media (prefers-reduced-motion: reduce){
+  .sleek-nav .brand,
+  .sleek-nav .menu a,
+  .sleek-nav .hamburger .label { animation: none !important; }
+}
 
   </style>
 </head>
@@ -1931,32 +2002,28 @@ section{ scroll-margin-top: calc(var(--nav-h) + 24px); }
   <canvas id="stars" aria-hidden="true"></canvas>
   <header id="nav" class="sleek-nav" role="navigation" aria-label="Primary">
     <div class="nav-inner">
-      <a href="#top" class="brand">Hyeonji</a>
+      <a href="#top" class="brand">Diana</a>
   
-      <!-- Star-burger -->
-      <button class="hamburger star-burger" aria-label="Open menu" aria-controls="navMenu" aria-expanded="false">
+      <button class="hamburger star-burger" type="button" aria-label="Open menu" aria-controls="navMenu" aria-expanded="false">
         <svg class="star" viewBox="0 0 24 24" aria-hidden="true">
           <polygon points="12,2 14.9,8.2 22,9 16.8,13.4 18.3,20.4 12,16.9 5.7,20.4 7.2,13.4 2,9 9.1,8.2"/>
         </svg>
-        <span class="lines">
-          <span class="line l1"></span>
-          <span class="line l2"></span>
-          <span class="line l3"></span>
-        </span>
+        <span class="lines"><span class="line l1"></span><span class="line l2"></span><span class="line l3"></span></span>
         <span class="label">Menu</span>
       </button>
   
       <nav id="navMenu" class="menu">
         <a href="#about">About</a>
-        <a href="#features">Highlights</a>    <!-- matches your id="features" -->
+        <a href="#features">Highlights</a>
         <a href="#experience">Experience</a>
-        <a href="#portfolio">Projects</a>     <!-- matches your id="portfolio" -->
+        <a href="#portfolio">Projects</a>
         <a href="#skills">Skills</a>
         <a href="#extracurriculars">Extracurriculars</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
+  
   
   
   
@@ -3243,7 +3310,47 @@ section{ scroll-margin-top: calc(var(--nav-h) + 24px); }
           document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
         });
         </script>
-        
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('nav');
+            const btn    = header?.querySelector('.hamburger');
+            const menu   = header?.querySelector('#navMenu');
+            if (!header || !btn || !menu) return;
+          
+            const label = btn.querySelector('.label');
+          
+            const open = () => {
+              header.setAttribute('data-open','true');
+              btn.setAttribute('aria-expanded','true');
+              btn.setAttribute('aria-label','Close menu');
+              if (label) label.textContent = 'Close';
+              document.body.style.overflow = 'hidden';
+            };
+            const close = () => {
+              header.setAttribute('data-open','false');
+              btn.setAttribute('aria-expanded','false');
+              btn.setAttribute('aria-label','Open menu');
+              if (label) label.textContent = 'Menu';
+              document.body.style.overflow = '';
+            };
+            const toggle = (e) => {
+              e?.preventDefault?.();
+              header.getAttribute('data-open') === 'true' ? close() : open();
+            };
+          
+            /* Touch + click support */
+            btn.addEventListener('touchend', toggle, { passive: false });
+            btn.addEventListener('click',     toggle);
+          
+            /* Close when a link is chosen */
+            menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+          
+            /* Close on outside click / ESC */
+            document.addEventListener('click', (e) => { if (!header.contains(e.target)) close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+          });
+          </script>
+          
   </body>
   
 
