@@ -1169,6 +1169,194 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
     grid-template-columns: 1fr;
   }
 }
+/* --- Idle, subtle animated glow --- */
+.ec-card {
+  /* keep your existing styles */
+  --glow-speed: 18s;         /* slower = calmer */
+  --glow-alpha: 0.22;        /* base glow strength */
+}
+
+/* Outer aura (always on, very soft) */
+.ec-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(120deg,
+    rgba(0,180,216,var(--glow-alpha)),
+    rgba(255,182,193,var(--glow-alpha)),
+    rgba(0,180,216,var(--glow-alpha)));
+  background-size: 200% 200%;
+  opacity: 1;                                /* always visible */
+  animation: glowIdle var(--glow-speed) linear infinite;
+  pointer-events: none;
+}
+
+/* Inner rim shimmer (very faint) */
+.ec-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(70% 60% at 50% 40%,
+    rgba(255,255,255,0.06), transparent 60%);
+  filter: blur(12px);
+  opacity: 0.5;
+  animation: rimPulse calc(var(--glow-speed) * 1.2) ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Image & badges subtle motion for “alive” feel */
+.ec-media img {
+  transform: translateZ(0);
+  animation: imgDrift calc(var(--glow-speed) * 1.1) ease-in-out infinite;
+}
+.ec-badges { will-change: transform; }
+.ec-badges .pill {
+  animation: badgeFloat calc(var(--glow-speed) * 0.9) ease-in-out infinite;
+}
+
+/* Hover = stronger, quicker aura */
+.ec-card:hover::before {
+  animation-duration: 8s;
+  filter: saturate(1.1);
+}
+.ec-card:hover {
+  box-shadow: 0 0 30px rgba(0,180,216,0.35), 0 0 50px rgba(255,182,193,0.25);
+}
+
+/* Keyframes */
+@keyframes glowIdle {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes rimPulse {
+  0%,100% { opacity: 0.45; transform: scale(1); }
+  50%     { opacity: 0.65; transform: scale(1.02); }
+}
+@keyframes imgDrift {
+  0%,100% { transform: translateY(0px) scale(1.005); }
+  50%     { transform: translateY(-2px) scale(1.01); }
+}
+@keyframes badgeFloat {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-1px); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ec-card::before,
+  .ec-card::after,
+  .ec-media img,
+  .ec-badges .pill { animation: none !important; }
+}
+/* 1) Normalize the flip card geometry */
+#profileFlip {
+  position: relative;
+  contain: layout paint; /* avoids weird overflow during transforms */
+}
+#profileFlip .flip-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .6s;
+}
+#profileFlip .flip-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* iOS/Safari 3D quirks */
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+}
+#profileFlip .flip-front { z-index: 2; }
+#profileFlip .flip-back  { transform: rotateY(180deg); }
+
+/* Make sure the image fills the face properly */
+#profileFlip .headshot {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;   /* or 'contain' if you want no cropping */
+  border-radius: 16px; /* match your theme */
+}
+
+/* 2) Mobile: give the card a stable height via aspect ratio */
+@media (max-width: 768px) {
+  #profileFlip .flip-inner {
+    aspect-ratio: 3 / 4;           /* portrait; adjust to your image */
+    /* Fallback for older browsers (optional):
+       min-height: 60vw; max-height: 85vh; */
+  }
+}
+
+/* 3) Mobile: disable flip & use the overlay (from earlier) */
+@media (pointer: coarse) {
+  /* Stop any rotation on touch devices */
+  #profileFlip .flip-inner {
+    transform: none !important;
+  }
+  #profileFlip .flip-back {
+    transform: none !important; /* prevents half-backface peeking */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+
+  /* If you added the checkbox toggle earlier, reveal overlay when checked */
+  #profileFlip:has(.mini-fact-toggle:checked) .flip-back {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Ensure the front takes full area for tapping */
+  #profileFlip .flip-front {
+    position: relative;
+    z-index: 3;
+  }
+}
+
+/* If you still see clipping: allow overflow on the outer card on mobile */
+@media (max-width: 768px) {
+  #profileFlip { overflow: visible; }
+}
+/* Experience cards — holographic glass glow */
+#experience .soft-card {
+  background: rgba(255, 255, 255, 0.05); /* translucent glass */
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.15),
+              0 0 35px rgba(255, 182, 193, 0.1),
+              inset 0 0 8px rgba(255, 255, 255, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover/active glow intensifies */
+#experience .soft-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 0 25px rgba(0, 220, 200, 0.4),
+              0 0 45px rgba(255, 210, 230, 0.3),
+              inset 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Image inside card */
+#experience .soft-card .exp-img {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Mobile: keep the glow but no transform jump */
+@media (max-width: 768px) {
+  #experience .soft-card:hover {
+    transform: none;
+  }
+}
 
   </style>
 </head>
@@ -1230,9 +1418,9 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
 <div class="col-12 col-md-8 col-xl-9">
   <div class="hero-heading-wrap">
     <h1 class="gradient-title hero-title">
-      Hi there!<br><span>I’m Diana</span>
+      Hi there!<br><span>I’m Diana </span>
       <!-- Right column -->
-      <   </h1>
+         </h1>
 
       <!-- Sleek, auto-typing skills bar -->
       <div class="skills-bar" aria-label="Key skills">
@@ -1308,7 +1496,7 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
       <div class="col-lg-8">
         <article class="soft-card p-4 h-100 about-card">
           <p class="about-lead">
-            I design and build <strong>hardware that works on the bench</strong> — from PCB layout to FPGA logic to embedded firmware.
+            I design and build <strong>hardware that works </strong> 
           </p>
 
           <div class="about-grid">
@@ -1340,7 +1528,7 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
         <aside class="soft-card p-4 h-100 about-facts">
           <div class="fact-row">
             <span class="fact-label">Name</span>
-            <span class="fact-value">Diana (Hyeonji) Jung</span>
+            <span class="fact-value">Diana Jung</span>
           </div>
           <div class="fact-row">
             <span class="fact-label">Email</span>
@@ -1373,7 +1561,7 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
           <div class="col-md-4" data-aos="zoom-in" data-aos-delay="40">
             <div class="soft-card fcard h-100">
               <div class="big">550+</div>
-              <div class="desc">Leaders mentored in Frosh Week</div>
+              <div class="desc">Leaders mentored for Frosh Week</div>
             </div>
           </div>
           <div class="col-md-4" data-aos="zoom-in" data-aos-delay="90">
@@ -1385,7 +1573,7 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
           <div class="col-md-4" data-aos="zoom-in" data-aos-delay="140">
             <div class="soft-card fcard h-100">
               <div class="big">LoRa</div>
-              <div class="desc">Radio systems lead — Blue Sky Solar Racing</div>
+              <div class="desc">Radio systems lead @ Blue Sky Solar Racing</div>
             </div>
           </div>
         </div>
@@ -1816,52 +2004,90 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
 </style>
 
 
-    <!-- EXTRACURRICULARS -->
-    <section id="extracurriculars" class="section">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title"><h2>Extracurriculars</h2></div>
+<!-- EXTRACURRICULARS -->
+<section id="extracurriculars" class="section">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title"><h2>Extracurriculars</h2></div>
+  </div>
+
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Global Spark -->
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="40">
+        <article class="ec-card">
+          <div class="ec-media">
+            <img src="assets/img/extracurriculars/global-spark.png" alt="Global Spark">
+            <div class="ec-badges">
+              <span class="pill">~2,000 applicants</span>
+              <span class="pill">Role frameworks</span>
+            </div>
+          </div>
+          <div class="ec-body">
+            <h4>Strategy & Operations Lead</h4>
+            <div class="ec-meta">Global Spark</div>
+            <p>Redesigned selection and role guides to scale reliably for a global hackathon.</p>
+          </div>
+        </article>
       </div>
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-md-6" data-aos="fade-up" data-aos-delay="40">
-            <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/global-spark.png" alt="Global Spark">
-              <div class="p-2">
-                <h4 class="mb-1">Strategy & Operations Lead @ Global Spark</h4>
-                <p>Improved participant selection for an international hackathon; created role frameworks and guides that scaled to ~2,000 applicants.</p>
-              </div>
+
+      <!-- Leadership Training -->
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="80">
+        <article class="ec-card">
+          <div class="ec-media">
+            <img src="assets/img/extracurriculars/orientation-training.png" alt="UofT Engineering Leadership Training">
+            <div class="ec-badges">
+              <span class="pill">550+ leaders</span>
+              <span class="pill">Hybrid training</span>
             </div>
           </div>
-          <div class="col-md-6" data-aos="fade-up" data-aos-delay="80">
-            <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/orientation-training.png" alt="Orientation Training">
-              <div class="p-2">
-                <h4 class="mb-1">Leadership Training Coordinator @ UofT Engineering</h4>
-                <p>Designed and delivered training for 550+ leaders, blending synchronous sessions, in-person training, and an online course.</p>
-              </div>
-            </div>
+          <div class="ec-body">
+            <h4>Leadership Training Coordinator</h4>
+            <div class="ec-meta">UofT Engineering</div>
+            <p>Built and delivered a cohesive program across live sessions and an online course.</p>
           </div>
-          <div class="col-md-6" data-aos="fade-up" data-aos-delay="120">
-            <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/sea-competitions.png" alt="SEA Competitions">
-              <div class="p-2">
-                <h4 class="mb-1">Co-VP Competitions @ Sustainable Engineers Association</h4>
-                <p>Built a university-wide case competition with realistic constraints in power, climate, and logistics; authored judging rubrics.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6" data-aos="fade-up" data-aos-delay="160">
-            <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/cagis-mentoring.png" alt="CAGIS">
-              <div class="p-2">
-                <h4 class="mb-1">Student Mentor @ CAGIS</h4>
-                <p>Helped make STEM accessible through hands-on workshops; collaborated with Blue Sky Solar Racing on renewable energy sessions.</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        </article>
       </div>
-    </section>
+
+      <!-- SEA Competitions -->
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="120">
+        <article class="ec-card">
+          <div class="ec-media">
+            <img src="assets/img/extracurriculars/sea-competitions.png" alt="SEA Case Competition">
+            <div class="ec-badges">
+              <span class="pill">University-wide</span>
+              <span class="pill">Judging rubrics</span>
+            </div>
+          </div>
+          <div class="ec-body">
+            <h4>Co-VP Competitions</h4>
+            <div class="ec-meta">Sustainable Engineers Association</div>
+            <p>Launched a realistic case competition in power, climate, and logistics.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- CAGIS Mentoring -->
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="160">
+        <article class="ec-card">
+          <div class="ec-media">
+            <img src="assets/img/extracurriculars/cagis-mentoring.png" alt="CAGIS Workshop Mentoring">
+            <div class="ec-badges">
+              <span class="pill">Hands-on STEM</span>
+              <span class="pill">Renewables</span>
+            </div>
+          </div>
+          <div class="ec-body">
+            <h4>Student Mentor</h4>
+            <div class="ec-meta">CAGIS</div>
+            <p>Ran approachable workshops; partnered with Blue Sky Solar Racing on energy topics.</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
 
     <!-- CONTACT -->
     <section id="contact" class="contact section">
