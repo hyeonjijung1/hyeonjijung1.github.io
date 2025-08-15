@@ -1738,6 +1738,115 @@ body { padding-top: calc(var(--nav-h) + 20px); }
 @media (prefers-reduced-motion: reduce){
   .sleek-nav .menu a::after, .hamburger .line{ transition: none !important; }
 }
+:root{
+  --nav-h: 56px;
+  --mint: #00b4d8;
+  --rose: #ffd1e5;
+  --glass: rgba(8,12,20,0.42);
+}
+
+/* keep content clear of fixed nav + iOS notch */
+body{ padding-top: calc(var(--nav-h) + 22px + env(safe-area-inset-top, 0px)); }
+
+/* starfield always behind */
+#stars{ position: fixed; inset: 0; z-index: 0; pointer-events:none; }
+
+/* NAV WRAPPER */
+.neo-nav{
+  position: fixed; top: 12px; left: 0; right: 0; z-index: 10000;
+}
+.neo-shell{
+  position: relative;
+  height: var(--nav-h);
+  margin: 0 14px; padding: 0 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-radius: 14px;
+  background: var(--glass);                 /* transparent, not white */
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.35), 0 0 20px rgba(0,180,216,0.22);
+  overflow: hidden;
+}
+
+/* subtle gradient ring */
+.neo-ring{
+  position: absolute; inset: -1px; border-radius: 14px; pointer-events:none;
+  background: conic-gradient(from 0deg, transparent 0%,
+    rgba(0,180,216,.35) 22%, rgba(255,209,229,.35) 50%,
+    rgba(0,180,216,.35) 78%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  padding: 1px; animation: ringSpin 16s linear infinite;
+  opacity: .5;
+}
+@keyframes ringSpin{ to{ transform: rotate(360deg); } }
+
+/* Brand */
+.brand{
+  color: #eaf2ff; text-decoration: none; font-weight: 800; letter-spacing: .2px;
+  padding: .35rem .6rem; border-radius: 10px;
+}
+
+/* Links (desktop default) */
+.menu{ display: flex; gap: .6rem; align-items: center; }
+.menu a{
+  position: relative; color: #eaf2ff; text-decoration: none;
+  padding: .45rem .7rem; border-radius: 10px; transition: color .15s ease;
+}
+.menu a::after{
+  content:""; position:absolute; left:.7rem; right:.7rem; bottom:.28rem;
+  height:2px; border-radius:2px; background: linear-gradient(90deg, var(--mint), var(--rose));
+  transform: scaleX(0); transform-origin:left; transition: transform .18s ease;
+}
+.menu a:hover::after, .menu a.active::after{ transform: scaleX(1); }
+.menu a.active{ color: var(--mint); }
+
+/* Hamburger */
+.hamburger{
+  display: none; width:42px; height:42px; border-radius:10px;
+  border:1px solid rgba(255,255,255,0.10);
+  background: var(--glass); backdrop-filter: blur(10px);
+  align-items:center; justify-content:center; gap:4px; cursor:pointer;
+}
+.hamburger .line{ width:22px; height:2px; background:#eaf2ff; display:block;
+  transition: transform .18s ease, opacity .18s ease; }
+.neo-nav[data-open="true"] .l1{ transform: translateY(6px) rotate(45deg); }
+.neo-nav[data-open="true"] .l2{ opacity: 0; }
+.neo-nav[data-open="true"] .l3{ transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile/Tablet ≤1024px: dropdown overlay */
+@media (max-width:1024px){
+  .hamburger{ display: inline-flex; }
+  .menu{
+    /* full-screen glass panel */
+    position: fixed; inset: 0; top: calc(12px + var(--nav-h) + 8px);
+    display: none; flex-direction: column; gap: .6rem; padding: 18px;
+    border-radius: 14px; margin: 0 14px 14px;
+    background:
+      radial-gradient(60% 70% at 50% 0%, rgba(0,180,216,.12), transparent 60%),
+      rgba(8,12,20,.58);
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 22px rgba(0,180,216,.22);
+    backdrop-filter: blur(16px) saturate(140%);
+  }
+  .neo-nav[data-open="true"] .menu{ display:flex; animation: drop .18s ease-out; }
+  @keyframes drop{ from{ transform: translateY(-8px); opacity:0 } to{ transform:none; opacity:1 } }
+}
+
+/* Desktop ≥1025px: inline */
+@media (min-width:1025px){
+  .menu{ display:flex !important; background:transparent; border:0; box-shadow:none; position:static; }
+}
+
+/* Compact on scroll */
+.neo-nav.compact .neo-shell{ height: 48px; transition: height .2s ease; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .neo-ring{ animation: none !important; }
+  .menu a::after{ transition: none !important; }
+  .hamburger .line{ transition: none !important; }
+}
 
   </style>
 </head>
@@ -1746,27 +1855,29 @@ body { padding-top: calc(var(--nav-h) + 20px); }
 <body class="index-page">
   <!-- Starfield -->
   <canvas id="stars" aria-hidden="true"></canvas>
-  <header id="nav" class="sleek-nav" role="navigation" aria-label="Primary">
-    <div class="nav-inner">
+  <header id="nav" class="neo-nav" role="navigation" aria-label="Primary">
+    <div class="neo-shell">
+      <span class="neo-ring" aria-hidden="true"></span>
       <a href="#top" class="brand">Hyeonji</a>
   
-      <button class="hamburger" aria-label="Open menu" aria-controls="navMenu" aria-expanded="false">
+      <button class="hamburger" aria-label="Open menu" aria-controls="neoMenu" aria-expanded="false">
         <span class="line l1"></span>
         <span class="line l2"></span>
         <span class="line l3"></span>
       </button>
-  
-      <nav id="navMenu" class="menu">
+      <nav id="neoMenu" class="menu">
         <a href="#about">About</a>
-        <a href="#highlights">Highlights</a>
+        <a href="#features">Highlights</a>        <!-- was #highlights -->
         <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
+        <a href="#portfolio">Projects</a>         <!-- was #projects -->
         <a href="#skills">Skills</a>
         <a href="#extracurriculars">Extracurriculars</a>
         <a href="#contact">Contact</a>
       </nav>
+      
     </div>
   </header>
+  
   
   
   <main class="main">
@@ -2965,7 +3076,63 @@ body { padding-top: calc(var(--nav-h) + 20px); }
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
       });
     </script>
-    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const header = document.getElementById('nav');
+        const btn    = header?.querySelector('.hamburger');
+        const menu   = header?.querySelector('#neoMenu');
+        if (!header || !btn || !menu) return;
+      
+        const openMenu = () => {
+          header.setAttribute('data-open','true');
+          btn.setAttribute('aria-expanded','true');
+          btn.setAttribute('aria-label','Close menu');
+          document.documentElement.classList.add('nav-open');
+          document.body.style.overflow = 'hidden';
+        };
+        const closeMenu = () => {
+          header.setAttribute('data-open','false');
+          btn.setAttribute('aria-expanded','false');
+          btn.setAttribute('aria-label','Open menu');
+          document.documentElement.classList.remove('nav-open');
+          document.body.style.overflow = '';
+        };
+        const toggle = () => (header.getAttribute('data-open') === 'true') ? closeMenu() : openMenu();
+      
+        btn.addEventListener('click', toggle);
+        document.addEventListener('click', (e) => { if (!header.contains(e.target)) closeMenu(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+      
+        /* Scrollspy: highlight link matching the visible section */
+        const links = Array.from(menu.querySelectorAll('a[href^="#"]'));
+        const map = new Map(links.map(a => [a.getAttribute('href'), a]));
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(en => {
+            const id = '#' + en.target.id;
+            const link = map.get(id);
+            if (!link) return;
+            if (en.isIntersecting) {
+              links.forEach(l => l.classList.remove('active'));
+              link.classList.add('active');
+            }
+          });
+        }, { rootMargin: '-35% 0px -55% 0px', threshold: 0.01 });
+      
+        links.forEach(a => {
+          const sel = a.getAttribute('href');
+          try{ const sec = document.querySelector(sel); if (sec) obs.observe(sec); } catch(e){}
+        });
+      
+        /* Compact header when scrolling down a bit */
+        const onScroll = () => {
+          if (window.scrollY > 10) header.classList.add('compact');
+          else header.classList.remove('compact');
+        };
+        onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+      });
+      </script>
+      
   </body>
   
 
