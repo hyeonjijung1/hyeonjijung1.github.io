@@ -418,6 +418,96 @@
   color: #a6e1ff;
   text-decoration: none;
 }
+/* Profile Card: Glass + Spacing */
+.profile-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Profile image */
+.profile-card .headshot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+/* Facts list */
+.profile-card .mini-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Each fact row */
+.profile-card .fact {
+  display: flex;
+  flex-direction: column; /* stack label over value for mobile */
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #e6f1ff;
+}
+
+/* Label */
+.profile-card .fact .label {
+  font-weight: 600;
+  color: #ffffffcc; /* softer white */
+  margin-bottom: 0.2rem;
+}
+
+/* Value */
+.profile-card .fact .value {
+  color: #a6e1ff;
+  word-break: break-word;
+}
+
+.profile-card .fact .value a {
+  color: #a6e1ff;
+  text-decoration: none;
+}
+.profile-card .fact .value a:hover {
+  text-decoration: underline;
+}
+/* --- mini-facts reveal animation --- */
+@keyframes factRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* container marks this list as revealable */
+.profile-card .mini-facts.reveal-list .fact {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* when .is-visible is added, animate each item with a stagger */
+.profile-card .mini-facts.reveal-list.is-visible .fact {
+  animation: factRise .55s ease-out forwards;
+}
+
+/* stagger timings (supports up to 8 items—extend if you add more) */
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(1){ animation-delay: .02s; }
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(2){ animation-delay: .10s; }
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(3){ animation-delay: .18s; }
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(4){ animation-delay: .26s; }
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(5){ animation-delay: .34s; }
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(6){ animation-delay: .42s; }
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(7){ animation-delay: .50s; }
+.profile-card .mini-facts.reveal-list.is-visible .fact:nth-child(8){ animation-delay: .58s; }
 
   </style>
 </head>
@@ -455,7 +545,7 @@
           <div class="col-12 col-md-4 col-xl-3">
             <div class="profile-card p-3 p-md-3">
               <img src="assets/img/diana.png" alt="Diana headshot" class="headshot mb-3">
-              <div class="mini-facts">
+              <div class="mini-facts reveal-list">
                 <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
                 <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
                 <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
@@ -1042,5 +1132,24 @@
     }, { threshold: 0.4 });
     titleEls.forEach(el => obs.observe(el));
   </script>
+  <script>
+    // Staggered reveal for profile facts
+    (function () {
+      const list = document.querySelector('.profile-card .mini-facts.reveal-list');
+      if (!list) return;
+  
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            list.classList.add('is-visible');
+            io.unobserve(e.target); // run once
+          }
+        });
+      }, { threshold: 0.35 });
+  
+      io.observe(list);
+    })();
+  </script>
+  
 </body>
 </html>
