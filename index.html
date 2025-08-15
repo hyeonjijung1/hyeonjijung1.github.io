@@ -823,6 +823,97 @@
 }
 /* Keep the flip-card tidy and aligned */
 .flip-card{ width:100%; max-width:320px; margin:0 auto; }
+/* ===== Flip card (photo <-> mini facts) ===== */
+.flip-card{
+  position: relative;
+  width: 100%;
+  max-width: 320px;                 /* desktop width */
+  margin-inline: auto;
+  perspective: 1200px;              /* enables 3D flip */
+  border-radius: 18px;
+  /* subtle glass box so it matches the site */
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  overflow: hidden;                 /* so glow stays tidy */
+}
+.flip-inner{
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .8s cubic-bezier(.2,.8,.2,1);
+}
+.flip-card.is-flipped .flip-inner{ transform: rotateY(180deg); }
+
+.flip-face{
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* Safari */
+  display: grid; place-items: center;
+  padding: 12px;
+}
+.flip-front{ z-index: 2; }
+.flip-back{ transform: rotateY(180deg); }
+
+.flip-card .headshot{
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+/* mini-facts on the back; compact grid */
+.flip-card .mini-facts{
+  width: 100%;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 12px;
+  padding: 8px;
+}
+.flip-card .mini-facts .fact{ display: contents; }
+.flip-card .mini-facts .label{ color: var(--muted); font-weight: 700; }
+.flip-card .mini-facts .value{ color: var(--text); }
+
+/* Flip button (top-left) */
+.flip-hint{
+  position: absolute; left: 8px; top: 8px; z-index: 3;
+  padding: 6px 10px; border-radius: 999px; border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,.07); color: var(--text);
+  font-weight: 800; font-size: .85rem; cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+.flip-hint:hover{ background: rgba(255,255,255,.12); }
+
+/* Click glow under the card */
+.flip-card::after{
+  content:"";
+  position: absolute; inset: 0;
+  border-radius: 18px;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 0 rgba(167,243,208,.0),
+    0 0 0 0 rgba(199,210,254,.0);
+  transition: box-shadow .45s ease;
+}
+.flip-card.glow::after{
+  box-shadow:
+    0 0 48px 12px rgba(167,243,208,.22),
+    0 0 110px 26px rgba(199,210,254,.18);
+}
+
+/* Mobile sizing */
+@media (max-width: 991.98px){
+  .flip-card{ max-width: 240px; }
+}
+@media (max-width: 576px){
+  .flip-card{ max-width: 220px; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .flip-inner{ transition: none; }
+  .flip-card::after{ transition: none; }
+}
 
   </style>
 </head>
@@ -855,38 +946,111 @@
   <div class="container" data-aos="fade-up" data-aos-delay="40">
     <div class="row align-items-start gy-4 gx-4">
 
-      <!-- Left column: fixed photo card -->
-      <div class="col-12 col-md-4 col-xl-3">
-        <div class="flip-card" id="profileFlip">
-          <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
-          <div class="flip-inner">
-            <!-- Front: photo -->
-            <div class="flip-front">
-              <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
-            </div>
-            <!-- Back: mini facts -->
-            <div class="flip-back">
-              <div class="mini-facts">
-                <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
-                <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
-                <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
-                <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
-                <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
-                <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> <!-- ✅ CLOSE the left column -->
+<!-- Left column: flip-card (photo <-> mini facts) -->
+<div class="col-12 col-md-4 col-xl-3">
+  <div class="flip-card" id="profileFlip" aria-live="polite">
+    <button class="flip-hint" id="flipHint" type="button" aria-label="Flip card">↺ Flip</button>
 
-      <!-- Right column: greeting + lab -->
-      <div class="col-12 col-md-8 col-xl-9">
-        <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
-        ...
+    <div class="flip-inner">
+      <!-- Front: photo -->
+      <div class="flip-face flip-front" aria-hidden="false">
+        <img src="assets/img/diana.png" alt="Diana headshot" class="headshot">
+      </div>
+
+      <!-- Back: mini facts -->
+      <div class="flip-face flip-back" aria-hidden="true">
+        <div class="mini-facts">
+          <div class="fact"><span class="label">Year</span><span class="value">3rd-year</span></div>
+          <div class="fact"><span class="label">Program</span><span class="value">ECE @ University of Toronto</span></div>
+          <div class="fact"><span class="label">Specialization</span><span class="value">Analog & Digital Design • Computer Hardware</span></div>
+          <div class="fact"><span class="label">Minor</span><span class="value">Engineering Business</span></div>
+          <div class="fact"><span class="label">Based</span><span class="value">Toronto, ON</span></div>
+          <div class="fact"><span class="label">Email</span><span class="value"><a href="mailto:dianajunguoftece@gmail.com">dianajunguoftece@gmail.com</a></span></div>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
+
+
+<!-- HERO -->
+<section id="hero" class="hero section">
+  <div class="container" data-aos="fade-up" data-aos-delay="40">
+    <div class="row align-items-start gy-4 gx-4">
+
+      <!-- Left column -->
+      <div class="col-12 col-md-4 col-xl-3">
+        <!-- flip card stuff here -->
+      </div> <!-- ✅ CLOSE left column -->
+
+      <!-- Right column -->
+      <div class="col-12 col-md-8 col-xl-9">
+        <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
+        
+        <!-- RTL LAB -->
+        <div class="rtl-lab mb-3">
+          <div class="rtl-tabs">
+            <div class="rtl-tab active" data-tab="verilog">Verilog</div>
+            <div class="rtl-tab" data-tab="wave">Waveform</div>
+            <div class="rtl-tab" data-tab="pcb">PCB</div>
+          </div>
+
+          <div class="rtl-body">
+            <!-- Verilog panel -->
+            <div class="panel active" id="panel-verilog">
+              <div class="codebox" id="vbox"></div>
+            </div>
+
+            <!-- Waveform panel -->
+            <div class="panel" id="panel-wave">
+              <div class="wavewrap">
+                <!-- svg here -->
+              </div>
+            </div>
+
+            <!-- PCB panel -->
+            <div class="panel" id="panel-pcb">
+              <div class="pcbwrap">
+                <img id="pcbSlide" alt="PCB preview"
+                     src="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png">
+              </div>
+            </div>
+          </div>
+
+          <!-- typing footer -->
+          <div class="typefooter">
+            <span id="typed-line">Reaching for the stars...</span>
+            <span class="caret"></span>
+          </div>
+        </div>
+
+        <!-- Five key chips -->
+        <div class="chips mt-2">
+          <span class="chip-pro">FPGA / Verilog</span>
+          <span class="chip-pro">ASIC Verification</span>
+          <span class="chip-pro">STM32 / ARM</span>
+          <span class="chip-pro">LoRa / RF</span>
+          <span class="chip-pro">Altium PCB</span>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-row mt-3">
+          <a class="btn btn-accent me-2" href="assets/files/DianaJung_Resume.pdf" target="_blank">
+            <i class="bi bi-download me-1"></i>Download CV
+          </a>
+          <a class="btn btn-ghost me-2" href="https://github.com/hyeonjijung1" target="_blank">
+            <i class="bi bi-github me-1"></i>GitHub
+          </a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/dianajung-uoft/" target="_blank">
+            <i class="bi bi-linkedin me-1"></i>LinkedIn
+          </a>
+        </div>
+      </div> <!-- ✅ CLOSE right column -->
+
+    </div> <!-- ✅ CLOSE row -->
+  </div> <!-- ✅ CLOSE container -->
+</section> <!-- ✅ CLOSE section -->
+
 
     <!-- ABOUT -->
     <section id="about" class="about section">
@@ -1461,6 +1625,41 @@
   }, 6000);
 })();
 
+  </script>
+  <script>
+    (function(){
+      const card = document.getElementById('profileFlip');
+      const hint = document.getElementById('flipHint');
+      if (!card) return;
+  
+      function flip() {
+        card.classList.toggle('is-flipped');
+  
+        // update aria-hidden for accessibility
+        const front = card.querySelector('.flip-front');
+        const back  = card.querySelector('.flip-back');
+        const flipped = card.classList.contains('is-flipped');
+        front.setAttribute('aria-hidden', flipped ? 'true' : 'false');
+        back.setAttribute('aria-hidden', flipped ? 'false' : 'true');
+  
+        // glow burst
+        card.classList.add('glow');
+        clearTimeout(card.__glowTimeout);
+        card.__glowTimeout = setTimeout(()=>card.classList.remove('glow'), 500);
+      }
+  
+      // click / tap anywhere on the card
+      card.addEventListener('click', (e) => {
+        // ignore clicks on links inside the facts
+        if (e.target.tagName === 'A') return;
+        flip();
+      });
+      // dedicated button
+      hint?.addEventListener('click', (e) => { e.stopPropagation(); flip(); });
+      // keyboard access
+      card.tabIndex = 0;
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); flip(); }});
+    })();
   </script>
   
 </body>
