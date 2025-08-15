@@ -1357,6 +1357,93 @@ h1,h2,h3,h4,h5,h6,.navmenu ul{
     transform: none;
   }
 }
+/* HARD OVERRIDES: no white / no blur */
+#extracurriculars .ec-card{
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(0,180,216,.28) !important; /* mint edge */
+  box-shadow:
+    0 0 0 transparent,
+    0 0 18px rgba(0,180,216,.20),
+    0 0 30px rgba(255,182,193,.12) !important;       /* colored aura only */
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* Remove any gradient overlays that could lighten the card */
+#extracurriculars .ec-card::before,
+#extracurriculars .ec-card::after { display: none !important; }
+
+/* Keep images fully opaque (no washout) */
+#extracurriculars .ec-media img { opacity: 1 !important; }
+
+/* On hover, stronger mint/pink glow without brightening the base */
+#extracurriculars .ec-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,180,216,.6);
+  box-shadow:
+    0 0 26px rgba(0,220,200,.40),
+    0 0 46px rgba(255,210,230,.28) !important;
+}
+
+/* Optional readability on very dark photos */
+#extracurriculars .ec-body h4,
+#extracurriculars .ec-body p,
+#extracurriculars .ec-meta { text-shadow: 0 1px 2px rgba(0,0,0,.45); }
+/* Ensure the outer card behaves */
+#profileFlip { position: relative; }
+
+/* Inner flip container with a real height on mobile */
+#profileFlip .flip-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform .6s;
+}
+
+/* Faces fill the area, with iOS backface fixes */
+#profileFlip .flip-face {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  -webkit-transform: translateZ(0); transform: translateZ(0);
+}
+#profileFlip .flip-front { z-index: 2; }
+#profileFlip .flip-back  { transform: rotateY(180deg); }
+
+/* Make the image actually fill the face */
+#profileFlip .headshot {
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: contain;
+background: transparent;
+
+  border-radius: 16px;
+}
+
+/* MOBILE: give the card a stable portrait frame and disable flipping */
+@media (max-width: 768px) {
+  #profileFlip .flip-inner {
+    width: 100%;
+    aspect-ratio: 3 / 4;    /* adjust: try 4/5 or 1/1 if your photo fits better */
+    /* fallback if aspect-ratio not supported: */
+    min-height: 60vw; max-height: 85vh;
+  }
+
+  /* Stop rotations / backface peeking on touch */
+  #profileFlip .flip-inner { transform: none !important; }
+  #profileFlip .flip-back  { transform: none !important; opacity: 0; pointer-events: none; transition: opacity .2s; }
+
+  /* If you used the checkbox overlay, show back face as overlay when checked */
+  #profileFlip:has(.mini-fact-toggle:checked) .flip-back { opacity: 1; pointer-events: auto; }
+
+  /* Make the front face topmost and tappable */
+  #profileFlip .flip-front { position: relative; z-index: 3; }
+}
+
+/* If clipping persists on specific devices, allow overflow */
+@media (max-width: 768px) {
+  #profileFlip { overflow: visible; }
+}
 
   </style>
 </head>
