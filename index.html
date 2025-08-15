@@ -123,57 +123,104 @@
       .navmenu a{ padding:12px 14px; font-size:.96rem; }
     }
 
-    /* Section titles — BIG + gradient underline */
+    /* ============ TITLES: animated gradient, no lines ============ */
+    .section-title h2:after,
+    .section-title::after,
+    .section-title::before { display: none !important; } /* kill template bars */
+
     .section-title h2{
-      font-size: clamp(2.2rem, 5vw, 3.3rem) !important;
-      font-weight: 800 !important;
-      letter-spacing:.3px;
-      text-shadow: 0 0 16px rgba(199,210,254,.22), 0 0 24px rgba(167,243,208,.14);
-      margin-bottom: 8px !important;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: .3px;
+      background: linear-gradient(90deg, #00c6ff, #ffb347, #ff6ec4, #4facfe);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;                 /* revealed via JS */
+      transform: translateY(16px);
+      transition: opacity .8s ease, transform .8s ease;
+      animation: titleGradient 6s ease infinite;
+      margin-bottom: .4rem;
     }
-    .section-title h2 + .title-underline{
-      width: 120px; height: 6px; border-radius: 999px; margin: 12px auto 0;
-      background: linear-gradient(90deg, var(--lilac), var(--mint), var(--sun));
-      box-shadow: 0 0 18px rgba(167,243,208,.25);
+    .section-title h2.visible{ opacity: 1; transform: translateY(0); }
+    .section-title h2.pulse{
+      animation: titleGradient 6s ease infinite, titlePulse 1.15s ease-out 1;
+    }
+    @keyframes titleGradient{
+      0%{   background-position: 0% 50%; }
+      50%{  background-position: 100% 50%; }
+      100%{ background-position: 0% 50%; }
+    }
+    @keyframes titlePulse{
+      0%   { text-shadow: 0 0 0 rgba(255,255,255,0); }
+      45%  { text-shadow: 0 0 12px rgba(255,255,255,.85),
+                         0 0 28px rgba(111,192,255,.45),
+                         0 0 44px rgba(199,210,254,.35); }
+      100% { text-shadow: 0 0 0 rgba(255,255,255,0); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .section-title h2, .section-title h2.pulse{ animation: none; text-shadow: none; }
     }
 
-    /* HERO */
+    /* ============ HERO ============ */
     .hero{ padding: 7.5rem 0 2.8rem; }
+    .hero::before{ background: transparent !important; } /* ensure truly transparent */
     .gradient-title{
       font-weight:800; letter-spacing:.2px; line-height:1.04;
       font-size:clamp(2.2rem, 5vw, 3.6rem);
       background: linear-gradient(90deg, var(--rose), var(--lilac));
       -webkit-background-clip:text; background-clip:text; color:transparent;
       text-shadow: 0 0 18px rgba(200,200,255,.10);
+      margin-bottom: .75rem;
     }
-    .gradient-title span{ background: linear-gradient(90deg, var(--mint), var(--sun)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .gradient-title span{
+      background: linear-gradient(90deg, var(--mint), var(--sun));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
 
-    /* Hero left: photo card (fixed box on all screens) */
+    /* Left: compact photo card (never overlaps) */
     .profile-card{
-      background: var(--glass-dark);
+      background: rgba(255,255,255,.04) !important;
       border: 1px solid var(--glass-border);
-      border-radius: 22px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-      width: 100%;
-      max-width: 330px;
+      border-radius: 16px;
+      padding: 1rem;
+      max-width: 220px;             /* slim so text has room */
+      position: sticky; top: 96px;  /* nice desktop stickiness */
+      margin-inline: auto;
     }
     .headshot{
-      width:100%; height: 420px; object-fit: cover; border-radius:16px;
-      border:1px solid var(--glass-border); background: var(--glass);
+      width: 100%;
+      max-width: 140px;             /* small on desktop */
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 12px;
+      display:block;
+      margin:0 auto 10px;
+      border:1px solid var(--glass-border);
     }
 
-    /* Keep info off the photo — hero uses two columns that never overlap */
+    /* mini facts as grid */
+    .mini-facts{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 12px;
+      text-align: left;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 8px 10px;
+    }
+    .mini-facts .fact{ display: flex; flex-direction: column; font-size: .9rem; line-height: 1.25; }
+    .mini-facts .label{ color: var(--muted); font-weight: 600; }
+    .mini-facts .value{ color: var(--text); }
+    .mini-facts .value a{ color: var(--mint); text-decoration: none; }
+
+    /* Mobile: no stickiness & even smaller photo */
     @media (max-width: 991.98px){
-      .headshot{ height: 320px; }
-      .profile-card{ margin-inline:auto; }
+      .profile-card{ position: static; max-width: 200px; }
+      .headshot{ max-width: 120px; }
+      .mini-facts{ grid-template-columns: 1fr; }
     }
-
-    .mini-facts{ margin-top:.25rem; }
-    .mini-facts .fact{ display:flex; gap:10px; padding:.45rem .25rem; border-bottom:1px dashed rgba(255,255,255,0.12); }
-    .mini-facts .fact:last-child{ border-bottom:0; }
-    .mini-facts .label{ color:var(--muted); font-size:.94rem; min-width:120px; }
-    .mini-facts .value{ font-size:.98rem; color:var(--text); }
-    .mini-facts .value a{ color:var(--mint); text-decoration:none; }
 
     /* RTL Lab */
     .rtl-lab{ background: var(--glass-dark); border:1px solid var(--glass-border); border-radius: 18px; box-shadow: 0 14px 40px rgba(0,0,0,.42); overflow:hidden; }
@@ -201,8 +248,8 @@
     .pcbwrap img{ max-width:100%; border-radius:12px; border:1px solid #ffffff22; box-shadow: 0 10px 26px rgba(0,0,0,.35); }
 
     /* Typing footer */
-    .typefooter{ border-top:1px solid var(--glass-border); background: rgba(255,255,255,.05); padding:10px 12px; font-family: ui-monospace,Menlo,Consolas,monospace; color:#ffe082; font-size:.95rem; display:flex; gap:8px; }
-    .caret{ width:10px; height:18px; background:#ffe082; border-radius:2px; animation: blink 1s step-start infinite; }
+    .typefooter{ border-top:1px solid var(--glass-border); background: rgba(255,255,255,.05); padding:10px 12px; font-family: ui-monospace,Menlo,Consolas,monospace; color:#ffe082; font-size:.95rem; display:flex; gap:8px; text-shadow: 0 0 8px rgba(255,224,130,.5); }
+    .caret{ width:10px; height:18px; background:#ffe082; border-radius:2px; animation: blink 1s step-start infinite; box-shadow: 0 0 8px rgba(255,224,130,.6); }
     @keyframes blink{ 50%{ opacity:0; } }
 
     /* Chips */
@@ -220,15 +267,14 @@
     }
     .soft-card::before{ content:""; position:absolute; inset:0; pointer-events:none; background:
       radial-gradient(900px 320px at -10% -10%, rgba(167,243,208,.09), transparent 40%),
-      radial-gradient(900px 320px at 110% 120%, rgba(199,210,254,.09), transparent 45%);
-    }
+      radial-gradient(900px 320px at 110% 120%, rgba(199,210,254,.09), transparent 45%); }
     .soft-card:hover{ border-color:#ffffff2a; }
     .soft-card h4, .soft-card h3{ color: var(--text-strong) !important; }
     .soft-card p, .soft-card li, .soft-card .w-more{ color: var(--text) !important; }
 
-    /* Highlights — big squares with numbers back */
+    /* Highlights — big squares with numbers POP */
     .fcard{ text-align:center; padding:32px 24px; min-height: 220px; border-radius:22px; }
-    .fcard .big{ font-size:3.2rem; font-weight:900; letter-spacing:.3px; background: var(--grad-3); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 0 18px rgba(164,196,255,.28); }
+    .fcard .big{ font-size:3.2rem; font-weight:900; letter-spacing:.3px; background: var(--grad-3); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 0 18px rgba(164,196,255,.38); }
     .fcard .desc{ margin-top:10px; font-weight:700; font-size:1.1rem; color: var(--text); }
     .fcard:hover{ box-shadow: inset 0 0 0 1px #ffffff30, 0 0 60px rgba(167,243,208,.15); }
 
@@ -306,7 +352,7 @@
 
           <!-- Right column: greeting + lab -->
           <div class="col-12 col-md-8 col-xl-9">
-            <h1 class="gradient-title mb-3">Hi there!<br><span>I’m Diana</span></h1>
+            <h1 class="gradient-title mb-1">Hi there!<br><span>I’m Diana</span></h1>
 
             <!-- RTL LAB -->
             <div class="rtl-lab mb-3">
@@ -375,7 +421,7 @@
     <!-- ABOUT -->
     <section id="about" class="about section">
       <div class="container" data-aos="fade-up" data-aos-delay="50">
-        <div class="section-title"><h2>About</h2><div class="title-underline"></div></div>
+        <div class="section-title"><h2>About</h2></div>
 
         <div class="row g-3 align-items-stretch">
           <div class="col-lg-8">
@@ -413,7 +459,7 @@
     <!-- HIGHLIGHTS (with numbers) -->
     <section id="features" class="features section">
       <div class="container section-title" data-aos="fade-up">
-        <h2>Highlights</h2><div class="title-underline"></div>
+        <div class="section-title"><h2>Highlights</h2></div>
       </div>
       <div class="container">
         <div class="row g-4">
@@ -442,7 +488,7 @@
     <!-- EXPERIENCE -->
     <section id="experience" class="resume section">
       <div class="container section-title" data-aos="fade-up">
-        <h2>Experience</h2><div class="title-underline"></div>
+        <div class="section-title"><h2>Experience</h2></div>
       </div>
       <div class="container">
         <div class="row g-4">
@@ -452,7 +498,7 @@
               <div class="p-2">
                 <h4 class="mb-1">Embedded Hardware & Wireless Systems Lead</h4>
                 <div class="mb-2" style="color:var(--mint)">Blue Sky Solar Racing • Jan 2025 – Present</div>
-                <p>STM32WL LoRa module with custom packet/CRC and >2 km reliable range. Schematic → layout → bring-up, RF validation and range testing, and USB-CDC integration for live dashboards.</p>
+                <p>STM32WL LoRa module with custom packet/CRC and &gt;2 km reliable range. Schematic → layout → bring-up, RF validation and range testing, and USB-CDC integration for live dashboards.</p>
                 <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/LoRa-Radio-Module"><i class="bi bi-github me-1"></i>Learn more</a>
               </div>
             </div>
@@ -463,7 +509,7 @@
               <div class="p-2">
                 <h4 class="mb-1">FPGA Design — Embedded AV Systems</h4>
                 <div class="mb-2" style="color:var(--mint)">Korea University • May 2025 – Sep 2025</div>
-                <p>DE1-SoC piano (VGA UI, PS/2, PWM audio) with 100 MHz timing closure. Automated Quartus & ModelSim using Tcl/Bash for reproducible builds and verification.</p>
+                <p>DE1-SoC piano (VGA UI, PS/2, PWM audio) with 100 MHz timing closure. Automated Quartus &amp; ModelSim using Tcl/Bash for reproducible builds and verification.</p>
                 <a class="btn btn-sm btn-ghost me-2" target="_blank" href="https://github.com/hyeonjijung1/fpga-piano-audio-system"><i class="bi bi-github me-1"></i>Learn more</a>
               </div>
             </div>
@@ -475,7 +521,7 @@
     <!-- PROJECTS -->
     <section id="portfolio" class="portfolio section">
       <div class="container section-title" data-aos="fade-up">
-        <h2>Projects</h2><div class="title-underline"></div>
+        <div class="section-title"><h2>Projects</h2></div>
       </div>
       <div class="container">
         <div class="row gy-4">
@@ -486,8 +532,9 @@
               <div class="p-2">
                 <h4 class="mt-2 mb-1">LoRa Telemetry Module</h4>
                 <div class="w-more" style="color:var(--mint)">STM32WL • custom CRC • USB-CDC • RF validation</div>
-                <p class="mt-2">Chase & car modules with live data routing to the vehicle network. Clean packet design and scope-verified performance.</p>
-                <!-- Gallery: add as many as you like to the same data-gallery -->
+                <p class="mt-2">Chase &amp; car modules with live data routing to the vehicle network. Clean packet design and scope-verified performance.</p>
+
+                <!-- Gallery -->
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/LoRa-Radio-Module/main/docs/3d-LoRa-chase-car.png"
                    class="btn btn-sm btn-ghost me-2 glightbox"
                    data-gallery="loragallery"
@@ -509,7 +556,7 @@
               <div class="p-2">
                 <h4 class="mt-2 mb-1">SDR Controller Hardware</h4>
                 <div class="w-more" style="color:var(--mint)">ATmega324PB • Si5351A • UART CAT • I/Q</div>
-                <p class="mt-2">LO generation & RX/TX switching with ±1 kHz stability and accurate 90° I/Q. Firmware + Python automation for validation.</p>
+                <p class="mt-2">LO generation &amp; RX/TX switching with ±1 kHz stability and accurate 90° I/Q. Firmware + Python automation for validation.</p>
 
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/controller-hardware-sdr/main/images/block_diagram_sdr.png"
                    class="btn btn-sm btn-ghost me-2 glightbox"
@@ -553,7 +600,7 @@
               <div class="p-2">
                 <h4 class="mt-2 mb-1">FPGA Nios® V Hearing Loss & Aid Simulator</h4>
                 <div class="w-more" style="color:var(--mint)">8 ms latency • 100 MHz • 12% LUT</div>
-                <p class="mt-2">Real-time DSP on DE1-SoC with VGA UI and PS/2 controls. Measured latency & behavior match design goals.</p>
+                <p class="mt-2">Real-time DSP on DE1-SoC with VGA UI and PS/2 controls. Measured latency &amp; behavior match design goals.</p>
 
                 <a href="https://raw.githubusercontent.com/hyeonjijung1/fpga-niosv-hearing-simulator/main/images/final-bd.png"
                    class="btn btn-sm btn-ghost me-2 glightbox"
@@ -575,7 +622,7 @@
     <!-- SKILLS (grouped) -->
     <section id="skills" class="section">
       <div class="container section-title" data-aos="fade-up">
-        <h2>Skills</h2><div class="title-underline"></div>
+        <div class="section-title"><h2>Skills</h2></div>
       </div>
       <div class="container">
         <div class="row g-3">
@@ -604,56 +651,54 @@
     <!-- EXTRACURRICULARS (gallery grid) -->
     <section id="extracurriculars" class="section">
       <div class="container section-title" data-aos="fade-up">
-        <h2>Extracurriculars</h2><div class="title-underline"></div>
+        <div class="section-title"><h2>Extracurriculars</h2></div>
       </div>
       <div class="container">
         <div class="row g-4">
           <!-- Drop your images into assets/img/extracurriculars/ and update src if needed -->
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="40">
             <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/global-spark.jpg" alt="Global Spark">
+              <img class="img-fluid exp-img" src="assets/img/extracurriculars/global-spark.png" alt="Global Spark">
               <div class="p-2">
-                <h4 class="mb-1">Strategy & Operations Lead — Global Spark</h4>
+                <h4 class="mb-1">Strategy & Operations Lead @ Global Spark</h4>
                 <p>Improved participant selection for an international hackathon; created role frameworks and guides that scaled to ~2,000 applicants.</p>
               </div>
             </div>
           </div>
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="80">
             <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/orientation-training.jpg" alt="Orientation Training">
+              <img class="img-fluid exp-img" src="assets/img/extracurriculars/orientation-training.png" alt="Orientation Training">
               <div class="p-2">
-                <h4 class="mb-1">Leadership Training Coordinator — UofT Engineering</h4>
+                <h4 class="mb-1">Leadership Training Coordinator @ UofT Engineering</h4>
                 <p>Designed and delivered training for 550+ leaders, blending synchronous sessions, in-person training, and an online course.</p>
               </div>
             </div>
           </div>
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="120">
             <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/sea-competitions.jpg" alt="SEA Competitions">
+              <img class="img-fluid exp-img" src="assets/img/extracurriculars/sea-competitions.png" alt="SEA Competitions">
               <div class="p-2">
-                <h4 class="mb-1">Co-VP Competitions — Sustainable Engineers Association</h4>
+                <h4 class="mb-1">Co-VP Competitions @ Sustainable Engineers Association</h4>
                 <p>Built a university-wide case competition with realistic constraints in power, climate, and logistics; authored judging rubrics.</p>
               </div>
             </div>
           </div>
           <div class="col-md-6" data-aos="fade-up" data-aos-delay="160">
             <div class="soft-card p-3 h-100">
-              <img class="img-fluid exp-img" src="assets/img/extracurriculars/cagis-mentoring.jpg" alt="CAGIS">
+              <img class="img-fluid exp-img" src="assets/img/extracurriculars/cagis-mentoring.png" alt="CAGIS">
               <div class="p-2">
-                <h4 class="mb-1">Student Mentor — CAGIS</h4>
+                <h4 class="mb-1">Student Mentor @ CAGIS</h4>
                 <p>Helped make STEM accessible through hands-on workshops; collaborated with Blue Sky Solar Racing on renewable energy sessions.</p>
               </div>
             </div>
           </div>
-        </div>
-        <div class="mt-3" style="opacity:.9"><small>Tip: place your photos in <code>assets/img/extracurriculars/</code> using the same filenames to replace the placeholders.</small></div>
       </div>
     </section>
 
     <!-- CONTACT -->
     <section id="contact" class="contact section">
       <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2><div class="title-underline"></div>
+        <div class="section-title"><h2>Contact</h2></div>
       </div>
       <div class="container" data-aos="fade-up" data-aos-delay="60">
         <div class="row gy-3">
@@ -710,7 +755,7 @@
   <!-- Init AOS / GLightbox / year -->
   <script>
     AOS.init({ once: true, offset: 80, duration: 700, easing: 'ease-out' });
-    const gl = GLightbox({ selector: '.glightbox' });
+    const gl = GLightbox({ selector: '.glightbox', loop: true, touchNavigation: true });
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 
@@ -745,10 +790,8 @@
         '  <span class="com">// divide clock: slow counter for visible changes</span>',
         '  <span class="kw">logic</span> [<span class="num">23:0</span>] <span class="id">div</span>;',
         '  <span class="kw">always_ff</span> @(<span class="kw">posedge</span> <span class="id">clk</span>) <span class="id">div</span> &lt;= <span class="id">div</span> + <span class="num">1\'b1</span>;',
-        '  <span class="com">// map counter bits to show "HI" (0x48, 0x49) across LEDs</span>',
-        '  <span class="kw">always_comb</span> <span class="id">leds</span> = {',
-        '    (<span class="id">div</span>[<span class="num">23</span>]) ? <span class="num">8\'h48</span> : <span class="num">8\'h49</span>',
-        '  };',
+        '  <span class="com">// alternate between 0x48 ("H") and 0x49 ("I")</span>',
+        '  <span class="kw">always_comb</span> <span class="id">leds</span> = (<span class="id">div</span>[<span class="num">23</span>]) ? <span class="num">8\'h48</span> : <span class="num">8\'h49</span>;',
         '<span class="kw">endmodule</span>'
       ];
       const box = document.getElementById('vbox');
@@ -775,7 +818,7 @@
     })();
   </script>
 
-  <!-- Faster Starfield + hover boost -->
+  <!-- Faster Starfield + stronger hover boost -->
   <script>
     (function(){
       const canvas = document.getElementById('stars');
@@ -860,9 +903,28 @@
 
       function loop(){ ctx.clearRect(0,0,w,h); draw(); rafId = requestAnimationFrame(loop); }
       window.addEventListener('resize', resize);
-      canvas.addEventListener('mousemove', ()=>{ speedMul = 2.2; clearTimeout(window.__sf_to); window.__sf_to = setTimeout(()=>speedMul=1, 180); });
+      canvas.addEventListener('mousemove', ()=>{
+        speedMul = 2.8;                // stronger boost
+        clearTimeout(window.__sf_to);
+        window.__sf_to = setTimeout(()=>speedMul=1, 260);
+      });
       resize();
     })();
+
+    // Title reveal/pulse once when in view
+    const titleEls = document.querySelectorAll('.section-title h2');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        el.classList.add('visible', 'pulse');
+        el.addEventListener('animationend', (e) => {
+          if (e.animationName === 'titlePulse') el.classList.remove('pulse');
+        }, { once: true });
+        obs.unobserve(el);
+      });
+    }, { threshold: 0.4 });
+    titleEls.forEach(el => obs.observe(el));
   </script>
 </body>
 </html>

@@ -1620,10 +1620,60 @@ section,
   margin-right: 8px;
   color: var(--accent-color);
 }
+/* kill any template underline bars for titles */
+.section-title h2:after,
+.section-title::after,
+.section-title::before { display: none !important; }
 
-/*--------------------------------------------------------------
-# Starter Section Section
---------------------------------------------------------------*/
-.starter-section {
-  /* Add your styles here */
+/* base title look (animated gradient text) */
+.section-title h2{
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: .3px;
+  background: linear-gradient(90deg, #00c6ff, #ffb347, #ff6ec4, #4facfe);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;                 /* fade-in later */
+  transform: translateY(16px);
+  transition: opacity .8s ease, transform .8s ease;
+  animation: titleGradient 6s ease infinite; /* subtle color motion */
 }
+
+/* becomes visible when scrolled into view */
+.section-title h2.visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* one-time glow pulse */
+.section-title h2.pulse{
+  animation:
+    titleGradient 6s ease infinite,
+    titlePulse 1.15s ease-out 1;  /* <- the glow */
+}
+
+/* gradient drift */
+@keyframes titleGradient{
+  0%{   background-position: 0% 50%; }
+  50%{  background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
+
+/* glow pulse */
+@keyframes titlePulse{
+  0%   { text-shadow: 0 0 0 rgba(255,255,255,0);                    }
+  45%  { text-shadow: 0 0 12px rgba(255,255,255,.85),
+                     0 0 28px rgba(111,192,255,.45),
+                     0 0 44px rgba(199,210,254,.35);               }
+  100% { text-shadow: 0 0 0 rgba(255,255,255,0);                    }
+}
+
+/* accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .section-title h2{ animation: none; }
+  .section-title h2.pulse{ animation: none; text-shadow: none; }
+}
+/* keep sections from hiding under the glass nav */
+.section { scroll-margin-top: 110px; }
+
