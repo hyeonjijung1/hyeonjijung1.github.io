@@ -310,6 +310,27 @@ section {
   background: rgba(10,14,28,0.82) !important;  /* your glass dark */
   border: 1px solid rgba(255,255,255,0.2) !important;
 }
+/* Cool glowing gradient text animation */
+.typefooter #typed-line {
+  background: linear-gradient(90deg, #ff7eb3, #ff758c, #ff7eb3, #ffe29f, #a1c4fd, #c2e9fb);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 6s ease infinite, glowPulse 1.5s ease-in-out infinite;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 5px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.3); }
+  50% { text-shadow: 0 0 15px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.4); }
+}
 
   </style>
 </head>
